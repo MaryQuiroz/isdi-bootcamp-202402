@@ -1,0 +1,3 @@
+function indexof(array, ...element) {
+    
+}

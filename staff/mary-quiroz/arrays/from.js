@@ -1,0 +1,3 @@
+function from(array, ...element){
+    
+}
