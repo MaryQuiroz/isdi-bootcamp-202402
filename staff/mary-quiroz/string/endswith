@@ -1,0 +1,31 @@
+delete String.prototype.endsWith
+
+function endsWith(string, searchString) {
+    
+    var position = string.length;
+    var finalpart = position - searchString.length
+    for(var i = finalpart; i < position; i++){
+        if (string[i] !== searchString[i - finalpart] )   {
+            return false;
+        }
+    }
+    return true;
+}
+
+// CASE 1
+
+var s = 'hola mundo'
+
+var result = endsWith(s, 'ndo')
+
+console.log(result)
+// true
+
+// CASE 2
+
+var s = 'hola mundo'
+
+var result = endsWith(s, 'dos')
+
+console.log(result)
+// false
