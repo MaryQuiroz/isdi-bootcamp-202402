@@ -1,7 +1,13 @@
 delete String.prototype.repeat
 
-function repeat2(string, count) {
-   
+function repeat(string, count) {
+   var strFinal = ""
+   if(count>0) {
+    for(var i = 0; i < count; i++) {
+        strFinal+=string
+    } 
+    return strFinal
+   }
 }
 
 

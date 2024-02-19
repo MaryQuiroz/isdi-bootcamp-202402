@@ -1,16 +1,35 @@
 delete String.prototype.endsWith
+function endswith(string, searchString, position){
+    debugger
+var stringLength= string.length
+var searchStringLength=searchString.length
+var initialPositionIndex= stringLength - searchStringLength
 
-function endsWith(string, searchString) {
-    
-    var position = string.length;
-    var finalpart = position - searchString.length
-    for(var i = finalpart; i < position; i++){
-        if (string[i] !== searchString[i - finalpart] )   {
-            return false;
-        }
-    }
-    return true;
+if(position){
+    stringLength = position
 }
+
+for (var i = initialPositionIndex; i < stringLength; i++) {
+    var charString = string[i]  // M
+
+    var searchStringIndex = i - searchStringLength
+
+    var charSearchString = searchString[searchStringIndex]
+    
+    if( charString !== charSearchString){
+        return false   
+        
+    }
+    else if(i === stringLength-1 ){
+        return true
+    }
+}
+}
+
+var string= "Hola Mundo"
+var searchString="Mundo"
+var position = 5
+endswith(string, searchString, position)
 
 // CASE 1
 

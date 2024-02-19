@@ -1,8 +1,25 @@
 delete String.prototype.slice
 
 function slice(string, indexStart, indexEnd) {
+   if(indexStart<0) {
+    indexStart = string.length + indexStart
+   }
+   if (indexEnd<0) {
+    indexEnd = string.length + indexEnd
+   }
+   if (!indexEnd) {
+    indexEnd = string.length
+   }
+   if(indexEnd > string.length){
+    indexEnd = string.length
+   }
+   var result = ""
    
+   for(var i = indexStart; i<indexEnd; i++) {
+    result = string[i]
+   }
 }
+return result
 
 // CASE 1
 
