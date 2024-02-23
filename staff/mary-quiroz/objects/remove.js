@@ -7,9 +7,69 @@
  * @throws {TypeError} When object is not an object, or when index is not a number.
  */
 function remove(object, index) {
-    // TODO
-    if (!(object instanceof Object)) throw new TypeError(object + ' is not an Object')
 }
+
+
+
+
+
+
+ /*if(!(object instanceof object)){
+        throw new TypeError(object + "is not an object");
+
+    }
+
+    var removedItem= object[index];
+
+    for(var i=index; i<object.length; i++) {
+        object[i] = object [i+1];
+    }
+
+    object.length--;
+    delete object[object.length];
+
+    /*for (var i=object.length - 1; i > index; i--){
+        object[i- index] = object [i]
+    }
+    object.length--
+    delete object [object.length]
+*/
+    return removedItem;
+
+   
+   /* if(typeof index !== 'number'){
+        throw new TypeError('undefined Is not a number')
+    }
+
+		// verifica si es un objeto o peta
+		if (typeof object !== 'object') {
+            throw new TypeError('Is not a object')
+    }
+
+    var removed = ""
+    var newObject = {}
+    var contador = 0
+    for (let key in object) {
+        // Si entra aqui, la funcion termina
+        
+        
+
+        // { name: 'Pepito', age: 50 }
+        var element = object[key] //elemt es un objeto de usuario   
+
+
+        if (key == index) {
+            removed = element
+            delete object[key]
+        }
+
+    }
+    return removed
+
+}
+
+
+*/
 
 console.log('CASE 1: remove blue from index 1')
 

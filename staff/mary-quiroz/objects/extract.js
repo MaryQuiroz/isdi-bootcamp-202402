@@ -13,17 +13,7 @@
  */
 function extract(object, callback) {
    
-    for (var cont in object) { 
-        if(object )
-   /* var element = object[i]
 
-    if(typeof element === 'object' && callback(element) ){
-       result = element
-    }*/
-    }
-
-return null
-    
 }
 
 console.log('CASE 1: extract user pepito form users' )
@@ -37,9 +27,15 @@ var users = {
     length:5
 }
 
-var user = extract(users, function (user) {
-    return user.name === 'Pepito'
+
+
+var user =  extract(users, function (user){
+     if(user.name === 'Pepito'){
+      return user
+    }
 })
+
+
 
 console.log(user)
 //{name:'Pepito, age:50}
