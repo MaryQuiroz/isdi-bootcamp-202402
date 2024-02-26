@@ -1,3 +1,0 @@
-function from(array, ...element){
-    
-}
