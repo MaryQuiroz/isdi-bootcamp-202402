@@ -62,3 +62,49 @@ Arroz.prototype.toString = function () {
 }
 
 module.exports = Arroz
+
+Arroz.prototype.forEach = function (callback) {
+    for (var i = 0; i < this.length; i++) {
+        var elem = this[i]
+
+        callback(elem, i, this)
+    }
+}
+
+Arroz.prototype.find = function (callback) {
+    for (var i = 0; i < this.length; i++) {
+        var elem = this[i]
+
+        var matches = callback(elem, i, this)
+
+        if (matches) return elem
+    }
+}
+
+Arroz.prototype.map = function (callback) {
+    var mapped = new Arroz
+
+    for (var i = 0; i < this.length; i++) {
+        var elem = this[i]
+
+        var mappedElement = callback(elem, i, this)
+
+        mapped[mapped.length++] = mappedElement
+    }
+
+    return mapped
+}
+
+Arroz.from = function (arroz) {
+    var instance = new Arroz
+
+    for (var i = 0; i < arroz.length; i++) {
+        var elem = arroz[i]
+
+        instance[instance.length++] = elem
+    }
+
+    return instance
+}
+
+module.exports = Arroz
