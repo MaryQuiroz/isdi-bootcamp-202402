@@ -1,6 +1,6 @@
 var assert = require('../assert')
 
-var Animal = require('../Animal')
+var Animal = require('./Animal')
 
 console.log('TEST Animal')
 
