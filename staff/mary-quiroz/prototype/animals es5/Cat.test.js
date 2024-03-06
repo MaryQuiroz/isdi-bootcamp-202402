@@ -10,7 +10,7 @@ console.log('TEST Cat')
 console.log('CASE constructor')
 
 var marc = new Person('Marc', new Date(2000, 1, 3), 22, 185, 80, 'Norway')
-var chimuelo = new Cat(Marc, 'Chimuelo', new Date(2022, 5, 1), 'ES', 5)
+var chimuelo = new Cat('Marc', 'Chimuelo', new Date(2022, 5, 1), 'ES', 5)
 
 assert.equalsValue(chimuelo.constructor, Cat)
 assert.instanceOf(chimuelo, Cat)
