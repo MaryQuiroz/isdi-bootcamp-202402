@@ -8,7 +8,8 @@ console.log('TEST Pet')
 
 console.log('CASE constructor')
 
-var marc = new Person('Marc', new Date(2000, 1, 3), 22, 185, 80, 'Norway')
+var marc = new Person('Marc', new Date(2000, 1, 3), 185, 80, 'Norway')
+
 var chimuelo = new Pet('Chimuelo', new Date(2022, 5, 1), 'ES', 5)
 
 
@@ -31,7 +32,8 @@ assert.instanceOf(sultan, Animal)
 
 console.log('CASE toString')
 
-var marc = new Person('Marc', new Date(2000, 1, 3), 22, 185, 80, 'Norway')
+var marc = new Person('Marc', new Date(2000, 1, 3), 185, 80, 'Norway')
+
 var chimuelo = new Pet('Marc', 'Chimuelo', new Date(2022, 5, 1), 'ES', 5)
 
 assert.equalsValue(chimuelo.toString(), 'Pet (chimuelo, 2022-06-01, ES)')

@@ -7,7 +7,9 @@ console.log('TEST PERSON')
 
 console.log('CASE constructor')
 
-var marc = new Person('Marc', new Date(2000, 1, 3), 22, 185, 80, 'Norway')
+var marc = new Person('Marc', new Date(2000, 1, 3), 185, 80, 'Norway')
+
+
 
 assert.instanceOf(marc, Person)
 assert.equalsValue(marc.constructor, Person)
@@ -26,7 +28,8 @@ assert.equalsValue(marc.talking, false)
 
 console.log('CASE walk & talk')
 
-var marc = new Person('Marc', new Date(2000, 1, 3,), 22, 185, 80, 'Norway')
+var marc = new Person('Marc', new Date(2000, 1, 3), 185, 80, 'Norway')
+
 
 marc.moveLegs()
 marc.talk()

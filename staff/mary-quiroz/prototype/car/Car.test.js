@@ -18,7 +18,7 @@ console.assert(car.gears === 6, 'gears is 6')
 console.assert(car.gear === 0, 'gear is 0')
 console.assert(car.speed === 0, 'speed is 0')
 console.assert(car.acceleration === 0, 'acceleration is empty')
-console.assert(car.direction === '', 'direction is empty')
+console.assert(car.direction === 'none', 'direction is empty')
 console.assert(car.steering === 0, 'steering is at 0')
 
 console.log('CASE method fuel')
@@ -29,7 +29,7 @@ car.fuel(80)
 
 console.assert(car.deposit === 80, 'deposit is at 80%')
 
-try {0
+try {
     car.fuel(541)
 } catch (error) {
     console.assert(error.name, 'RangeError',  'the load must be from 1 to 100')
@@ -45,17 +45,18 @@ try {
 
 
 console.log('CASE method start')
+
 var car = new Car('Citroen','CV')
-car.status='off'
-car.status()
+
+car.start()
+
 console.assert(car.status === 'on', 'status is on')
-
-
 
 
 console.log('CASE method stop')
 
-var car = new Car('citroen', 'cv')
+var car = new Car('Citroen', 'CV')
+
 car.status = 'on'
 
 car.stop()
@@ -75,10 +76,10 @@ car.changeGear(2)
 console.assert(car.gear === 2, 'gear is 2')
 
 try {
-    car.changeGear(5)
+    car.changeGear(6)
 } catch (error) {
     console.assert(error.name, 'RangeError')
-    console.assert(error.message, 'gear greater than 4')
+    console.assert(error.message, 'gear greater than 6')
 }
 
 try {
@@ -98,48 +99,50 @@ car.changeGear(-1)
 
 console.assert(car.gear === -1, 'gear is -1')
 
-console.log('CASE method speedUp')
+console.log('CASE steerWheel()')
 
-var car = new Car('Citroen', 'CV')
+car.steerWheel (45)
+console.assert(car.steerDirection === 45, 'steer direction')
 
-car.gear = 1
+try {
+    car.sterWheel('fast')
+}catch (error){
+    console.assert(error.name === 'TypeError', 'name error on not a number')
+    console.log(error.message ==='fast is not a number', 'message error on not a number')
+}
 
-car.speedUp(20)
-
-console.assert(car.acceleration === 20, 'acceleration is at 20')
-console.assert(car.direction === 'forward', 'direction is forward')
-
-car.gear = -1
-
-car.speedUp(100)
-
-console.assert(car.acceleration === 100, 'acceleration is at 100')
-console.assert(car.direction === 'backward', 'direction is backward')
-
-console.log('CASE method turnSteering')
-
-var car = new Car('Citroen', 'CV')
+try{
+    car.steerWheel(400)
+} catch (error){
+    console.assert(error.name === 'RangeError', 'name error on out of range')
+    console.assert(error.message === 'you can only steer from -90 to 90', 'message error on out of range')
+}
 
 
-car.gear = 1
-car.acceleration = 10
+console.log('CASE speedUp()')
 
-car.changeSteering(20)
+car.start()
+car.speedUp(50)
+console.assert(car.speed === 50, 'speed')
 
-console.assert(car.steering === 20, 'steering is at 20')
-console.assert(car.direction === 'forward-right', 'direction is forward and right')
+try {
+    car.speedUp('hi')
+} catch (error) {
+    console.assert(error.name === 'TypeError', 'error name on not a number')
+    console.assert(error.message === 'hi is not a number', 'error message on not a number')
+}
 
-car.gear = -1
-car.acceleration = 10
+try {
+    car.speedUp(200)
+} catch (error) {
+    console.assert(error.name === 'RangeError', 'error name on out of range')
+    console.assert(error.message === 'The speed can only be from 1 to 120')
+}
 
-car.changeSteering(-30)
-
-console.assert(car.steering === -30, 'steering is at -30')
-console.assert(car.direction === 'backward-left', 'direction is backward and left')
-
-
-
-
-
-
-
+car.stop()
+try {
+    car.speedUp(30)
+} catch (error) {
+    console.assert(error.name === 'Error', 'error name on car turned off')
+    console.assert(error.message === 'Your car is turned off', 'error message on car turned off')
+}
