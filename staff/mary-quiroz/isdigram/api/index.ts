@@ -36,6 +36,7 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
         const { username, password } = req.body
 
         logic.loginUser(username, password, (error, userId) => {
+            
             if (error) {
                 res.status(400).json({ error: error.constructor.name, message: error.message })
 
@@ -68,6 +69,7 @@ api.get('/users/:userId', (req, res) => {
 })
 
 api.get('/posts', (req, res) => {
+   
     try {
         const { authorization: userId } = req.headers
 
@@ -81,6 +83,27 @@ api.get('/posts', (req, res) => {
             res.json(posts)
         })
 
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
+api.post('/posts', jsonBodyParser, (req, res) => {
+    try {
+        const { authorization: userId } = req.headers
+
+        const { image, text } = req.body
+
+        logic.createPost(userId, image, text, error => {
+            if(error) {
+                res.status(400).json({ error: error.constructor.name, message: error.message })
+
+                return
+            }
+
+            res.status(201).send()
+        })
+        
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }

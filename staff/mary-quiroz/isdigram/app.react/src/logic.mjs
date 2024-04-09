@@ -9,7 +9,7 @@ const URL_REGEX = /^(http|https):\/\//
 
 // helpers
 
-function validateText(text, explain = 'text', checkEmptySpaceInside) {
+function validateText(text, explain = '', checkEmptySpaceInside) {
     if (typeof text !== 'string') throw new TypeError(explain + ' ' + text + ' is not a string')
     if (!text.trim().length) throw new Error(explain + ' >' + text + '< is empty or blank')
 
@@ -245,28 +245,57 @@ function retrieveMessagesWithUser(userId) {
     return []
 }
 
-function createPost(image, text) {
+function createPost(image, text, callback) {
     validateUrl(image, 'image')
-
-    if (text)
+    if(text)
         validateText(text, 'text')
-
-    const post = {
-        author: sessionStorage.userId,
-        image: image,
-        text: text,
-        date: new Date().toLocaleDateString('en-CA')
-    }
-
-    db.posts.insertOne(post)
-}
-
-function retrievePosts(callback) {
     validateCallback(callback)
 
     var xhr = new XMLHttpRequest
 
+    xhr.onload = () => {
+        const { status, responseText: json } = xhr
+
+        if(status >= 500) {
+            callback(new Error('system error'))
+
+            return
+        } else if (status >= 400) { //400 - 499
+            const { error, message } = JSON.parse(json)
+
+            const constructor = window[error]
+
+            callback(new constructor(message))
+        } else if(status >= 300) {
+            callback(new Error('system error'))
+
+            return
+        } else {
+            callback(null)
+        }
+    }
+
+    xhr.open('POST', 'http://localhost:8080/posts')
+
+    xhr.setRequestHeader('Autorization', sessionStorage.userId)
+    xhr.setRequestHeader('Content-type', 'application/json')
+    
+    const post = { image, text }
+
+    const json = JSON.stringify(post)
+
+    xhr.send(json)
+}
+
+
+function retrievePosts(callback) {
+    validateCallback(callback)
+   
+
+    var xhr = new XMLHttpRequest
+
     xhr.onload = function () {
+        debugger
         const { status, responseText: json } = xhr
 
         if (status >= 500) {

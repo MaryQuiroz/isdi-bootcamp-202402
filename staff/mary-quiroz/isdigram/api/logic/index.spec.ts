@@ -458,7 +458,7 @@ describe('logic', () => {
 
                                     logic.retrievePosts(insertedUserId, (error, posts) => {
                                         expect(error).to.be.instanceOf(Error)
-                                        expect(error.message).to.equal('user not found')
+                                        expect(error.message).to.equal('post owner not found')
 
                                         expect(posts).to.be.undefined
 
