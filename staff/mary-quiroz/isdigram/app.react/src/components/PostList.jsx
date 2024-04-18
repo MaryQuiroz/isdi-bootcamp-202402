@@ -9,36 +9,16 @@ function PostList(props) {
     const [posts, setPosts] = useState([])
 
     const loadPosts = () => {
-        logger.debug('PostList -> loadPost')
+        logger.debug('PostList -> loadPosts')
 
         try {
-            logic.retrievePosts((error, posts) => {
-                if (error) {
-                    showFeedback(error)
-
-                    return
-                }
-
-                setPosts(posts)
-            })
-
-        }catch(error) {
+            logic.retrievePosts()
+                .then(setPosts)
+                .catch(showFeedback)
+        } catch (error) {
             showFeedback(error)
         }
     }
-
-     // componentWillReceiveProps(newProps) {
-    //     logger.debug('PostList -> componentWillReceiveProps', JSON.stringify(props), JSON.stringify(newProps))
-
-    //     //if (newProps.stamp !== props.stamp) loadPosts()
-    //     newProps.stamp !== props.stamp && this.loadPosts()
-    // }
-
-    // componentDidMount() {
-    //     logger.debug('PostList -> componentDidMount')
-
-    //     this.loadPosts()
-    // }
 
     useEffect(() => {
         loadPosts()
@@ -46,13 +26,13 @@ function PostList(props) {
 
     const handlePostDeleted = () => loadPosts()
 
-    const handleEditClick = post => props.onEditClick(post)
+    const handleEditClick = post => props.onEditPostClick(post)
 
     logger.debug('PostList -> render')
 
-    return <section> 
+    return <section>
         {posts.map(post => <Post key={post.id} item={post} onEditClick={handleEditClick} onDeleted={handlePostDeleted} />)}
     </section>
 }
 
-    export default PostList
+export default PostList

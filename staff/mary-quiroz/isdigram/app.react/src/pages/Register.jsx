@@ -15,17 +15,14 @@ function Register(props) {
         const password = form.password.value
 
         try {
-            logic.registerUser(name, birthdate, email, username, password, error => {
-                if (error) {
-                    showFeedback(error)
+            logic.registerUser(name, birthdate, email, username, password)
+                .then(() => {
+                    form.reset()
 
-                    return
-                }
-
-                form.reset()
-
-                props.onUserRegistered()
-            })
+                    props.onUserRegistered()
+                })
+                //.catch(error => showFeedback(error))
+                .catch(showFeedback)
         } catch (error) {
             showFeedback(error)
         }

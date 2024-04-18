@@ -1,4 +1,4 @@
-mport { validate, errors } from 'com'
+import { validate, errors } from 'com'
 
 import { User } from '../data/index.ts'
 

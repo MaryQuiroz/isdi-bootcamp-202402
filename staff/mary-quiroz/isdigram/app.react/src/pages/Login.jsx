@@ -14,17 +14,13 @@ function Login(props) {
         logger.debug('Login -> handleSubmit', username, password)
 
         try {
-            logic.loginUser(username, password, error => {
-                if(error) {
-                    showFeedback(error)
-                
-                return
-                }
+            logic.loginUser(username, password)
+                .then(() => {
+                    form.reset()
 
-                form.reset()
-
-                props.onUserLoggedIn()
-            })
+                    props.onUserLoggedIn()
+                })
+                .catch(showFeedback)
         } catch (error) {
             showFeedback(error)
         }
@@ -41,10 +37,9 @@ function Login(props) {
     return <main>
         <h1>Login</h1>
 
-
-        <form onSubmit ={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username</label>
-            <input id="username"/>
+            <input id="username" />
 
             <label htmlFor="password">Password</label>
             <input type="password" id="password" />
@@ -55,4 +50,5 @@ function Login(props) {
         <a href="" onClick={handleRegisterClick}>Register</a>
     </main>
 }
+
 export default Login

@@ -10,13 +10,12 @@ function registerUser(name: string, birthdate: string, email: string, username: 
     validate.email(email)
     validate.text(username, 'username', true)
     validate.password(password)
-    
-    return User.findOne({ $or: [{ email }, { username }]})
+
+    return User.findOne({ $or: [{ email }, { username }] })
         .catch(error => { throw new SystemError(error.message) })
         .then((user: UserType) => {
-            if(user)
+            if (user)
                 throw new DuplicityError('user already exists')
-
 
             user = {
                 name: name.trim(),
@@ -30,7 +29,6 @@ function registerUser(name: string, birthdate: string, email: string, username: 
                 .catch(error => { throw new SystemError(error.message) })
                 .then(user => { })
         })
-    }
-   
+}
 
 export default registerUser
