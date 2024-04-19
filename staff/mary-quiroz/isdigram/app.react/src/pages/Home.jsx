@@ -1,8 +1,8 @@
-import { logger, showFeedback } from '../utils'
+import { logger } from '../utils'
 
 import logic from '../logic'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PostList from '../components/PostList'
 import CreatePost from '../components/CreatePost'
 import EditPost from '../components/EditPost'
@@ -16,6 +16,8 @@ function Home(props) {
     const [view, setView] = useState(null)
     const [stamp, setStamp] = useState(null)
     const [post, setPost] = useState(null)
+    
+    const { showFeedback } = useContext
 
     useEffect(() => {
         try {
@@ -45,7 +47,7 @@ function Home(props) {
         } catch (error) {
             logic.cleanUpLoggedInUserId()
         } finally {
-            props.onUserLoggedOut()
+            onUserLoggedOut()
         }
     }
 
