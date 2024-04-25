@@ -10,11 +10,11 @@ This project is an application designed to help pet owners manage and care for t
 
 ### Use Cases
 
-- Basic Pet Profile: Provide the option to add at least one pet, with basic details such as name, type (dog, cat, etc.), and age
+- Basic Pet Profile: Provide the option to add at least one pet, with basic details such as name, type  and age
 
 - Task List: Implement a basic task list function where users can add, mark as completed, and delete tasks related to pet care. Tasks can be generic at the beginning, such as "buy food," "veterinarian visit," etc.
 
-- Reminders: A simple functionality to set reminders for critical tasks, such as vet appointments or when to buy more food. Reminders can be email notifications to keep it simple.
+- Reminders: A simple functionality to set reminders for critical tasks, such as vet appointments or when to buy more food. 
 
 ### UI Design
 
@@ -48,30 +48,30 @@ User
 - avatar (string, optional)
 
 Cat
-- id (primary key)
+- id (requiered)
 - name (string, required)
 - type (string, required)
 - breed (string, optional)
 - age (number, required)
-- medical history id (foreign key)
-- user id (foreign key)
+- medical history id (requires)
+- user id (required)
 
 Task
-- id (primary key)
+- id (required)
 - name (string, required)
 - description (string, required)
 - due date (date, required)
 - completed (boolean, required, default false)
-- pet id (foreign key)
+- pet id (required)
 
 Reminder
 - id (primary key)
 - reminder date (date, required)
-- task id (foreign key)
-- MedicalHistory
-- id (primary key)
+- task id (string, string)
+- MedicalHistory(string, optional)
+- id (required)
 - vaccinations (string, optional)
 - illnesses (string, optional)
 - medications (string, optional)
 - vet visits (string, optional)
-- pet id (foreign key)
+- pet id (required)

@@ -1,53 +1,49 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var errors_1 = require("./errors");
-var util_1 = require("./util");
-var DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
-var EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/;
-var URL_REGEX = /^(http|https):\/\//;
-var validate = {
-    text: function (text, explain, checkEmptySpaceInside) {
+import errors from './errors.js';
+import util from './util.js';
+const { ContentError, UnauthorizedError } = errors;
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/;
+const URL_REGEX = /^(http|https):\/\//;
+const validate = {
+    text(text, explain, checkEmptySpaceInside) {
         if (typeof text !== 'string')
             throw new TypeError(explain + ' ' + text + ' is not a string');
         if (!text.trim().length)
-            throw new errors_1.ContentError(explain + ' >' + text + '< is empty or blank');
+            throw new ContentError(explain + ' >' + text + '< is empty or blank');
         if (checkEmptySpaceInside)
             if (text.includes(' '))
-                throw new errors_1.ContentError(explain + ' ' + text + ' has empty spaces');
+                throw new ContentError(explain + ' ' + text + ' has empty spaces');
     },
-    date: function (date, explain) {
+    date(date, explain) {
         if (typeof date !== 'string')
             throw new TypeError(explain + ' ' + date + ' is not a string');
         if (!DATE_REGEX.test(date))
-            throw new errors_1.ContentError(explain + ' ' + date + ' does not have a valid format');
+            throw new ContentError(explain + ' ' + date + ' does not have a valid format');
     },
-    email: function (email, explain) {
-        if (explain === void 0) { explain = 'email'; }
+    email(email, explain = 'email') {
         if (!EMAIL_REGEX.test(email))
-            throw new errors_1.ContentError("".concat(explain, " ").concat(email, " is not an email"));
+            throw new ContentError(`${explain} ${email} is not an email`);
     },
-    password: function (password, explain) {
-        if (explain === void 0) { explain = 'password'; }
+    password(password, explain = 'password') {
         if (!PASSWORD_REGEX.test(password))
-            throw new errors_1.ContentError("".concat(explain, " is not acceptable"));
+            throw new ContentError(`${explain} is not acceptable`);
     },
-    url: function (url, explain) {
+    url(url, explain) {
         if (!URL_REGEX.test(url))
-            throw new errors_1.ContentError(explain + ' ' + url + ' is not an url');
+            throw new ContentError(explain + ' ' + url + ' is not an url');
     },
-    callback: function (callback, explain) {
-        if (explain === void 0) { explain = 'callback'; }
+    callback(callback, explain = 'callback') {
         if (typeof callback !== 'function')
-            throw new TypeError("".concat(explain, " is not a function"));
+            throw new TypeError(`${explain} is not a function`);
     },
-    token: function (token, explain) {
-        if (explain === void 0) { explain = 'token'; }
+    token(token, explain = 'token') {
         if (typeof token !== 'string')
-            throw new TypeError("".concat(explain, " is not a string"));
-        var exp = util_1.default.extractJwtPayload(token).exp;
+            throw new TypeError(`${explain} is not a string`);
+        const { exp } = util.extractJwtPayload(token);
         if (exp * 1000 < Date.now())
-            throw new errors_1.UnauthorizedError('session expired');
+            throw new UnauthorizedError('session expired');
     }
 };
-exports.default = validate;
+export default validate;
+
