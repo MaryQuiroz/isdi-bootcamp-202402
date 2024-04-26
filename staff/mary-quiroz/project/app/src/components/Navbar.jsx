@@ -1,24 +1,30 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react"
 import { useEffect, useState } from "react"
 import retrieveUser from "../logic/retrieveUser"
+import  {useNavigate} from "react-router-dom"
+import logic from "../logic"
 
 
 export const NavbarComponent=() =>{
+  const navigate = useNavigate()
   const [user, setUser] = useState([])
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await retrieveUser();
+        const user = await retrieveUser()
         setUser(user)
       } catch (error) {
         console.error('Error al recuperar al usuario:', error);
       }
-    };
+    }
 
     fetchData();
-  }, []);
+  }, [])
 
-  
+  const handleUserLoggedOut=()=>{
+    logic.logoutUser()
+    navigate("/")
+  }
 
   return (
     <Navbar fluid rounded>
@@ -41,7 +47,7 @@ export const NavbarComponent=() =>{
           <Dropdown.Item>Perfil</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item onClick={()=>{handleLogoutClick}}>Sign out</Dropdown.Item>
+          <Dropdown.Item onClick={handleUserLoggedOut}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>

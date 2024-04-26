@@ -2,7 +2,7 @@
 
 ## Intro
 
-This project is an application designed to help pet owners manage and care for their friends. The application includes essential features such as pet profiles, task lists, and reminders.
+This project is an application designed to help cat owners manage and care for their friends. The application includes essential features such as cat profiles and task lists.
 
 ![](https://media.giphy.com/media/x90dwDUuUx9Ys/giphy.gif?cid=ecf05e47lr1rdtzx91y7ufg8cxoybmcniasi9tza63cpweyj&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
@@ -10,11 +10,11 @@ This project is an application designed to help pet owners manage and care for t
 
 ### Use Cases
 
-- Basic Pet Profile: Provide the option to add at least one pet, with basic details such as name, type  and age
+- cat Profile: Provide the option to add at least one cat, with basic details such as name, breed  and age
 
-- Task List: Implement a basic task list function where users can add, mark as completed, and delete tasks related to pet care. Tasks can be generic at the beginning, such as "buy food," "veterinarian visit," etc.
+- Task List: Implement a basic task list function where users can add, mark as completed, and delete tasks related to cat care. Tasks can be generic at the beginning, such as "buy food," "veterinarian visit," etc.
 
-- Reminders: A simple functionality to set reminders for critical tasks, such as vet appointments or when to buy more food. 
+
 
 ### UI Design
 
@@ -35,11 +35,11 @@ This project is an application designed to help pet owners manage and care for t
 - Node
 - Tailwind
 - Mongo
-- ...
+- flowBite
 
 ### Data Model
 User
-- id (required)
+- id (objectId, required)
 - name (string, required)
 - birthdate (date, required)
 - email (string, required)
@@ -48,30 +48,18 @@ User
 - avatar (string, optional)
 
 Cat
-- id (requiered)
+- id (objectId, requiered)
 - name (string, required)
-- type (string, required)
-- breed (string, optional)
+- color (string, required)
+- breed (string, required)
 - age (number, required)
-- medical history id (requires)
-- user id (required)
+- user id (objectId, required)
 
 Task
-- id (required)
+- id (objectId, required)
 - name (string, required)
 - description (string, required)
 - due date (date, required)
 - completed (boolean, required, default false)
-- pet id (required)
+- cat id (objectId, required)
 
-Reminder
-- id (primary key)
-- reminder date (date, required)
-- task id (string, string)
-- MedicalHistory(string, optional)
-- id (required)
-- vaccinations (string, optional)
-- illnesses (string, optional)
-- medications (string, optional)
-- vet visits (string, optional)
-- pet id (required)
