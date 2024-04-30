@@ -16,9 +16,9 @@ describe('authenticateUser', () => {
 
     it('succeeds on existing user and correct credentials', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }))
+            .then(() => User.create({ name: 'Pepe Roni', email: 'pepe@roni.com', password: '123qwe123' }))
             .then(user =>
-                logic.authenticateUser('peperoni', '123qwe123')
+                logic.authenticateUser('peperoni@gmail.com', '123qwe123')
                     .then(userId => {
                         expect(userId).to.be.a('string')
                         expect(userId).to.equal(user.id)
@@ -28,25 +28,25 @@ describe('authenticateUser', () => {
 
     it('fails on existing user and incorrect password', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }))
-            .then(() => logic.authenticateUser('peperoni', '123qwe123qwe'))
+            .then(() => User.create({ name: 'Pepe Roni', email: 'pepe@roni.com', password: '123qwe123' }))
+            .then(() => logic.authenticateUser('pepe@roni.com', '123qwe123qwe'))
             .catch(error => {
                 expect(error).to.be.instanceOf(CredentialsError)
                 expect(error.message).to.equal('wrong password')
             })
     )
 
-    it('fails on existing user and incorrect username', () =>
+    it('fails on existing user and incorrect gmail', () =>
         User.deleteMany()
-            .then(() => User.create({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' }))
-            .then(() => logic.authenticateUser('peperoni2', '123qwe123'))
+            .then(() => User.create({ name: 'Pepe Roni', email: 'pepe@roni.com', password: '123qwe123' }))
+            .then(() => logic.authenticateUser('pepe@roni.com', '123qwe123'))
             .catch(error => {
                 expect(error).to.be.instanceOf(NotFoundError)
                 expect(error.message).to.equal('user not found')
             })
     )
 
-    // TODO add other unhappy test cases
+  
 
     after(() => mongoose.disconnect())
 })

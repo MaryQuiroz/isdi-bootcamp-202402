@@ -5,6 +5,7 @@ import logoutUser from './logoutUser'
 import getLoggedInUserId from './getLoggedInUserId'
 import isUserLoggedIn from './isUserLoggedIn'
 import cleanUpLoggedInUserId from './cleanUpLoggedInUserId'
+import createCat from './createCat'
 
 
 const logic = {
@@ -15,6 +16,7 @@ const logic = {
     getLoggedInUserId,
     isUserLoggedIn,
     cleanUpLoggedInUserId,
+    createCat
 }
 
 export default logic

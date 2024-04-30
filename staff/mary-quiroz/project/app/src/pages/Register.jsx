@@ -4,8 +4,10 @@ import logic from '../logic'
 
 import { useContext } from '../context'
 
-function Register({ onUserRegistered, onLoginClick}) {
-    const { showFeeback } = useContext()
+import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
+
+function Register({ onUserRegistered, onLoginClick }) {
+    const { showFeedback } = useContext()
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -13,21 +15,19 @@ function Register({ onUserRegistered, onLoginClick}) {
         const form = event.target
 
         const name = form.name.value
-        const birthdate = form.birthdate.value
         const email = form.email.value
-        const username = form.username.value
         const password = form.password.value
 
         try {
-            logic.registerUser(name, birthdate, email, username, password)
+            logic.registerUser(name, email, password)
                 .then(() => {
                     form.reset()
 
                     onUserRegistered()
                 })
-                .catch(error => showFeeback(error, 'error'))
+                .catch(error => showFeedback(error, 'error'))
         } catch (error) {
-            showFeeback(error)
+            showFeedback(error)
         }
     }
 
@@ -36,32 +36,45 @@ function Register({ onUserRegistered, onLoginClick}) {
 
         onLoginClick()
     }
+
     logger.debug('Register -> render')
 
-    return <main>
+
+  return (
+    <div className="flex justify-center items-center h-screen">
+    <Card className="max-w-sm">
+        <div className="mb-2 block">
         <h1>Register</h1>
+        </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div 
+            className="mb-2 block">
+            <Label htmlFor="text" value="Name" />
+          <TextInput id="name" type="text" required />
+          </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email" value="Your email" />
+          </div>
+          <TextInput id="email" type="email" placeholder="email" required />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password" value="Your password" />
+          </div>
+          <TextInput id="password" type="password" required />
+        </div>
+        <div className="flex items-center gap-2">
+        </div>
+        <Button type="submit">Submit</Button>
+      </form>
 
-        <form onSubmit={handleSubmit}>
-            <label htmlFor='name'>Name</label>
-            <input type='text' id='name'/>
-
-            <label htmlFor="birthdate">Age</label>
-            <input type="date" id="birthdate" />
-
-            <label htmlFor="email">E-mail</label>
-            <input type="email" id="email" />
-
-            <label htmlFor="username">Username</label>
-            <input id="username" />
-
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
-
-            <button className="round-button" type="submit">Register</button>
-        </form>
-
-        <a href="" onClick={handleLoginClick}>Login</a>
-    </main>
+      <a href="" onClick={handleLoginClick}>Login</a>
+    </Card>
+    </div>
+  );
 }
+    
+
 
 export default Register

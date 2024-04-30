@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 
 function Profile() {
-    const { username } = useParams()
+    const { name } = useParams()
 
-    return <h1> Hello {username}</h1>
+    return <h1> Hello {name}</h1>
 }
 
 export default Profile

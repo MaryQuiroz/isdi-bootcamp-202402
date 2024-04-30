@@ -23,7 +23,10 @@
     "chai": "^5.1.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.4.0",
-    "ts-node": "^10.9.2"
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "colors": "^1.4.0",

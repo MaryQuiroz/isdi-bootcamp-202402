@@ -4,14 +4,12 @@ import { UserType, User } from '../data/index.ts'
 
 const { DuplicityError, SystemError } = errors
 
-function registerUser(name: string, birthdate: string, email: string, username: string, password: string): Promise<void> {
+function registerUser(name: string, email: string, password: string): Promise<void> {
     validate.text(name, 'name')
-    validate.date(birthdate, 'birthdate')
     validate.email(email)
-    validate.text(username, 'username', true)
     validate.password(password)
 
-    return User.findOne({ $or: [{ email }, { username }] })
+    return User.findOne({ $or: [{ email }, { name }] })
         .catch(error => { throw new SystemError(error.message) })
         .then((user: UserType) => {
             if (user)
@@ -19,9 +17,7 @@ function registerUser(name: string, birthdate: string, email: string, username: 
 
             user = {
                 name: name.trim(),
-                birthdate: new Date(birthdate),
                 email: email,
-                username: username,
                 password: password
             }
 

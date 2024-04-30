@@ -1,10 +1,10 @@
 import { validate, errors } from 'com'
 
-function loginUser(username, password) {
-    validate.text(username, 'username', true)
+function loginUser(email, password) {
+    validate.text(email, 'email', true)
     validate.password(password)
 
-    const user = { username, password }
+    const user = { email, password }
     const json = JSON.stringify(user)
 
     return fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {

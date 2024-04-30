@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Navbar } from "flowbite-react"
+import { Dropdown, Navbar } from "flowbite-react"
 import { useEffect, useState } from "react"
 import retrieveUser from "../logic/retrieveUser"
 import  {useNavigate} from "react-router-dom"
@@ -29,16 +29,13 @@ export const NavbarComponent=() =>{
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="#">
-        <img src="/favicon.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+        <img src="/favicon.png" className="mr-3 h-6 sm:h-9" alt="Cat" />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Pet&App</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
-          arrowIcon={false}
+          arrowIcon={true}
           inline
-          label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
-          }
         >
           <Dropdown.Header>
             <span className="block text-sm">{user.name}</span>
@@ -49,7 +46,7 @@ export const NavbarComponent=() =>{
           <Dropdown.Divider />
           <Dropdown.Item onClick={handleUserLoggedOut}>Sign out</Dropdown.Item>
         </Dropdown>
-        <Navbar.Toggle />
+        
       </div>
       {/* <Navbar.Collapse>
         <Navbar.Link href="#" active>

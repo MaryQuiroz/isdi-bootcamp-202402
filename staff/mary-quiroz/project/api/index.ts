@@ -42,9 +42,9 @@ mongoose.connect(MONGODB_URL)
 
         api.post('/users', jsonBodyParser, (req, res) => {
             try {
-                const { name, birthdate, email, username, password } = req.body
+                const { name, email, password } = req.body
 
-                logic.registerUser(name, birthdate, email, username, password)
+                logic.registerUser(name, email, password)
                     .then(() => res.status(201).send())
                     .catch(error => {
                         if (error instanceof SystemError) {
@@ -72,9 +72,9 @@ mongoose.connect(MONGODB_URL)
 
         api.post('/users/auth', jsonBodyParser, (req, res) => {
             try {
-                const { username, password } = req.body
+                const { email, password } = req.body
 
-                logic.authenticateUser(username, password)
+                logic.authenticateUser(email, password)
                     .then(userId => {
                         const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: JWT_EXP })
 
@@ -148,7 +148,89 @@ mongoose.connect(MONGODB_URL)
             }
         })
 
-       
+    //    CATS
+    api.post('/cats/create',jsonBodyParser, (req, res) => {
+        try {
+            const { authorization } = req.headers
+            logger.info(authorization)
+
+            const token = authorization.split(' ')[1]
+
+            const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+
+            
+            const {name,color, breed,age,avatar} = req.body
+
+            logic.createCat(userId.toString(), name,color, breed,age,avatar)
+            .then(cat => res.status(201).json(cat))
+            .catch(error => {
+                if (error instanceof SystemError) {
+                    logger.error(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                } else if (error instanceof NotFoundError) {
+                    logger.warn(error.message)
+
+                    res.status(404).json({ error: error.constructor.name, message: error.message })
+                }
+            })
+        } catch (error) {
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+    })
+    api.get('/cats/:targetCatId', (req, res) => {
+        try {
+            const { authorization } = req.headers
+
+            const token = authorization.slice(7)
+
+            const { sub: catId } = jwt.verify(token, JWT_SECRET)
+
+            const { targetCatId } = req.params
+
+            logic.retrieveCat(catId as string, targetCatId)
+                .then(cat => res.json(cat))
+                .catch(error => {
+                    if (error instanceof SystemError) {
+                        logger.error(error.message)
+
+                        res.status(500).json({ error: error.constructor.name, message: error.message })
+                    } else if (error instanceof NotFoundError) {
+                        logger.warn(error.message)
+
+                        res.status(404).json({ error: error.constructor.name, message: error.message })
+                    }
+                })
+        } catch (error) {
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+    })
+
 
         api.listen(PORT, () => logger.info(`API listening on port ${PORT}`))
     })

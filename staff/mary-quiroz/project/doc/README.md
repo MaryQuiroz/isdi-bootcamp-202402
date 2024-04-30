@@ -10,10 +10,17 @@ This project is an application designed to help cat owners manage and care for t
 
 ### Use Cases
 
-- cat Profile: Provide the option to add at least one cat, with basic details such as name, breed  and age
+- add cat (provide the option to add at least one cat, with basic details such as name, color, breed  and age)
+- edit cat (change information)
+- remove cat 
+- list cats
+- list tasks (function where users can add, mark as completed, and delete tasks related to cat care, such as "buy foot", "buy flea collar", "veterinarian visit," etc.)
+- add task
+- mark task (done)
+- delete task
+- edit task
 
-- Task List: Implement a basic task list function where users can add, mark as completed, and delete tasks related to cat care. Tasks can be generic at the beginning, such as "buy food," "veterinarian visit," etc.
-
+- Task List: Implement task list 
 
 
 ### UI Design
@@ -41,9 +48,7 @@ This project is an application designed to help cat owners manage and care for t
 User
 - id (objectId, required)
 - name (string, required)
-- birthdate (date, required)
 - email (string, required)
-- username (string, required)
 - password (string, required)
 - avatar (string, optional)
 
@@ -53,13 +58,14 @@ Cat
 - color (string, required)
 - breed (string, required)
 - age (number, required)
-- user id (objectId, required)
+- avatar (string, optional)
+- user (objectId, required, User.id)
 
 Task
 - id (objectId, required)
-- name (string, required)
+- title (string, required)
 - description (string, required)
-- due date (date, required)
+- dueDate (date, required)
 - completed (boolean, required, default false)
-- cat id (objectId, required)
+- cat (objectId, required, Cat.id)
 

@@ -4,11 +4,11 @@ import { User } from '../data/index.ts'
 
 const { SystemError, CredentialsError, NotFoundError } = errors
 
-function authenticateUser(username: string, password: string) : Promise<string> {
-    validate.text(username, 'username', true)
+function authenticateUser(email: string, password: string) : Promise<string> {
+    validate.text(email, 'email', true)
     validate.password(password)
 
-    return User.findOne({ username })
+    return User.findOne({ email })
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user)

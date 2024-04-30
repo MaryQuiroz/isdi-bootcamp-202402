@@ -4,6 +4,8 @@ import logic from '../logic'
 
 import { useContext } from '../context'
 
+import { Button, Card, Label, TextInput } from "flowbite-react"
+
 function Login({ onUserLoggedIn, onRegisterClick }) {
     const { showFeedback } = useContext()
 
@@ -12,22 +14,22 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
 
         const form = event.target
 
-        const username = form.username.value
+        const email = form.email.value
         const password = form.password.value
 
-        logger.debug('Login -> handleSubmit', username, password)
+         logger.debug('Login -> handleSubmit', email, password)
 
-        try {
-            logic.loginUser(username, password)
+         try {
+            logic.loginUser(email, password)
                 .then(() => {
                     form.reset()
 
                     onUserLoggedIn()
-                })
-                .catch(error => showFeedback(error, 'error'))
-        } catch (error) {
+               })
+               .catch(error => showFeedback(error, 'error'))
+         } catch (error) {
             showFeedback(error)
-        }
+         }
     }
 
     const handleRegisterClick = event => {
@@ -38,21 +40,29 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
 
     logger.debug('Login -> render')
 
-    return <main>
-        <h1>Login</h1>
+  return (
+    <div className="flex justify-center items-center h-screen">
+    <Card className="max-w-sm">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div>
+        <div className="mb-2 block">
+            <Label htmlFor="email1" value="Your email" />
+          </div>
+          <TextInput id="email" type="email" placeholder="email" required />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password1" value="Your password" />
+          </div>
+          <TextInput id="password" type="password" placeholder="*****" required />
+        </div>
+        <Button type="submit">Submit</Button>
+      </form>
 
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username</label>
-            <input id="username" />
-
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
-
-            <button className="round-button" type="submit">Login</button>
-        </form>
-
-        <a href="" onClick={handleRegisterClick}>Register</a>
-    </main>
+      <a href="" onClick={handleRegisterClick}>Register</a>
+    </Card>
+    </div>
+  );
 }
 
 export default Login

@@ -8,7 +8,7 @@ import { validate, errors } from 'com'
 
 const { NotFoundError, SystemError } = errors
 
-function retrieveUser(userId: string, targetUserId: string): Promise<{ name: string, username: string, email: string }> {
+function retrieveUser(userId: string, targetUserId: string): Promise<{ name: string,  email: string }> {
     validate.text(userId, 'userId', true)
     validate.text(targetUserId, 'targetUserId', true)
 
