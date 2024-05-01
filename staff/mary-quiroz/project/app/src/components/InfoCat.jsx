@@ -1,6 +1,21 @@
 import { Card, Dropdown } from "flowbite-react";
+import deleteCat from "../logic/deleteCat";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+
 
 export function InfoCatComponent({ cat }) {
+
+  const { cats, deleteCats } = useContext(AppContext)
+  const onDeleteHandler = ()=> {
+    const catId = cat._id
+    deleteCat(catId)
+    .then(catId=>{
+      const filteredCats = cats.filter(cat=>cat._id !== catId)
+      deleteCats(filteredCats)
+    })
+    .catch(error=>console.log(error))
+  }
   return (
     <Card className="max-w-full md:max-w-sm mx-auto">
       <div className="flex justify-end px-4 pt-4">
@@ -15,6 +30,7 @@ export function InfoCatComponent({ cat }) {
           </Dropdown.Item>
           <Dropdown.Item>
             <a
+            onClick={onDeleteHandler}
               href="#"
               className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
             >

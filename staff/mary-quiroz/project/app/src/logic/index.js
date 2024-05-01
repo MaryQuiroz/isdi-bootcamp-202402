@@ -8,6 +8,7 @@ import cleanUpLoggedInUserId from './cleanUpLoggedInUserId'
 import createCat from './createCat'
 import retrieveCat from './retrieveCat'
 import retrieveCats from './retrieveCats'
+import deleteCat from './deleteCat'
 
 
 const logic = {
@@ -21,6 +22,7 @@ const logic = {
     createCat,
     retrieveCat,
     retrieveCats,
+    deleteCat
 }
 
 export default logic

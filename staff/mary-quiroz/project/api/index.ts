@@ -271,6 +271,40 @@ mongoose.connect(MONGODB_URL)
         }
     })
 
+
+    api.delete('/cats/:catId', (req, res) => {
+        try {
+            const { catId } = req.params
+
+            logic.deleteCat(catId)
+                .then(cat => res.json(cat))
+                .catch(error => {
+                    if (error instanceof SystemError) {
+                        logger.error(error.message)
+
+                        res.status(500).json({ error: error.constructor.name, message: error.message })
+                    } else if (error instanceof NotFoundError) {
+                        logger.warn(error.message)
+
+                        res.status(404).json({ error: error.constructor.name, message: error.message })
+                    }
+                })
+        } catch (error) {
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+    })
         api.listen(PORT, () => logger.info(`API listening on port ${PORT}`))
     })
     .catch(error => logger.error(error))

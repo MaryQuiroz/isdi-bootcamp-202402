@@ -4,6 +4,7 @@ import retrieveUser from './retrieveUser.ts'
 import createCat from './createCat.ts'
 import retrieveCat from './retrieveCat.ts'
 import retrieveCats from './retrieveCats.ts'
+import deleteCat from './deleteCat.ts'
 
 
 const logic = {
@@ -13,6 +14,7 @@ const logic = {
     createCat,
     retrieveCat,
     retrieveCats,
+    deleteCat,
 
 
 }

@@ -11,7 +11,8 @@ export const AppProvider = ({ children }) => {
     // Funciones para actualizar el estado
     const updateUser = (newUser) => setUser(newUser);
     const addCat = (newCat) => setCats([newCat, ...cats]);
-    const addCats = (dbCats) => setCats([...cats, ...dbCats]);
+    const updateCats = (dbCats) => setCats([...cats, ...dbCats]);
+    const deleteCats = (cats) => setCats(cats);
     const addTask = (newTask) => setTasks([...tasks, newTask]);
     const changeStateModal = (state) => setStateModal(state)
 
@@ -24,9 +25,10 @@ export const AppProvider = ({ children }) => {
       stateModal,
       updateUser,
       addCat,
-      addCats,
+      updateCats,
       addTask,
-      changeStateModal
+      changeStateModal,
+      deleteCats
     };
   
     return (
