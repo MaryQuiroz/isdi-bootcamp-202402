@@ -6,6 +6,8 @@ import getLoggedInUserId from './getLoggedInUserId'
 import isUserLoggedIn from './isUserLoggedIn'
 import cleanUpLoggedInUserId from './cleanUpLoggedInUserId'
 import createCat from './createCat'
+import retrieveCat from './retrieveCat'
+import retrieveCats from './retrieveCats'
 
 
 const logic = {
@@ -16,7 +18,9 @@ const logic = {
     getLoggedInUserId,
     isUserLoggedIn,
     cleanUpLoggedInUserId,
-    createCat
+    createCat,
+    retrieveCat,
+    retrieveCats,
 }
 
 export default logic

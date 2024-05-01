@@ -1,9 +1,9 @@
 import { validate, errors } from 'com'
 
-function retrieveCat(catId){
+function retrieveCats(){
     validate.token(sessionStorage.token)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/cat/${catId}`,{
+    return fetch(`${import.meta.env.VITE_API_URL}/cats`,{
         headers:{
             Authorization: `Bearer ${sessionStorage.token}`
         }
@@ -23,5 +23,5 @@ function retrieveCat(catId){
         })
 }
 
-export default retrieveCat
+export default retrieveCats
       

@@ -59,13 +59,14 @@ Cat
 - breed (string, required)
 - age (number, required)
 - avatar (string, optional)
+- description (string, optional)
 - user (objectId, required, User.id)
 
 Task
 - id (objectId, required)
 - title (string, required)
 - description (string, required)
-- dueDate (date, required)
+- priority (string, required)
 - completed (boolean, required, default false)
 - cat (objectId, required, Cat.id)
 

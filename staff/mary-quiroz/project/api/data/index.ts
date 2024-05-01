@@ -36,6 +36,7 @@ type CatType = {
     breed: string
     age: number
     avatar: string
+    description: string
     user: ObjectId
 
 }
@@ -66,6 +67,11 @@ const cat = new Schema({
         required: true
     },
 
+    description: {
+        type: String,
+        required: true
+    },
+
     user: {
         type: ObjectId,
         ref: 'User',
@@ -78,7 +84,7 @@ const cat = new Schema({
 type TaskType = {
     tittle: string
     description: string
-    dueDate: Date
+    priority: string
     completed: boolean
     cat: ObjectId
 }
@@ -95,15 +101,16 @@ const task = new Schema({
 
     },
 
-    dueDate: {
-        type: Date,
+    priority: {
+        type: String,
         required: true
 
     },
 
     completed: {
         type: Boolean,
-        required: true
+        required: true, 
+        default: false
     },
 
     cat: {
@@ -112,10 +119,9 @@ const task = new Schema({
         required: true
     }
 
-
-
-
 })
+
+
 
 const User = model<UserType>('User', user)
 const Cat = model<CatType>('Cat', cat)
