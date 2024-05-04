@@ -153,7 +153,6 @@ mongoose.connect(MONGODB_URL)
         
         try {
             const { authorization } = req.headers
-            logger.info(authorization)
 
             const token = authorization.split(' ')[1]
 
@@ -278,6 +277,50 @@ mongoose.connect(MONGODB_URL)
 
             logic.deleteCat(catId)
                 .then(cat => res.json(cat))
+                .catch(error => {
+                    if (error instanceof SystemError) {
+                        logger.error(error.message)
+
+                        res.status(500).json({ error: error.constructor.name, message: error.message })
+                    } else if (error instanceof NotFoundError) {
+                        logger.warn(error.message)
+
+                        res.status(404).json({ error: error.constructor.name, message: error.message })
+                    }
+                })
+        } catch (error) {
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+    })
+
+    api.put('/cats/:catId', jsonBodyParser, (req, res) => {
+        try {
+            const { catId } = req.params
+            const { name, color,breed, avatar } = req.body
+
+            const updatedCatData = {
+                name, 
+                color, 
+                breed, 
+                avatar
+            }
+
+            logic.updateCat(catId, updatedCatData)
+                .then(updatedCat => {
+                    res.json(updatedCat)
+                })
                 .catch(error => {
                     if (error instanceof SystemError) {
                         logger.error(error.message)

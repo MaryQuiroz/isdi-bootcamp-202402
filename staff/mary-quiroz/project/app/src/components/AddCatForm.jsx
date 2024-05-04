@@ -4,12 +4,14 @@ import createCat from '../logic/createCat'
 import { AppContext } from '../context/AppContext'
 
 
-export const AddCatForm = () => {
-    const { addCat, changeStateModal } = useContext(AppContext)
+export const AddCatForm = ({setShowModal}) => {
+    const { addCat } = useContext(AppContext)
+    
 
     const calculateAge = (date) => {
         return new Date().getFullYear() - new Date(date).getFullYear()
     }
+
     const onSaveHandler = (event) => {
         event.preventDefault()
         const form = event.target
@@ -23,7 +25,7 @@ export const AddCatForm = () => {
         createCat(name, color, breed, age, avatar, description)
             .then(cat => {
                 addCat(cat)
-                changeStateModal(false)
+                setShowModal(false)
             })
             .catch(error => console.log(error))
 
@@ -55,16 +57,16 @@ export const AddCatForm = () => {
                 <TextInput id="age" type="date" placeholder="20/05/2022" required />
             </div>
             <div>
-                <div className="mb-2 block">
+            <div className="mb-2 block">
                     <Label htmlFor="avatar" value="Avatar" />
                 </div>
-                <TextInput id="avatar" type="file" placeholder="choose on file" required />
+                <TextInput id="avatar" type="text" placeholder="choose on file" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="description" value="Description" />
                 </div>
-                <TextInput id="description" type="description" placeholder="this is old and sick..." required />
+                <TextInput id="description" type="text" placeholder="this is old and sick..." required />
             </div>
             <Button type="submit">Save</Button>
         </form>
