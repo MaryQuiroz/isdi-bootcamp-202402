@@ -5,6 +5,8 @@ import { AppContext } from "../context/AppContext"
 import { ModalComponent } from "./ModalComponent"
 import UpdateCatForm from "./UpdateCatForm"
 import Confirm from "./Confirm"
+import { AddTaskForm } from "./AddTaskForm"
+import {CatProfile} from "./CatProfile"
 
 
 export function InfoCatComponent({ cat }) {
@@ -12,6 +14,8 @@ export function InfoCatComponent({ cat }) {
   const { cats, setCats, setCat } = useContext(AppContext)
   const [showEditModal, setEditShowModal] = useState(false)
   const [showDeleteModal, setDeleteShowModal] = useState(false)
+  const [showAddTaskModal, setAddTaskModal] = useState(false)
+  const [showProfileModal, setProfileModal] = useState(false)
 
 
 
@@ -35,6 +39,18 @@ export function InfoCatComponent({ cat }) {
 
   }
 
+  const onAddTaskHandler = () => {
+    setCat(cat)
+    setAddTaskModal(true)
+
+  }
+
+  const onClickProfileHandler = () => {
+    setCat(cat)
+    setProfileModal(true)
+
+  }
+
   return (
 
     <>
@@ -55,6 +71,25 @@ export function InfoCatComponent({ cat }) {
           <Confirm setShowModal={setDeleteShowModal} onDelete={onDeleteHandler} />
         }
       />
+
+      <ModalComponent
+        title="Add Task"
+        show={showAddTaskModal}
+        onClose={() => setAddTaskModal(false)}
+        form={
+          <AddTaskForm setShowModal={setAddTaskModal} />
+        }
+      />
+
+      <ModalComponent
+        title="Profile"
+        show={showProfileModal}
+        onClose={() => setProfileModal(false)}
+        form={
+          <CatProfile />
+        }
+      />
+
 
       <Card className="max-w-full mt-4 flex space-x-3 lg:mt-6 md:max-w-sm mx-auto">
         <div className="flex justify-end px-4 pt-4">
@@ -83,11 +118,9 @@ export function InfoCatComponent({ cat }) {
         </div>
         <div className="flex flex-col items-center pb-10">
           <img
-            alt="Cat image"
-            height="96"
+            alt={cat.name}
             src={cat.avatar}
-            width="96"
-            className="mb-3 rounded-full shadow-lg"
+            className="w-48 h-48 mb-3 rounded-full shadow-lg"
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{cat.name}</h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">{cat.age}</span>
@@ -95,13 +128,16 @@ export function InfoCatComponent({ cat }) {
             <a
               href="#"
               className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+              onClick={onAddTaskHandler}
             >
+
               Add Task
             </a>
             <a
               href="#"
               className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-            >
+            onClick={onClickProfileHandler}
+         >
               Perfil
             </a>
           </div>

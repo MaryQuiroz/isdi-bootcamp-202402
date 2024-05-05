@@ -10,6 +10,8 @@ import retrieveCat from './retrieveCat'
 import retrieveCats from './retrieveCats'
 import deleteCat from './deleteCat'
 import updateCat from './updateCat'
+import createTask from './createTask'
+import retrieveTasks from './retrieveTasks'
 
 
 
@@ -25,7 +27,9 @@ const logic = {
     retrieveCat,
     retrieveCats,
     deleteCat,
-    updateCat
+    updateCat,
+    createTask,
+    retrieveTasks,
 }
 
 export default logic

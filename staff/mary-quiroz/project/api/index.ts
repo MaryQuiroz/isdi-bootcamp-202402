@@ -333,6 +333,57 @@ mongoose.connect(MONGODB_URL)
                     }
                 })
         } catch (error) {
+
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+
+        
+    })
+
+     //    TASKS
+     api.post('/tasks/create',jsonBodyParser, (req, res) => {
+        
+        try {
+            console.log(req.body)
+            const { authorization } = req.headers
+
+            const token = authorization.split(' ')[1]
+
+            const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+            const task = req.body
+
+
+
+            
+            //const {title, description, priorities, dueDate} = req.body
+            
+            logic.createTask(task)
+            .then(newTask => res.status(201).json(newTask))
+            .catch(error => {
+                if (error instanceof SystemError) {
+                    logger.error(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                } else if (error instanceof NotFoundError) {
+                    logger.warn(error.message)
+
+                    res.status(404).json({ error: error.constructor.name, message: error.message })
+                }
+            })
+        } catch (error) {
             if (error instanceof TypeError || error instanceof ContentError) {
                 logger.warn(error.message)
 
@@ -348,6 +399,46 @@ mongoose.connect(MONGODB_URL)
             }
         }
     })
+    api.get('/tasks/:catId', (req, res) => {
+        try {
+            const { authorization } = req.headers
+
+            const token = authorization.slice(7)
+
+           jwt.verify(token, JWT_SECRET)
+
+            const { catId } = req.params
+
+            logic.retrieveTasks(catId as string)
+                .then(tasks => res.json(tasks))
+                .catch(error => {
+                    if (error instanceof SystemError) {
+                        logger.error(error.message)
+
+                        res.status(500).json({ error: error.constructor.name, message: error.message })
+                    } else if (error instanceof NotFoundError) {
+                        logger.warn(error.message)
+
+                        res.status(404).json({ error: error.constructor.name, message: error.message })
+                    }
+                })
+        } catch (error) {
+            if (error instanceof TypeError || error instanceof ContentError) {
+                logger.warn(error.message)
+
+                res.status(406).json({ error: error.constructor.name, message: error.message })
+            } else if (error instanceof TokenExpiredError) {
+                logger.warn(error.message)
+
+                res.status(498).json({ error: UnauthorizedError.name, message: 'session expired' })
+            } else {
+                logger.warn(error.message)
+
+                res.status(500).json({ error: SystemError.name, message: error.message })
+            }
+        }
+    })
+
         api.listen(PORT, () => logger.info(`API listening on port ${PORT}`))
     })
     .catch(error => logger.error(error))

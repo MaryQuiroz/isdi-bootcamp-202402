@@ -30,7 +30,8 @@ export const AppProvider = ({ children }) => {
       addTask,
       deleteCat,
       setCat,
-      setCats
+      setCats,
+      setTasks,
       
     };
   

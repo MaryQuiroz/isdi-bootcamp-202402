@@ -82,7 +82,7 @@ const cat = new Schema({
 })
 
 type TaskType = {
-    tittle: string
+    title: string
     description: string
     priority: string
     completed: boolean
@@ -90,7 +90,7 @@ type TaskType = {
 }
 
 const task = new Schema({
-    tittle: {
+    title: {
         type: String,
         required: true
     },
@@ -109,8 +109,12 @@ const task = new Schema({
 
     completed: {
         type: Boolean,
-        required: true, 
         default: false
+    },
+
+    dueDate : {
+        type: Date,
+        required: true,
     },
 
     cat: {

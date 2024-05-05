@@ -9,12 +9,12 @@ import { InfoCatComponent } from '../components/InfoCat'
 import retrieveCats from '../logic/retrieveCats'
 
 const Home = () => {
-  const { cats,updateCats } = useContext(AppContext)
+  const { cats,updateCats, setCats} = useContext(AppContext)
   const [showModal, setShowModal] = useState(false)
 
 useEffect(() => {
   retrieveCats()
-  .then(cats=>updateCats(cats))
+  .then(cats=>setCats(cats))
   .catch(error=>console.log(error))
 
 
