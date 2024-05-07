@@ -10,7 +10,7 @@ This project is an application designed to help cat owners manage and care for t
 
 ### Use Cases
 
-- add cat (provide the option to add at least one cat, with basic details such as name, color, breed  and age)
+- add cat (provide the option to add at least one cat, with basic details such as name, color, breed  and birthdate )
 - edit cat (change information)
 - remove cat 
 - list cats
@@ -57,7 +57,7 @@ Cat
 - name (string, required)
 - color (string, required)
 - breed (string, required)
-- age (number, required)
+- birthdate (Date, required)
 - avatar (string, optional)
 - description (string, optional)
 - user (objectId, required, User.id)

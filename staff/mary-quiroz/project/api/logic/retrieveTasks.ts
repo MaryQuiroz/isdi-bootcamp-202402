@@ -9,7 +9,7 @@ import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
 function retrieveTasks(catId: string): Promise<TaskType> {
-    validate.text(catId, 'catId', true)
+    // validate.text(catId, 'catId', true)
 
     return Task.find({cat:catId})
     .catch(error => { throw new SystemError(error.message) })

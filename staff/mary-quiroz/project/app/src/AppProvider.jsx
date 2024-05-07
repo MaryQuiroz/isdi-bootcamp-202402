@@ -3,9 +3,9 @@ import { AppContext } from "./context/AppContext";
 
 export const AppProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [cat, setCat] = useState(null)
     const [cats, setCats] = useState([])
     const [tasks, setTasks] = useState([])
-    const [cat, setCat] = useState(null)
 
   
     // Funciones para actualizar el estado
@@ -13,8 +13,6 @@ export const AppProvider = ({ children }) => {
     const addCat = (newCat) => setCats([newCat, ...cats]);
     const updateCats = (dbCats) => setCats([...cats, ...dbCats]);
     const deleteCat = (cats) => setCats(cats);
-    const updateCat = (cats) => setCats(cats);
-    const addTask = (newTask) => setTasks([...tasks, newTask]);
 
 
   
@@ -27,7 +25,6 @@ export const AppProvider = ({ children }) => {
       updateUser,
       addCat,
       updateCats,
-      addTask,
       deleteCat,
       setCat,
       setCats,

@@ -34,7 +34,7 @@ type CatType = {
     name: string
     color: string
     breed: string
-    age: number
+    birthdate: Date
     avatar: string
     description: string
     user: ObjectId
@@ -57,8 +57,8 @@ const cat = new Schema({
         required: true
     },
 
-    age: {
-        type: Number,
+    birthdate: {
+        type: Date,
         required: true
     },
 

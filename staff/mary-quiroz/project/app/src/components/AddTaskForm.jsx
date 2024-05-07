@@ -7,7 +7,7 @@ import { AppContext } from '../context/AppContext'
 
 
 
-export const AddTaskForm = ({setShowModal}) => {
+export const AddTaskForm = ({setShowModal, catId}) => {
 
     const { cat, setTasks, tasks } = useContext(AppContext)
 
@@ -34,7 +34,7 @@ export const AddTaskForm = ({setShowModal}) => {
                 description,
                 priority,
                 dueDate,
-                catId : cat._id
+                catId
             }
 
 

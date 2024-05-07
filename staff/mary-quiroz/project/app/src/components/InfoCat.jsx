@@ -2,11 +2,13 @@ import { Card, Dropdown } from "flowbite-react"
 import deleteCat from "../logic/deleteCat"
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../context/AppContext"
-import { ModalComponent } from "./ModalComponent"
+import { ModalComponent } from "./Modal"
 import UpdateCatForm from "./UpdateCatForm"
 import Confirm from "./Confirm"
 import { AddTaskForm } from "./AddTaskForm"
 import {CatProfile} from "./CatProfile"
+import { calculateAge } from "../utils"
+import { useNavigate } from "react-router-dom"
 
 
 export function InfoCatComponent({ cat }) {
@@ -16,6 +18,8 @@ export function InfoCatComponent({ cat }) {
   const [showDeleteModal, setDeleteShowModal] = useState(false)
   const [showAddTaskModal, setAddTaskModal] = useState(false)
   const [showProfileModal, setProfileModal] = useState(false)
+  const navigate = useNavigate()
+
 
 
 
@@ -123,23 +127,25 @@ export function InfoCatComponent({ cat }) {
             className="w-48 h-48 mb-3 rounded-full shadow-lg"
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{cat.name}</h5>
-          <span className="text-sm text-gray-500 dark:text-gray-400">{cat.age}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{calculateAge(cat.birthdate)}</span>
+          <h5 className="mb-1  text-gray-900 dark:text-white">{cat.description}</h5>
+
           <div className="mt-4 flex space-x-3 lg:mt-6">
             <a
               href="#"
               className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-              onClick={onAddTaskHandler}
+              onClick={()=>navigate(`/tasks/${cat._id}`)}
             >
 
-              Add Task
+              View Tasks
             </a>
-            <a
+            {/* <a
               href="#"
               className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={onClickProfileHandler}
          >
               Perfil
-            </a>
+            </a> */}
           </div>
         </div>
       </Card>

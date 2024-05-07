@@ -1,9 +1,9 @@
 import { validate, errors } from 'com'
 
 function resgisterUser(name, email, password) {
-    validate.text(name, 'name')
-    validate.email(email)
-    validate.password(password)
+    // validate.text(name, 'name')
+    // validate.email(email)
+    // validate.password(password)
 
     const user = { name, email, password }
 

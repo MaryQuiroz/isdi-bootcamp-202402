@@ -356,7 +356,6 @@ mongoose.connect(MONGODB_URL)
      api.post('/tasks/create',jsonBodyParser, (req, res) => {
         
         try {
-            console.log(req.body)
             const { authorization } = req.headers
 
             const token = authorization.split(' ')[1]

@@ -1,12 +1,12 @@
 import { validate, errors } from 'com'
 
 function createCat(name, color, breed, age, avatar, description) {
-    validate.text(name, 'name')
-    validate.text(color, 'color') 
-    validate.text(breed, 'breed')
-    validate.text(avatar, 'avatar')
-    validate.text(description, 'description')
-    validate.token(sessionStorage.token)
+    // validate.text(name, 'name')
+    // validate.text(color, 'color') 
+    // validate.text(breed, 'breed')
+    // validate.text(avatar, 'avatar')
+    // validate.text(description, 'description')
+    // validate.token(sessionStorage.token)
 
     const [, payloadB64] = sessionStorage.token.split('.')
 

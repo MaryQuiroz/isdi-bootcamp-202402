@@ -4,11 +4,14 @@ import { logger } from '../utils'
 import { useContext } from '../context'
 import logic from "../logic"
 
-import { Button, Card, Label, TextInput } from "flowbite-react"
+import {  Button, Card, Label, TextInput } from "flowbite-react"
 import { useState, useRef } from 'react'
+import { AlertComponent } from '../components/Alert'
+import { ToastComponent } from '../components/Toast'
 
 export default function Login({ onUserLoggedIn, onRegisterClick }) {
   const { showFeedback } = useContext()
+  const [error, setError] = useState()
   const [showPassword, setShowPassword] = useState(false)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -29,6 +32,7 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
       onUserLoggedIn()
 
     } catch (error) {
+      setError(error.message)
       showFeedback(error)
     }
   }
@@ -62,6 +66,7 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
                   placeholder="*****"
                   required
                   className="flex-1"
+                  
                 />
                 <a
                   onClick={() => setShowPassword(!showPassword)}
@@ -76,6 +81,7 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
         </form>
         <a href="" onClick={handleRegisterClick}>Register</a>
       </Card>
+      {error && <ToastComponent title={error} />}
     </div>
   );
 }

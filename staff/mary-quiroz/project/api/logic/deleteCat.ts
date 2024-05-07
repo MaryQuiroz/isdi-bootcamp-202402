@@ -9,7 +9,7 @@ import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
 function deleteCat(catId: string ): Promise<CatType> {
-    validate.text(catId, 'catId', true)
+    // validate.text(catId, 'catId', true)
 
     return Cat.findByIdAndDelete(catId)
    

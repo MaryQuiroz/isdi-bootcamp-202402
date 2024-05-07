@@ -1,16 +1,18 @@
 import { AddButton } from '../components/AddButton'
 import { CardList } from '../components/CardList'
 import { NavbarComponent } from '../components/Navbar'
-import { ModalComponent } from '../components/ModalComponent'
+import { ModalComponent } from '../components/Modal'
 import { useContext, useEffect, useState } from 'react'
 import { AddCatForm } from '../components/AddCatForm'
 import { AppContext } from '../context/AppContext'
 import { InfoCatComponent } from '../components/InfoCat'
 import retrieveCats from '../logic/retrieveCats'
+import { FooterComponent } from '../components/Footer'
 
 const Home = () => {
-  const { cats,updateCats, setCats} = useContext(AppContext)
+  const { cats, setCats} = useContext(AppContext)
   const [showModal, setShowModal] = useState(false)
+  
 
 useEffect(() => {
   retrieveCats()
@@ -40,7 +42,7 @@ useEffect(() => {
 
       <CardList data={cats} renderCard={renderCatCard} />
 
-
+<FooterComponent/>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import {  Checkbox } from 'flowbite-react'
 import React from 'react'
-import { BadgeComponent } from './BadgeComponent'
+import { BadgeComponent } from './Badge'
 
 export const Task = ({task}) => {
 

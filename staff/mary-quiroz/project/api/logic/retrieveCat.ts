@@ -8,16 +8,16 @@ import { validate, errors } from 'com'
 
 const { NotFoundError, SystemError } = errors
 
-function retrieveCat(catId: string, targetCatId: string): Promise<{ name: string, color: string, breed: string, age: number, avatar: string }> {
-    validate.text(catId, 'catId', true)
-    validate.text(targetCatId, 'targetCatId', true)
+function retrieveCat(catId: string, targetCatId: string): Promise<{ name: string, color: string, breed: string, birthdate: Date, avatar: string }> {
+    // validate.text(catId, 'catId', true)
+    // validate.text(targetCatId, 'targetCatId', true)
 
     return Cat.findById(catId)
     .catch(error => { throw new SystemError(error.message) })
     .then(cat => {
         if(!cat) throw new NotFoundError('cat not found')
 
-        return Cat.findById(targetCatId).select('-_id name color breed age number avatar').lean()
+        return Cat.findById(targetCatId).lean()
     })
     .then(cat => {
         if(!cat) throw new NotFoundError('target cat not found')

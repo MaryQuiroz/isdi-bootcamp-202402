@@ -8,9 +8,6 @@ export const AddCatForm = ({setShowModal}) => {
     const { addCat } = useContext(AppContext)
     
 
-    const calculateAge = (date) => {
-        return new Date().getFullYear() - new Date(date).getFullYear()
-    }
 
     const onSaveHandler = (event) => {
         event.preventDefault()
@@ -18,11 +15,11 @@ export const AddCatForm = ({setShowModal}) => {
         const name = form.name.value
         const color = form.color.value
         const breed = form.breed.value
-        const age = calculateAge(form.age.value)
+        const birthdate = form.birthdate.value
         const avatar = form.avatar.value
         const description = form.description.value
 
-        createCat(name, color, breed, age, avatar, description)
+        createCat(name, color, breed, birthdate, avatar, description)
             .then(cat => {
                 addCat(cat)
                 setShowModal(false)
@@ -52,9 +49,9 @@ export const AddCatForm = ({setShowModal}) => {
             </div>
             <div>
                 <div className="mb-2 block">
-                    <Label htmlFor="age" value="Birthdate" />
+                    <Label htmlFor="birthdate" value="Birthdate" />
                 </div>
-                <TextInput id="age" type="date" placeholder="20/05/2022" required />
+                <TextInput id="birthdate" type="date" placeholder="20/05/2022" required />
             </div>
             <div>
             <div className="mb-2 block">

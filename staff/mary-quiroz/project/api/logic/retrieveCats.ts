@@ -9,7 +9,7 @@ import { validate, errors } from 'com'
 const { NotFoundError, SystemError } = errors
 
 function retrieveCats(userId: string): Promise<CatType[]> {
-    validate.text(userId, 'userId', true)
+    // validate.text(userId, 'userId', true)
     
     return Cat.find( { user: userId } )
     .sort({ _id: -1 }) 

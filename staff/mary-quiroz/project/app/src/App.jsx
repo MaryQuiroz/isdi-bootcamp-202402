@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { Context } from './context'
 import Confirm from './components/Confirm'
 import { errors } from 'com'
+import Tasks from './pages/Tasks'
 
 const { UnauthorizedError } = errors
 
@@ -65,6 +66,7 @@ function App() {
       <Routes>
         <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />} />
         <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />
+        <Route path="/tasks/:catId" element={logic.isUserLoggedIn() ? <Tasks/> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />
         <Route path="/*" element={logic.isUserLoggedIn() ? <Home onUserLoggedOut={handleUserLoggedOut} /> : <Navigate to="/login" />} />
       </Routes>
       
