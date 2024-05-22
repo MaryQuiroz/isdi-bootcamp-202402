@@ -10,6 +10,7 @@ import { AppContext } from '../context/AppContext'
 import { Task } from '../components/Task'
 import { CardList } from '../components/CardList'
 import { AddButton } from '../components/AddButton'
+import { TabsComponent } from '../components/Tabs'
 
 
 const Tasks = () => {
@@ -53,8 +54,10 @@ const Tasks = () => {
 
               Add Task
             </a> */}
+           
+            <AddButton text="Add Task" onClick={() => setAddTaskModal(true)} />
+            <TabsComponent/>
 
-            <AddButton text="Add Cat" onClick={() => setAddTaskModal(true)} />
        <CardList data={tasks} renderCard={renderCatCard} />
       </div>
      

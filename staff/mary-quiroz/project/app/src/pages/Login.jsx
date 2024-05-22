@@ -47,23 +47,27 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="max-w-sm">
+      <div className="mb-2 block">
+        <img src="/favicon.png" className="mx-auto h-12" alt="Cat" />
+        <h1 className="text-2xl font-bold text-center">Login</h1>
+      </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="email1" value="Your email" />
+              <Label htmlFor="email" value="Your email" />
             </div>
             <TextInput  ref={emailRef} id="email" type="email" placeholder="email" required />
           </div>
           <div className="flex items-center">
             <div className="w-full">
               <div className="mb-2 block">
-                <Label htmlFor="password1" value="Your password" />
+                <Label htmlFor="password" value="Your password" />
               </div>
               <div className="flex items-center">
                 <TextInput ref={passwordRef}
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="*****"
+                  placeholder="Password"
                   required
                   className="flex-1"
                   
@@ -77,7 +81,9 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
               </div>
             </div>
           </div>
+          <div className="flex justify-center">
           <Button type="submit">Submit</Button>
+          </div>
         </form>
         <a href="" onClick={handleRegisterClick}>Register</a>
       </Card>

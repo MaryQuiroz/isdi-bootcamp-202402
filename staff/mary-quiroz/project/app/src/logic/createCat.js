@@ -1,6 +1,6 @@
 import { validate, errors } from 'com'
 
-function createCat(name, color, breed, age, avatar, description) {
+function createCat(name, color, breed, birthdate, avatar, description) {
     // validate.text(name, 'name')
     // validate.text(color, 'color') 
     // validate.text(breed, 'breed')
@@ -10,7 +10,7 @@ function createCat(name, color, breed, age, avatar, description) {
 
     const [, payloadB64] = sessionStorage.token.split('.')
 
-    const cat = { name, color, breed, age, avatar, description }
+    const cat = { name, color, breed, avatar, birthdate, description }
 
     return fetch(`${import.meta.env.VITE_API_URL}/cats/create`, {
         method: 'POST',

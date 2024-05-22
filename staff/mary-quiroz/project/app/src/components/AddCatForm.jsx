@@ -57,13 +57,14 @@ export const AddCatForm = ({setShowModal}) => {
             <div className="mb-2 block">
                     <Label htmlFor="avatar" value="Avatar" />
                 </div>
-                <TextInput id="avatar" type="text" placeholder="choose on file" required />
+                <TextInput id="avatar" type="text" placeholder="ex: www.imgen.com/" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="description" value="Description" />
                 </div>
-                <TextInput id="description" type="text" placeholder="this is old and sick..." required />
+                <TextInput id="description" type="text" placeholder="It's my first adopted cat
+                ..." required />
             </div>
             <Button type="submit">Save</Button>
         </form>

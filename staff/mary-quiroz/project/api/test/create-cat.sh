@@ -1,1 +1,0 @@
-curl -X POST -H "Authorization: Bearer <token>" -d '{"name":"lisita", "color": "blu", "age":"2022-01-01","avatar":"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXc3NGVocGkxcmxrem45Z2lwZDA4bXlveW01Ym0xY2J5bjI0eGh4eiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/tAVCppet3HpPa/giphy.gif","description":"this is my third cat"}' http://localhost:9000/users -v

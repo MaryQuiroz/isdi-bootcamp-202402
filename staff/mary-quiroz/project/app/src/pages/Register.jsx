@@ -42,37 +42,36 @@ function Register({ onUserRegistered, onLoginClick }) {
 
   return (
     <div className="flex justify-center items-center h-screen">
-    <Card className="max-w-sm">
-        <div className="mb-2 block">
-        <h1>Register</h1>
-        </div>
+    <Card className="max-w-sm p-4">
+      <div className="mb-2 block">
+        <img src="/favicon.png" className="mx-auto h-12" alt="Cat" />
+        <h1 className="text-2xl font-bold text-center">Register</h1>
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div 
-            className="mb-2 block">
-            <Label htmlFor="text" value="Name" />
-          <TextInput id="name" type="text" required />
-          </div>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="email" value="Your email" />
-          </div>
-          <TextInput id="email" type="email" placeholder="email" required />
+        <div className="mb-2 ">
+          <Label htmlFor="name" value="Name" />
+          <TextInput id="name" type="text" required className="block w-full p-2 text-sm text-gray-700 placeholder-gray-400" placeholder="Complete Name" />
         </div>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="password" value="Your password" />
-          </div>
-          <TextInput id="password" type="password" required />
+        <div className="mb-2">
+          <Label htmlFor="email" value="Your email" />
+          <TextInput id="email" type="email" placeholder="E-mail" required className="block w-full p-2  text-sm text-gray-700 placeholder-gray-400" />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="mb-2">
+          <Label htmlFor="password" value="Your password" />
+          <TextInput id="password" type="password" placeholder="Password" className="block w-full p-2  text-sm text-gray-700 placeholder-gray-400" />
         </div>
-        <Button type="submit">Submit</Button>
+        <div className="flex justify-center">
+          <Button type="submit" >
+            Submit
+          </Button>
+        </div>
       </form>
-
-      <a href="" onClick={handleLoginClick}>Login</a>
+      <a href="#" onClick={handleLoginClick} className="text-sm text-gray-600 hover:text-gray-900 text-center">
+        Already have an account? Login
+      </a>
     </Card>
-    </div>
-  );
+  </div>
+  )
 }
     
 

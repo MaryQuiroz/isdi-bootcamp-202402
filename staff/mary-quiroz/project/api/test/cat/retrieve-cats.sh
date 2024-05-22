@@ -1,0 +1,2 @@
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQyNDUyOGU0YWQxZDk0ZTdhNTE3NmUiLCJpYXQiOjE3MTU3MTMyMjEsImV4cCI6MTcxNTcyMzIyMX0.Szcd8ZGMSBYr4besIdB-eoriKXYryhuDkeJ8KYo3Sow" http://localhost:9000/cats/ -v
+ 

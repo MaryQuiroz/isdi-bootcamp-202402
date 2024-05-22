@@ -30,7 +30,7 @@ export const NavbarComponent=() =>{
     <Navbar fluid rounded>
       <Navbar.Brand href="#" onClick={()=>navigate("/")}>
         <img src="/favicon.png" className="mr-3 h-6 sm:h-9" alt="Cat" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white" >Pet&App</span>
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white" >MyCat</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
