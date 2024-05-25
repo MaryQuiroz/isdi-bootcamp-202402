@@ -1,30 +1,46 @@
 import { Button, Label, TextInput } from 'flowbite-react'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import createCat from '../logic/createCat'
 import { AppContext } from '../context/AppContext'
+import { logger } from '../utils'
 
 
 export const AddCatForm = ({setShowModal}) => {
     const { addCat } = useContext(AppContext)
-    
 
+    const nameRef = useRef(null)
+    const colorRef = useRef(null)
+    const breedRef = useRef(null)
+    const birthdateRef = useRef(null)
+    const avatarRef = useRef(null)
+    const descriptionsRef = useRef(null)
 
-    const onSaveHandler = (event) => {
+    const onSaveHandler =  async () => {
+        try {
         event.preventDefault()
-        const form = event.target
-        const name = form.name.value
-        const color = form.color.value
-        const breed = form.breed.value
-        const birthdate = form.birthdate.value
-        const avatar = form.avatar.value
-        const description = form.description.value
+        const name = nameRef.current.value
+        const color = colorRef.current.value
+        const breed = breedRef.current.value
+        const birthdate = birthdateRef.current.value
+        const avatar = avatarRef.current.value
+        const description = descriptionsRef.current.value
 
-        createCat(name, color, breed, birthdate, avatar, description)
-            .then(cat => {
-                addCat(cat)
-                setShowModal(false)
-            })
-            .catch(error => console.log(error))
+        const catData = {
+            name, 
+            color,
+            breed,
+            birthdate,
+            avatar,
+            description
+        }
+       
+        const cat = await createCat(catData)
+            addCat(cat)
+            setShowModal(false)
+        } catch (error) { 
+            logger.error(error)
+        }
+    
 
     }
     return (
@@ -33,38 +49,39 @@ export const AddCatForm = ({setShowModal}) => {
                 <div className="mb-2 block">
                     <Label htmlFor="name" value="Name" />
                 </div>
-                <TextInput id="name" type="text" placeholder="chimuelo" required />
+                <TextInput  ref= {nameRef} id="name" type="text" placeholder="chimuelo" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="color" value="Color" />
                 </div>
-                <TextInput id="color" type="text" placeholder="black" required />
+                <TextInput ref= {colorRef} id="color" type="text" placeholder="black" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="breed" value="Breed" />
                 </div>
-                <TextInput id="breed" type="text" placeholder="criole" required />
+                <TextInput ref= {breedRef} id="breed" type="text" placeholder="criole" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="birthdate" value="Birthdate" />
                 </div>
-                <TextInput id="birthdate" type="date" placeholder="20/05/2022" required />
+                <TextInput ref= {birthdateRef} id="birthdate" type="date" placeholder="20/05/2022" required />
             </div>
             <div>
             <div className="mb-2 block">
                     <Label htmlFor="avatar" value="Avatar" />
                 </div>
-                <TextInput id="avatar" type="text" placeholder="ex: www.imgen.com/" required />
+                <TextInput ref= {avatarRef} id="avatar" type="text" placeholder="ex: www.imgen.com/" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="description" value="Description" />
                 </div>
-                <TextInput id="description" type="text" placeholder="It's my first adopted cat
+                <TextInput ref={descriptionsRef} id="description" type="text" placeholder="It's my first adopted cat
                 ..." required />
+
             </div>
             <Button type="submit">Save</Button>
         </form>

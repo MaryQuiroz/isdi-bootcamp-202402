@@ -4,14 +4,9 @@ import { logger } from '../utils'
 import createTask from '../logic/createTask'
 import { AppContext } from '../context/AppContext'
 
-
-
-
 export const AddTaskForm = ({setShowModal, catId}) => {
 
     const { cat, setTasks, tasks } = useContext(AppContext)
-
-
 
     const titleRef =  useRef(null)
     const descriptionRef = useRef(null)
@@ -21,9 +16,7 @@ export const AddTaskForm = ({setShowModal, catId}) => {
    
         const onAddTaskHandler =  async () => {
             event.preventDefault()
-            
-
-
+            try {
             const title = titleRef.current.value
             const description = descriptionRef.current.value
             const priority = prioritiesRef.current.value
@@ -37,8 +30,6 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                 catId
             }
 
-
-            try {
                 const newTask = await createTask(task)
                 setShowModal(false)
                 setTasks([...tasks, newTask])
