@@ -1,11 +1,10 @@
 import { Schema, model } from "mongoose"
 
-type UserType = {
+interface IUser extends Document {
     name: string
     email: string
     password: string
 }
-
 const userSchema = new Schema({
     name: {
         type: String,
@@ -21,17 +20,15 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
-}, { toJSON: { virtuals: true }, id: false, timeStamp: true });
-
-userSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-});
+    },
+}, {
+    timestamps: true 
+})
 
 
-const User = model<UserType>('User', userSchema)
+const User = model<IUser>('User', userSchema)
 
 export {
-    UserType,
+    IUser,
     User,
 }

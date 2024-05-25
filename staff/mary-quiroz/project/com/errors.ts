@@ -19,6 +19,8 @@ const DuplicityError = buildErrorClass('DuplicityError')
 const CredentialsError = buildErrorClass('CredentialsError')
 const NotFoundError = buildErrorClass('NotFoundError')
 const UnauthorizedError = buildErrorClass('UnauthorizedError')
+const JsonWebTokenError = buildErrorClass('JsonWebTokenError')
+const InvalidObjectIdError = buildErrorClass('InvalidObjectIdError')
 
 const errors = {
     ContentError,
@@ -26,7 +28,9 @@ const errors = {
     DuplicityError,
     CredentialsError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    JsonWebTokenError,
+    InvalidObjectIdError
 }
 
 export {
@@ -35,7 +39,9 @@ export {
     DuplicityError,
     CredentialsError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    JsonWebTokenError,
+    InvalidObjectIdError
 }
 
 export default errors

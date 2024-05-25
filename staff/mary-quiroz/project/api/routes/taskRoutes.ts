@@ -1,12 +1,8 @@
-import { Router } from 'express';
-import { retrieves, retrieveTask, create, update, deleteT } from '../controllers/taskController'
+import { Router } from 'express'
+import { retrieveTasksController, updateTaskController } from '../controllers/taskControlle'
 
 const router = Router()
 
-router.post('/:catId', create)
-router.get('/:taskId', retrieveTask)
-router.get('/cat/:catId', retrieves)
-router.patch('/:taskId', update)
-router.delete('/:taskId', deleteT)
-
+router.get('/', retrieveTasksController)
+router.put('/:id', updateTaskController)
 export default router

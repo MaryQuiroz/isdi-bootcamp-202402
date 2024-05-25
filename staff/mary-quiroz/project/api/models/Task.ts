@@ -1,6 +1,6 @@
 import { ObjectId, Schema, model } from "mongoose"
 
-type TaskType = {
+interface ITask extends Document {
     title: string
     description: string
     priority: string
@@ -42,16 +42,14 @@ const taskSchema = new Schema({
         required: true
     }
 
-}, { toJSON: { virtuals: true }, id: false, timeStamp: true });
-
-taskSchema.virtual('id').get(function () {
-    return this._id.toHexString();
+}, { 
+    timestamps: true 
 });
 
 
-const Task = model<TaskType>('Task', taskSchema)
+const Task = model<ITask>('Task', taskSchema)
 export {
-    TaskType,
+    ITask,
     Task
     
 }

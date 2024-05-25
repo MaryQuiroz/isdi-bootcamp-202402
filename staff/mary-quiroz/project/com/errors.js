@@ -16,13 +16,17 @@ const DuplicityError = buildErrorClass('DuplicityError');
 const CredentialsError = buildErrorClass('CredentialsError');
 const NotFoundError = buildErrorClass('NotFoundError');
 const UnauthorizedError = buildErrorClass('UnauthorizedError');
+const JsonWebTokenError = buildErrorClass('JsonWebTokenError');
+const InvalidObjectIdError = buildErrorClass('InvalidObjectIdError');
 const errors = {
     ContentError,
     SystemError,
     DuplicityError,
     CredentialsError,
     NotFoundError,
-    UnauthorizedError
+    UnauthorizedError,
+    JsonWebTokenError,
+    InvalidObjectIdError
 };
-export { ContentError, SystemError, DuplicityError, CredentialsError, NotFoundError, UnauthorizedError };
+export { ContentError, SystemError, DuplicityError, CredentialsError, NotFoundError, UnauthorizedError, JsonWebTokenError, InvalidObjectIdError };
 export default errors;
