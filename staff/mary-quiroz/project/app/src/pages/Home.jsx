@@ -7,8 +7,6 @@ import { AddCatForm } from '../components/AddCatForm'
 import { AppContext } from '../context/AppContext'
 import { InfoCatComponent } from '../components/InfoCat'
 import retrieveCats from '../logic/retrieveCats'
-import { FooterComponent } from '../components/Footer'
-import seachCatComponent from '../components/SearchCat'
 import SearchCatComponent from '../components/SearchCat'
 
 const Home = () => {

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { NavbarComponent } from '../components/Navbar'
-import { FooterComponent } from '../components/Footer'
 import { useParams } from 'react-router-dom'
 import retrieveTasks from '../logic/retrieveTasks'
 import { ModalComponent } from '../components/Modal'
@@ -33,13 +32,11 @@ const Tasks = () => {
         }
       />
       <NavbarComponent />
-      <div className='max-w-full mt-16   lg:mt-6 md:max-w-sm mx-auto flex-grow'>
+      <div className='max-w-full md:max-w-sm mx-auto flex-grow'>
            
             <AddButton text="Add Task" onClick={() => setAddTaskModal(true)} />
             <TabsComponent/>
       </div>
-     
-      <FooterComponent />
     </>)
 }
 
