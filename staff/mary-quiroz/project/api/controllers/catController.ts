@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { logger } from '../utils'
 
-import { createCatService, deleteCatService, retrieveCatsService, updateCatService } from '../services/catService.ts'
+import { createCatService, deleteCatService, retrieveCatsService, searchCatsService, updateCatService } from '../services/catService.ts'
 
 const {  JWT_SECRET } = process.env
 
@@ -70,3 +70,18 @@ export const updateCatController = async (req: Request, res: Response, next:Next
     next(error)
   }
 }
+export const searchCatController = async (req: Request, res: Response, next:NextFunction) => {
+  try {
+    const { authorization } = req.headers
+    const token = authorization.slice(7)
+    const { sub: userId } = jwt.verify(token, JWT_SECRET)
+    console.log(req.query)
+    const searchObject = req.query
+    const cats = await searchCatsService(userId.toString(), searchObject)
+    res.status(200).json(cats);
+  } catch (error) {
+    next(error)
+  }
+
+}
+

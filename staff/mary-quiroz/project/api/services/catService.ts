@@ -6,7 +6,7 @@ import { User } from "../models/User.ts"
 import dotenv from 'dotenv'
 import { Cat, ICat } from '../models/Cat.ts'
 import { logger } from '../utils/index.ts'
-import { InvalidObjectIdError } from 'com/errors.ts'
+import { InvalidObjectIdError, SystemError } from 'com/errors.ts'
 
 dotenv.config();
 
@@ -97,4 +97,23 @@ export const updateCatService = async (userId:string, catId: string, catData: Ca
 
     return updatedCat
 }
+
+  export const searchCatsService = async (userId: string, searchObject: any): Promise<ICat[]> => {
+    try {
+      validate.text(userId, 'userId');
+    console.log(userId, searchObject)
+      const user = await User.findById(userId)
+      if (!user) throw new NotFoundError('user not found')
+
+      const modifiedSearchObject = { user: new Types.ObjectId(userId), name:{ $regex: `^${searchObject.name}`, $options: 'i' } };
+    
+    
+      const cats = await Cat.find(modifiedSearchObject)
+      if (!cats) throw new NotFoundError('cat not found')
+      return cats
+    } catch (error){
+      throw new SystemError(error.message)
+    }
+  
+  }
 

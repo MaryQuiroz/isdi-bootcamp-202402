@@ -8,6 +8,8 @@ import { AppContext } from '../context/AppContext'
 import { InfoCatComponent } from '../components/InfoCat'
 import retrieveCats from '../logic/retrieveCats'
 import { FooterComponent } from '../components/Footer'
+import seachCatComponent from '../components/SearchCat'
+import SearchCatComponent from '../components/SearchCat'
 
 const Home = () => {
   const { cats, setCats} = useContext(AppContext)
@@ -28,9 +30,11 @@ useEffect(() => {
 
   
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <NavbarComponent />
+      <div className="">
       <AddButton text="Add Cat" onClick={() => setShowModal(true)} />
+      <SearchCatComponent/>
       <ModalComponent
       title="Add Cat"
         show={showModal}
@@ -39,13 +43,14 @@ useEffect(() => {
           <AddCatForm setShowModal={setShowModal} />
         }
       />
-
-      <CardList data={cats} renderCard={renderCatCard} />
-
-<FooterComponent/>
-    </>
+      {cats.length === 0 ? (
+          <h3 className='text-center'>No cats found</h3>
+        ) : (
+          <CardList data={cats} renderCard={renderCatCard} />
+        )}
+      </div>
+    </div>
   )
 }
-
 
 export default Home
