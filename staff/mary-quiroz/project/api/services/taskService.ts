@@ -1,32 +1,51 @@
-import { validate } from 'com'
+import { errors, validate } from 'com'
 import dotenv from 'dotenv'
 import { Cat } from '../models/Cat'
-import { InvalidObjectIdError, NotFoundError } from 'com/errors'
 import { ITask, Task } from '../models/Task'
 import { User } from '../models/User'
-import { Types } from 'mongoose'
+import { Error, Types } from 'mongoose'
 
 dotenv.config()
 
-export const createTaskService = async (taskData) => {
+const { NotFoundError, InvalidObjectIdError, ValidatorError } = errors
 
-    const { title, description, priority, dueDate, cat } = taskData
+export const createTaskService = async (userId, catId, taskData) => {
+
+    try {
+    const { title, description, priority, dueDate, concurrency } = taskData
 
     validate.text(title, 'title')
     validate.text(description, 'description')
-    validate.text(priority, 'priority')
-    validate.text(dueDate, 'priority')
-    validate.text(cat, 'cat')
+    validate.text(priority, 'high')
+    validate.text(concurrency, 'dayli')
+    validate.text(dueDate, '25-05-2024')
+    validate.text(catId, 'cat')
 
-    const catFinded = await Cat.findById( cat )
+    const userFinded = await User.findById( userId )
 
-    if(!catFinded) {
+    if(!userFinded) {
         throw new NotFoundError('cat does not exists')
     }
 
-    const task = new Task(taskData)
+    const catFinded = await Cat.findById( catId )
+
+    if(!catFinded) throw new NotFoundError('Cat does not exists')
+
+    const task = new Task({...taskData, cat:catId})
     const newTask = await task.save()
+
     return newTask
+
+
+ } catch (error) {
+        if (error instanceof Error.ValidationError) throw new ValidatorError(error.message)
+        if (error instanceof Error.CastError) throw new ValidatorError(error.message)
+        else{
+            throw new ValidatorError(`Error creating task: ${error.message}`);
+    }
+       
+    }
+    
 }
 
 export const retrieveTasksService = async (catId) => {

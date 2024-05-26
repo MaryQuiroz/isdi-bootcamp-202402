@@ -1,37 +1,31 @@
 import { validate, errors } from 'com'
 
-function updateCat(catUpdateData){
+async function updateCat(catUpdateData) {
     const catId = catUpdateData._id
-    delete catUpdateData.age
     validate.token(sessionStorage.token)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,
-    
-    {
-        method: 'PUT',
-        headers:{
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.token}`
-        },
-        body:JSON.stringify(catUpdateData)
-        
-    })
-        .then(res => {
-            if (res.status === 200)
-                return res.json().then(updatedCat=>{
-                    return updatedCat
-                })
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,
 
-            return res.json()
-                .then(body => {
-                    const { error, message } = body
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${sessionStorage.token}`
+            },
+            body: JSON.stringify(catUpdateData)
 
-                    const constructor = errors[error]
-
-                    throw new constructor(message)
-                })
         })
+    const catUpdated = await response.json()
+    if (response.status === 200) return catUpdated
+
+    const { error, message } = catUpdated
+
+    const constructor = errors[error]
+
+    throw new constructor(message)
+
+
+
 }
 
 export default updateCat
-      

@@ -1,4 +1,4 @@
-import { Dropdown, Navbar } from "flowbite-react"
+import { Avatar, Dropdown, Navbar } from "flowbite-react"
 import { useEffect, useState } from "react"
 import retrieveUser from "../logic/retrieveUser"
 import  {useNavigate} from "react-router-dom"
@@ -21,6 +21,14 @@ export const NavbarComponent=() =>{
     fetchData();
   }, [])
 
+  const generateImage = (min, max) => {
+    const number =  Math.floor(Math.random() * (max - min) + min)
+    const image = `https://flowbite.com/docs/images/people/profile-picture-${number}.jpg`
+
+    return image
+  }
+ 
+
   const handleUserLoggedOut=()=>{
     logic.logoutUser()
     navigate("/")
@@ -36,27 +44,18 @@ export const NavbarComponent=() =>{
         <Dropdown
           arrowIcon={true}
           inline
+          label={
+            <Avatar alt="User settings" img= {generateImage(1,5)} rounded />
+          }
         >
           <Dropdown.Header>
             <span className="block text-sm">{user.name}</span>
             <span className="block truncate text-sm font-medium">{user.email}</span>
           </Dropdown.Header>
-          <Dropdown.Item>Perfil</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Divider />
           <Dropdown.Item onClick={handleUserLoggedOut}>Sign out</Dropdown.Item>
         </Dropdown>
         
       </div>
-      {/* <Navbar.Collapse>
-        <Navbar.Link href="#" active>
-          Home
-        </Navbar.Link>
-         <Navbar.Link href="#">About</Navbar.Link> 
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
-      </Navbar.Collapse> */}
     </Navbar>
   );
 }

@@ -11,7 +11,7 @@ import { calculateAge } from "../utils"
 import { useNavigate } from "react-router-dom"
 
 
-export function InfoCatComponent({ cat }) {
+export function InfoCatComponent({ cat }) { 
 
   const { cats, setCats, setCat } = useContext(AppContext)
   const [showEditModal, setEditShowModal] = useState(false)
@@ -20,21 +20,13 @@ export function InfoCatComponent({ cat }) {
   const [showProfileModal, setProfileModal] = useState(false)
   const navigate = useNavigate()
 
-
-
-
   const onDeleteHandler = async () => {
 
-    try {
+    
       const catId = await deleteCat(cat._id)
       const filteredCats = cats.filter(cat => cat._id !== catId)
       setCats(filteredCats)
       setDeleteShowModal(false)
-    } catch (error) {
-      console.log(error)
-    }
-
-
   }
 
   const onEditHandler = () => {
@@ -139,13 +131,7 @@ export function InfoCatComponent({ cat }) {
 
               View Tasks
             </a>
-            {/* <a
-              href="#"
-              className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-            onClick={onClickProfileHandler}
-         >
-              Perfil
-            </a> */}
+            
           </div>
         </div>
       </Card>

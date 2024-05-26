@@ -4,7 +4,7 @@ import logic from '../logic'
 
 import { useContext } from '../context'
 
-import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Card,  Label, TextInput } from "flowbite-react";
 
 function Register({ onUserRegistered, onLoginClick }) {
     const { showFeedback } = useContext()

@@ -1,6 +1,5 @@
 import { Button, Label, Select, TextInput } from 'flowbite-react'
 import React, { useContext, useRef } from 'react'
-import { logger } from '../utils'
 import createTask from '../logic/createTask'
 import { AppContext } from '../context/AppContext'
 
@@ -11,7 +10,9 @@ export const AddTaskForm = ({setShowModal, catId}) => {
     const titleRef =  useRef(null)
     const descriptionRef = useRef(null)
     const prioritiesRef = useRef (null)
+    const concurrencyRef = useRef(null)
     const dueDateRef = useRef (null)
+    
 
    
         const onAddTaskHandler =  async () => {
@@ -20,6 +21,7 @@ export const AddTaskForm = ({setShowModal, catId}) => {
             const title = titleRef.current.value
             const description = descriptionRef.current.value
             const priority = prioritiesRef.current.value
+            const concurrency = concurrencyRef.current.value
             const dueDate = dueDateRef.current.value
 
             const task = {
@@ -27,10 +29,10 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                 description,
                 priority,
                 dueDate,
-                catId
+                concurrency,
+                
             }
-
-                const newTask = await createTask(task)
+                const newTask = await createTask(catId, task)
                 setShowModal(false)
                 setTasks([...tasks, newTask])
             } catch (error) {
@@ -39,11 +41,7 @@ export const AddTaskForm = ({setShowModal, catId}) => {
             }
 
 
-
-            logger.debug('AddTaskForm -> onAddTaskHandler', title, description, priority, dueDate, )
-        }
-
-       
+        } 
 
     return (
         <form onSubmit={onAddTaskHandler} className="flex max-w flex-col gap-2">
@@ -69,6 +67,18 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                     <option>Low</option>
                 </Select>
                 </div>
+                <div>
+                <div className="mb-2 block">
+                    <Label htmlFor="concurrency" value="Select Concurrency" />
+                </div>
+                <Select ref={concurrencyRef} id="concurrency" required>
+                <option value="None">Select concurrency (optional)</option>
+                    <option>Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                    <option>Yearly</option>
+                </Select>
+            </div>
             <div>
                 <div className="mb-2 block" >
                 <Label htmlFor="dueDate" value="DueDate" />

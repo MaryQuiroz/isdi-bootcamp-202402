@@ -1,26 +1,25 @@
 import { validate, errors } from 'com'
 
-function retrieveTasks(catId){
+async function retrieveTasks(catId){
     validate.token(sessionStorage.token)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/tasks/${catId}`,{
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}/tasks`,{
         headers:{
             Authorization: `Bearer ${sessionStorage.token}`
         }
     })
-        .then(res => {
-            if (res.status === 200)
-                return res.json()
+        const tasks = await response.json()
+        if (response.status === 200) return tasks
+        
+            const { error, message } = response
 
-            return res.json()
-                .then(body => {
-                    const { error, message } = body
+            const constructor = errors[error]
 
-                    const constructor = errors[error]
+            throw new constructor(message)
 
-                    throw new constructor(message)
-                })
-        })
+        
+
+        
 }
 
 export default retrieveTasks

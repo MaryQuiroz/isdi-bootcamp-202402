@@ -1,6 +1,6 @@
 import { validate, errors } from 'com'
 
-function retrieveUser(){
+async function retrieveUser(){
     validate.token(sessionStorage.token)
 
     const [, payloadB64] = sessionStorage.token.split('.')
@@ -11,24 +11,18 @@ function retrieveUser(){
 
     const { sub: userId } = payload
 
-    return fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`,{
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`,{
         headers:{
             Authorization: `Bearer ${sessionStorage.token}`
         }
     })
-        .then(res => {
-            if (res.status === 200)
-                return res.json()
+        const userRetrieved = await response.json()
+            if (response.status === 200) return userRetrieved
+                const { error, message } = userRetrieved
 
-            return res.json()
-                .then(body => {
-                    const { error, message } = body
-
-                    const constructor = errors[error]
-
-                    throw new constructor(message)
-                })
-        })
+                const constructor = errors[error]
+                throw new constructor (message)
 }
+           
 
 export default retrieveUser

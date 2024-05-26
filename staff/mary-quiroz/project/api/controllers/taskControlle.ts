@@ -10,10 +10,10 @@ export const createTaskController = async (req: Request, res: Response, next:Nex
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
-    const { sub } = jwt.verify(token, JWT_SECRET)
-
+    const { sub : userId} = jwt.verify(token, JWT_SECRET)
+    const catId = req.params.id
     const taskData =req.body
-    const cat = await createTaskService({ ...taskData, cat: req.params.id })
+    const cat = await createTaskService(userId, catId, taskData )
     res.status(201).json(cat)
   } catch (error) {
     next(error)
@@ -48,7 +48,6 @@ export const updateTaskController = async (req: Request, res: Response, next:Nex
     res.status(200).json(taskUpdated);
 
   } catch(error) {
-    console.log(error)
     next(error)
   }
 

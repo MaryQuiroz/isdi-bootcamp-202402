@@ -1,11 +1,11 @@
 import { validate, errors } from 'com'
 
-function createTask(task) {
+function createTask(catId, task) {
    
     validate.token(sessionStorage.token)
 
 
-    return fetch(`${import.meta.env.VITE_API_URL}/tasks/create`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}/tasks`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

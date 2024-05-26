@@ -21,6 +21,7 @@ const NotFoundError = buildErrorClass('NotFoundError')
 const UnauthorizedError = buildErrorClass('UnauthorizedError')
 const JsonWebTokenError = buildErrorClass('JsonWebTokenError')
 const InvalidObjectIdError = buildErrorClass('InvalidObjectIdError')
+const ValidatorError = buildErrorClass('ValidatorError')
 
 const errors = {
     ContentError,
@@ -30,7 +31,8 @@ const errors = {
     NotFoundError,
     UnauthorizedError,
     JsonWebTokenError,
-    InvalidObjectIdError
+    InvalidObjectIdError,
+    ValidatorError
 }
 
 export {

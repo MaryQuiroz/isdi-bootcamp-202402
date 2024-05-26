@@ -47,7 +47,6 @@ describe('authenticateUser',() => {
             .then(() => User.create({ name: 'Lisa', email: 'lisa@martin.com', password: '123qwe123' }))
             .then(() => authenticateUser('paco@martin.com', '123qwe123'))
             .catch(error => {
-                console.log(typeof error)
                 expect(error).to.be.instanceOf(NotFoundError)
                 expect(error.message).to.equal('user not found')
             })
