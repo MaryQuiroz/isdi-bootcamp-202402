@@ -5,6 +5,7 @@ interface ITask extends Document {
     description: string
     priority: string
     completed: boolean
+    dueDate: Date
     cat: ObjectId
 }
 
@@ -46,6 +47,13 @@ const taskSchema = new Schema({
     timestamps: true 
 });
 
+taskSchema.set('toJSON', {
+    transform: (doc, ret, options) => {
+      ret.id = ret._id;
+      delete ret._id;
+      return ret;
+    }
+  });
 
 const Task = model<ITask>('Task', taskSchema)
 export {

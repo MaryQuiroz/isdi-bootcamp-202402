@@ -10,7 +10,7 @@ export const CatProfile = () => {
     const {  cat, setTasks } = useContext(AppContext)
 
     useEffect(() => {
-        retrieveTasks(cat._id).then(tasks=>setTasks(tasks))
+        retrieveTasks(cat.id).then(tasks=>setTasks(tasks))
     }, [])
     
 
@@ -38,16 +38,7 @@ export const CatProfile = () => {
 
 
 
-            {/* <div className="bg-white shadow-md rounded p-4">
-                <h2 className="text-2xl font-bold">{cat.name}</h2>
-                <p className="text-lg">{cat.description}</p>
-                <p className="text-lg">{cat.age}</p>
-                <img src={cat.avatar} alt={cat.name} className="w-48 h-48 rounded-full" />
-
-                <Link to={`/cats/${cat._id}/editar`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Editar perfil
-                </Link>
-            </div> */}
+         
         </>
     )
 }

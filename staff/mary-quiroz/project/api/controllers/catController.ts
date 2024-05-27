@@ -35,7 +35,7 @@ export const retrieveCatsController = async (req: Request, res: Response, next:N
         res.status(200).json(cats)
     } catch (error) {
         logger.error(error)
-        next()
+        next(error)
     }
 }
 
@@ -75,7 +75,6 @@ export const searchCatController = async (req: Request, res: Response, next:Next
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
-    console.log(req.query)
     const searchObject = req.query
     const cats = await searchCatsService(userId.toString(), searchObject)
     res.status(200).json(cats);

@@ -22,7 +22,7 @@ export const TaskList = () => {
           </div>
           <ul className="divide-y divide-gray-200 dark:divide-gray-700 flex-grow">
             {tasks && tasks.map((task) => (
-              <li key={task._id} className="py-3 sm:py-4">
+              <li key={task.id} className="py-3 sm:py-4">
                 <Task task={task} />
               </li>
             )).reverse()}

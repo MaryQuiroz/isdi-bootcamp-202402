@@ -38,7 +38,7 @@ describe('deleteTask', () => {
             cat: cat._id
         })
 
-        taskId = task._id.toString()
+        taskId = task.id.toString()
     })
 
     it('deletes an existing task', async () => {

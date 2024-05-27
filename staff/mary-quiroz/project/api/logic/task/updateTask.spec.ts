@@ -32,7 +32,7 @@ describe('updateTask', () => {
             cat: cat._id
         })
 
-        taskId = task._id.toString()
+        taskId = task.id.toString()
     })
 
     it('updates an existing task', async () => {

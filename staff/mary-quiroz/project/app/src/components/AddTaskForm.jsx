@@ -3,7 +3,7 @@ import React, { useContext, useRef } from 'react'
 import createTask from '../logic/createTask'
 import { AppContext } from '../context/AppContext'
 
-export const AddTaskForm = ({setShowModal, catId}) => {
+export const AddTaskForm = ({setShowModal}) => {
 
     const { cat, setTasks, tasks } = useContext(AppContext)
 
@@ -32,7 +32,7 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                 concurrency,
                 
             }
-                const newTask = await createTask(catId, task)
+                const newTask = await createTask(cat.id, task)
                 setShowModal(false)
                 setTasks([...tasks, newTask])
             } catch (error) {

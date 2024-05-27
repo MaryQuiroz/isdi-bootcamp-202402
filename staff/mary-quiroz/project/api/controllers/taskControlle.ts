@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { createTaskService, retrieveTasksService, updateTaskService } from '../services/taskService.ts'
+import { createTaskService, deleteTaskService, retrieveTasksService, updateTaskService } from '../services/taskService.ts'
 
 const { JWT_SECRET, JWT_EXP } = process.env
 
@@ -51,5 +51,22 @@ export const updateTaskController = async (req: Request, res: Response, next:Nex
     next(error)
   }
 
+
+}
+
+export const deleteTaskController = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const { authorization } = req.headers
+    const token = authorization.slice(7)
+    const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+    const taskId = req.params.id
+    const taskUpdated = await deleteTaskService(userId.toString(), taskId)
+    res.status(200).json(taskUpdated);
+  } catch (error) {
+    next(error)
+
+  }
 
 }

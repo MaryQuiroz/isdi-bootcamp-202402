@@ -14,7 +14,7 @@ export default function UpdateCatForm({ setShowModal }) {
     const onUpdateHandler = async () => {
         event.preventDefault()
         const catUpdateData = {
-            _id: cat._id,
+            id: cat.id,
             name: nameRef.current.value,
             color: colorRef.current.value,
             breed: breedRef.current.value,
@@ -24,7 +24,7 @@ export default function UpdateCatForm({ setShowModal }) {
 
         try {
             const updatedCat =  await updateCat(catUpdateData)
-            setCats(cats.map(cat => cat._id === updatedCat._id ? updatedCat : cat))
+            setCats(cats.map(cat => cat.id === updatedCat.id ? updatedCat : cat))
             setShowModal(false)
         } catch (error) {
             console.error(error)

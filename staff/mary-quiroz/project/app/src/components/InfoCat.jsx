@@ -23,8 +23,8 @@ export function InfoCatComponent({ cat }) {
   const onDeleteHandler = async () => {
 
     
-      const catId = await deleteCat(cat._id)
-      const filteredCats = cats.filter(cat => cat._id !== catId)
+      const catId = await deleteCat(cat.id)
+      const filteredCats = cats.filter(cat => cat.id !== catId)
       setCats(filteredCats)
       setDeleteShowModal(false)
   }
@@ -44,6 +44,12 @@ export function InfoCatComponent({ cat }) {
   const onClickProfileHandler = () => {
     setCat(cat)
     setProfileModal(true)
+
+  }
+
+  const viewTaskHandler=()=>{
+    setCat(cat)
+    navigate(`/tasks/${cat.id}`)
 
   }
 
@@ -126,7 +132,7 @@ export function InfoCatComponent({ cat }) {
             <a
               href="#"
               className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-              onClick={()=>navigate(`/tasks/${cat._id}`)}
+              onClick={viewTaskHandler}
             >
 
               View Tasks

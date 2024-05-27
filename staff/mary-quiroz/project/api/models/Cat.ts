@@ -44,6 +44,14 @@ const catSchema = new Schema<ICat>({
     timestamps: true
 })
 
+catSchema.set('toJSON', {
+    transform: (doc, ret, options) => {
+      ret.id = ret._id;
+      delete ret._id;
+      return ret;
+    }
+  });
+
 
 const Cat = model<ICat>('Cat', catSchema)
 

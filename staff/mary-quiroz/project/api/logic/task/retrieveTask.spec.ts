@@ -40,7 +40,7 @@ describe('retrieveTask', () => {
             cat: cat._id
         })
 
-        taskId = task._id.toString()
+        taskId = task.id.toString()
     })
 
     it('retrieves an existing task', async () => {
