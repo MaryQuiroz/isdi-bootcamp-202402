@@ -4,8 +4,6 @@ import bcrypt from 'bcrypt'
 
 const { SystemError, CredentialsError, NotFoundError } = errors
 
-// TODO: Hash passwords to db
-
 async function authenticateUser(email: string, password: string): Promise<string> {
     validate.text(email, 'email', true)
     validate.password(password)

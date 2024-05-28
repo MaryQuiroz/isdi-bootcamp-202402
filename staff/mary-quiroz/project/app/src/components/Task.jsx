@@ -44,7 +44,7 @@ export const Task = ({task}) => {
           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">{task.title}</p>
           <p className="truncate text-sm text-gray-500 dark:text-gray-400">{task.description}</p>
           <p className="truncate text-sm text-gray-500 dark:text-gray-400">{formatDate(task.dueDate)}</p>
-          <p className="truncate text-sm text-gray-500 dark:text-gray-400">{task.concurrency!=='None'&&task.concurrency}</p>
+          <p className="truncate text-sm text-gray-500 dark:text-gray-400">{task.concurrency!=='None' && task.concurrency}</p>
           <BadgeComponent priority={task.priority}/>
         </div>
         <div className="inline-flex items-center space-x-4 text-base font-semibold text-gray-900 dark:text-white">

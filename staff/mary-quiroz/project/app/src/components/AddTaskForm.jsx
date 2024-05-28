@@ -3,7 +3,7 @@ import React, { useContext, useRef } from 'react'
 import createTask from '../logic/createTask'
 import { AppContext } from '../context/AppContext'
 
-export const AddTaskForm = ({setShowModal}) => {
+export const AddTaskForm = ({setShowModal, catId}) => {
 
     const { cat, setTasks, tasks } = useContext(AppContext)
 
@@ -12,8 +12,6 @@ export const AddTaskForm = ({setShowModal}) => {
     const prioritiesRef = useRef (null)
     const concurrencyRef = useRef(null)
     const dueDateRef = useRef (null)
-    
-
    
         const onAddTaskHandler =  async () => {
             event.preventDefault()
@@ -28,11 +26,12 @@ export const AddTaskForm = ({setShowModal}) => {
                 title,
                 description,
                 priority,
-                dueDate,
                 concurrency,
+                dueDate,
+                
                 
             }
-                const newTask = await createTask(cat.id, task)
+                const newTask = await createTask(catId, task)
                 setShowModal(false)
                 setTasks([...tasks, newTask])
             } catch (error) {

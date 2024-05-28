@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 
 import { Task } from '../../models/Task.ts'
 import { Cat } from '../../models/Cat.ts'
-import { errors } from 'com'
 import updateTask from './updateTask.ts'
 import { User } from '../../models/User.ts'
 

@@ -2,9 +2,8 @@ import { Schema } from 'mongoose'
 
 const { Types: { ObjectId } } = Schema
 
-import { UserType, User } from '../data/models/index.ts'
-
-import { validate, errors } from 'com'
+import {  errors } from 'com'
+import { User } from '../../models/User'
 
 const { NotFoundError, SystemError } = errors
 

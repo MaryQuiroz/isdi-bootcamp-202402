@@ -12,8 +12,8 @@ export const createCatController = async (req: Request, res: Response, next: Nex
       const { authorization } = req.headers
       const token = authorization.slice(7)
       const { sub } = jwt.verify(token, JWT_SECRET)
-      const userId = sub.toString()
 
+      const userId = sub.toString()
       const catData = req.body
 
       logger.info({...catData, userId})
@@ -75,6 +75,7 @@ export const searchCatController = async (req: Request, res: Response, next:Next
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
     const searchObject = req.query
     const cats = await searchCatsService(userId.toString(), searchObject)
     res.status(200).json(cats);

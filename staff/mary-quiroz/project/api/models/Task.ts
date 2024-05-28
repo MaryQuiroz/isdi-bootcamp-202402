@@ -1,5 +1,12 @@
 import { ObjectId, Schema, model } from "mongoose"
 
+enum Concurrency {
+    None = 'None',
+    Daily = 'Daily',
+    Weekly = 'Weekly',
+    Monthly = 'Monthly',
+    Yearly = 'Yearly'
+}
 interface ITask extends Document {
     title: string
     description: string
@@ -7,6 +14,7 @@ interface ITask extends Document {
     completed: boolean
     dueDate: Date
     cat: ObjectId
+    concurrency: Concurrency
 }
 
 const taskSchema = new Schema({
@@ -41,7 +49,14 @@ const taskSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Cat',
         required: true
+    },
+
+    concurrency: {
+        type: String,
+        enum: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'None'],
+        required: true
     }
+
 
 }, { 
     timestamps: true 
@@ -49,9 +64,9 @@ const taskSchema = new Schema({
 
 taskSchema.set('toJSON', {
     transform: (doc, ret, options) => {
-      ret.id = ret._id;
-      delete ret._id;
-      return ret;
+      ret.id = ret._id
+      delete ret._id
+      return ret
     }
   });
 

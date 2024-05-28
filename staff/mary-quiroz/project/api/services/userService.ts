@@ -19,8 +19,8 @@ export const registerUserService = async (userData) => {
         const { name, email, password } = userData
 
         validate.text(name, 'name')
-        validate.email(email, 'mary@google.com')
-        validate.password(password, 'maryquiroz124')
+        validate.email(email, 'email')
+        validate.password(password, 'password')
 
         const userFinded = await User.findOne({ email })
 
@@ -28,9 +28,9 @@ export const registerUserService = async (userData) => {
             throw new DuplicityError("User already exists")
         }
 
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const saltRounds = 10
+        const salt = await bcrypt.genSalt(saltRounds)
+        const hashedPassword = await bcrypt.hash(password, salt)
 
 
         const user = new User({

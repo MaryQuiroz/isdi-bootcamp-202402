@@ -5,10 +5,19 @@ import { ITask, Task } from '../models/Task'
 import { User } from '../models/User'
 import { Error, ObjectId, Types } from 'mongoose'
 import { logger } from '../utils'
+import addConcurrency from '../utils/addConcurrency'
 
 dotenv.config()
 
 const { NotFoundError, InvalidObjectIdError, ValidatorError, SystemError } = errors
+
+enum Concurrency {
+    None = 'None',
+    Daily = 'Daily',
+    Weekly = 'Weekly',
+    Monthly = 'Monthly',
+    Yearly = 'Yearly'
+}
 
 interface TaskParams {
     title: string
@@ -16,8 +25,9 @@ interface TaskParams {
     priority: string
     completed: boolean
     dueDate: string
+    concurrency: Concurrency
 }
-export const createTaskService = async (userId, catId, taskData: TaskParams) => {
+export const createTaskService = async (userId: string, catId: string, taskData: TaskParams) => {
 
     try {
         const { title, description, priority, dueDate } = taskData
@@ -71,19 +81,42 @@ export const retrieveTasksService = async (catId) => {
 }
 
 export const updateTaskService = async (userId: string, taskId: string, taskData: any): Promise<ITask> => {
-    try {
+   
         validate.text(taskId, 'taskId')
         validate.text(userId, 'userId')
 
+    try {
         if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId')
-
 
         const user = await User.findById(userId)
         if (!user) throw new NotFoundError('user not found')
+        
+            const taskFinded: any = await Task.findById(taskId).lean()
+            if (!taskFinded) throw new NotFoundError('task not found')
+    
+            const concurrency = taskFinded.concurrency
+
+            if (concurrency) {
+                const newDueDate = addConcurrency(taskFinded.dueDate, concurrency)
+                logger.info({ newDueDate, dueDate: taskFinded.dueDate })
+
+                const taskCompleted = taskData.completed
+                if (taskCompleted) {
+                    const newTaskData: TaskParams = {
+                        title: taskFinded.title,
+                        description: taskFinded.description,
+                        priority: taskFinded.priority,
+                        completed: taskFinded.completed,
+                        dueDate: newDueDate,
+                        concurrency: taskFinded.concurrency
+                    }
+                    const catId = taskFinded.cat.toString()
+                    await createTaskService(userId, catId, newTaskData)
+                }
+            }
 
         const taskUpdated = await Task.findByIdAndUpdate(taskId, taskData, { new: true })
         if (!taskUpdated) throw new NotFoundError('task not found')
-        taskUpdated.id = taskUpdated._id
         return taskUpdated
 
     } catch (error) {

@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 
 import { errors } from 'com'
 import { Cat } from '../../models/Cat.ts'
-import { ITask, Task } from '../../models/Task.ts'
+import { Task } from '../../models/Task.ts'
 import retrieveTask from './retrieveTask.ts'
 import { User } from '../../models/User.ts'
 

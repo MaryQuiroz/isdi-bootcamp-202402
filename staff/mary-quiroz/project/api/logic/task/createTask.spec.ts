@@ -4,10 +4,9 @@ import mongoose from 'mongoose'
 
 import { errors } from 'com'
 import { Cat } from '../../models/Cat.ts'
-import { ITask, Task } from '../../models/Task.ts'
+import { Task } from '../../models/Task.ts'
 import createTask from './createTask.ts'
 import { User } from '../../models/User.ts'
-import { create } from '../../controllers/catController'
 
 const { Types: { ObjectId } } = mongoose
 
