@@ -16,7 +16,6 @@ export const createCatController = async (req: Request, res: Response, next: Nex
       const userId = sub.toString()
       const catData = req.body
 
-      logger.info({...catData, userId})
 
       const cat = await createCatService({...catData, userId})
       res.status(201).json(cat)

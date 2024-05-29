@@ -3,7 +3,7 @@ import { Schema } from 'mongoose'
 const { Types: { ObjectId } } = Schema
 
 import {  errors } from 'com'
-import { User } from '../../models/User'
+import { User } from '../../models/User.ts'
 
 const { NotFoundError, SystemError } = errors
 

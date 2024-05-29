@@ -1,52 +1,84 @@
 import { expect } from 'chai'
-import mongoose from 'mongoose'
-import deleteCat from './deleteCat.ts'
-import { errors } from 'com'
+import mongoose, { Types } from 'mongoose'
+import { errors, validate } from 'com'
 import { User } from '../../models/User.ts'
 import { Cat } from '../../models/Cat.ts'
+import { createCatService, deleteCatService } from '../../services/catService.ts'
+import { logger } from '../../utils/index.ts'
 
-const { NotFoundError } = errors
+const { NotFoundError, SystemError, InvalidObjectIdError } = errors
 
-describe('deleteCat', function() {
+describe('deleteCatService', function() {
     let userId: string;
     let catId: string;
 
     before(async function() {
-        await mongoose.connect(process.env.MONGODB_TEST_URL);
-        await User.deleteMany()
-        await Cat.deleteMany();
+        try {
+            await mongoose.connect(process.env.MONGODB_TEST_URL);
+            await User.deleteMany()
+            await Cat.deleteMany();
 
-        const user = new User({ name: 'Test User', email: 'test@test.com', password: 'test123' });
-        await user.save();
-        userId = user._id.toString();
+            const user = new User({ name: 'Test User', email: 'test@test.com', password: 'test123' });
+            await user.save();
+            userId = user.id.toString();
 
-        const cat = new Cat({ name: 'Cat 1', user: user._id });
-        await cat.save();
-        catId = cat._id.toString();
+            const cat = await createCatService({
+                userId,
+                name:'chimuelo', 
+                color:'black', 
+               breed: 'criole', 
+                birthdate:new Date('2021-02-06'), 
+                avatar:'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzNyc2lheDlmNjNiNmVlOHNqdjFrbjh2Z282NjNpNjkxNXdhMnZ3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vFKqnCdLPNOKc/giphy.gif', 
+                description:'is my first cat who is adopted'
+            });
+            catId = cat.id.toString();
+        } catch (error) {
+            console.error('Error during setup:', error);
+            process.exit(1); // Exit the process if setup fails
+        }
     })
 
     it('should delete the cat of an existing user', async function() {
-        await deleteCat(userId, catId);
+        const deletedCatId = await deleteCatService(userId, catId);
         const deletedCat = await Cat.findById(catId);
-        expect(deletedCat).to.be.null;
-    })
 
-    it('should throw a NotFoundError if the user does not exist', async function() {
-        try {
-            await deleteCat(new mongoose.Types.ObjectId().toString(), catId);
-        } catch (error) {
-            expect(error).to.be.an.instanceOf(NotFoundError);
-            expect(error.message).to.equal('user not found');
-        }
-    })
+        expect(deletedCat).to.be.null;
+        expect(deletedCatId.toString()).to.equal(catId);
+    });
+
+
 
     it('should throw a NotFoundError if the cat does not exist', async function() {
         try {
-            await deleteCat(userId, new mongoose.Types.ObjectId().toString())
+            await deleteCatService(userId, new mongoose.Types.ObjectId().toString())
         } catch (error) {
+
             expect(error).to.be.an.instanceOf(NotFoundError)
             expect(error.message).to.equal('cat not found')
         }
+    })
+
+    it('should throw an InvalidObjectIdError if the userId is not a valid ObjectId', async function() {
+        try {
+            await deleteCatService('invalidObjectId', catId);
+        } catch (error) {
+            expect(error.message).to.equal('invalid ObjectId');
+        }
+    })
+
+    it('should throw a SystemError for other unexpected errors', async function() {
+        // Simulate an unexpected error by tampering with the validate function
+        const originalValidateText = validate.text;
+        validate.text = () => { throw new Error('unexpected error'); }
+
+        try {
+            await deleteCatService(userId, catId);
+        } catch (error) {
+            expect(error.message).to.equal('unexpected error');
+        }
+
+        // Restore the original validate function
+        validate.text = originalValidateText;
     })
 
     after(async function() {

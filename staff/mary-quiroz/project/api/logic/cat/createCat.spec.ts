@@ -4,9 +4,9 @@ import mongoose from 'mongoose'
 
 import { errors } from 'com'
 import { NotFoundError } from 'com/errors.ts'
-import createCat from './createCat.ts'
 import { User } from '../../models/User.ts'
 import { Cat } from '../../models/Cat.ts'
+import { createCatService } from '../../services/catService.ts'
 const { Types: { ObjectId } } = mongoose
 
 dotenv.config()
@@ -22,7 +22,15 @@ describe('createCat', () => {
                 .then(() =>
                     User.create({ name: 'Lisa', email: 'lisa@gmail.com', password: '123po123' })
                         .then(user =>
-                            createCat(user.id, 'chimuelo', 'black', 'criole', new Date('2021-02-06'), 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzNyc2lheDlmNjNiNmVlOHNqdjFrbjh2Z282NjNpNjkxNXdhMnZ3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vFKqnCdLPNOKc/giphy.gif', 'is my first cat who is adopted')
+                            createCatService({
+                                userId:user.id,
+                                name:'chimuelo', 
+                                color:'black', 
+                               breed: 'criole', 
+                                birthdate:new Date('2021-02-06'), 
+                                avatar:'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzNyc2lheDlmNjNiNmVlOHNqdjFrbjh2Z282NjNpNjkxNXdhMnZ3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vFKqnCdLPNOKc/giphy.gif', 
+                                description:'is my first cat who is adopted'
+                            } )
                                 .then(() =>
                                     Cat.findOne({})
                                         .then(cat => {
@@ -47,7 +55,15 @@ describe('createCat', () => {
                     .then(() =>
                         User.create({ name: 'Lisa', email: 'lisa@gmail.com', password: '123po123' })
                             .then(user =>
-                                expect(createCat(new ObjectId().toString(), 'chimuelo', 'black', 'criole', new Date('2021-02-06'), 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzNyc2lheDlmNjNiNmVlOHNqdjFrbjh2Z282NjNpNjkxNXdhMnZ3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vFKqnCdLPNOKc/giphy.gif', 'is my first cat who is adopted'))
+                                expect(createCatService({
+                                    userId:user.id,
+                                    name:'chimuelo', 
+                                    color:'black', 
+                                   breed: 'criole', 
+                                    birthdate:new Date('2021-02-06'), 
+                                    avatar:'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzNyc2lheDlmNjNiNmVlOHNqdjFrbjh2Z282NjNpNjkxNXdhMnZ3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vFKqnCdLPNOKc/giphy.gif', 
+                                    description:'is my first cat who is adopted'
+                                } ))
                             ).catch(error => {
                                 expect(error).to.be.an.instanceOf(NotFoundError);
                             })

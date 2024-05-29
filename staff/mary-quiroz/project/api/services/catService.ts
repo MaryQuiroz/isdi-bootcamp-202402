@@ -27,7 +27,6 @@ interface CatParams {
 
 export const createCatService = async (catData: CatParams): Promise<ICat> => {
   try {
-    logger.info(catData)
     const { userId, name, color, breed, birthdate, avatar, description } = catData
 
     validate.text(userId, 'userId')
@@ -64,7 +63,7 @@ export const retrieveCatsService = async (userId: string): Promise<ICat[]> => {
   try {
     validate.text(userId, 'userId');
 
-    const user = await User.findById(userId)
+    const user = await User.findById(new Types.ObjectId(userId))
     if (!user) throw new NotFoundError('user not found')
     const cats = await Cat.find({ user: userId })
     if (!cats) throw new NotFoundError('cat not found')
@@ -74,6 +73,23 @@ export const retrieveCatsService = async (userId: string): Promise<ICat[]> => {
   }
 
 }
+
+export const retrieveCatService = async (userId: string, catId:string): Promise<ICat> => {
+
+  try {
+    validate.text(userId, 'userId');
+
+    const user = await User.findById(userId)
+    if (!user) throw new NotFoundError('user not found')
+    const cat = await Cat.findOne({ user: userId, _id:catId })
+    if (!cat) throw new NotFoundError('cat not found')
+    return cat
+  } catch (error) {
+    throw new SystemError(error.message)
+  }
+
+}
+
 
 export const deleteCatService = async (userId: string, catId: string): Promise<string> => {
 
@@ -91,12 +107,14 @@ export const deleteCatService = async (userId: string, catId: string): Promise<s
 
     return catDeleted._id
   } catch (error) {
+    if(error instanceof  InvalidObjectIdError) throw new InvalidObjectIdError(error.message)
+    if(error instanceof  NotFoundError) throw new NotFoundError(error.message)
     throw new SystemError(error.message)
 
   }
 }
 
-export const updateCatService = async (userId: string, catId: string, catData: CatParams): Promise<ICat> => {
+export const updateCatService = async (userId: string, catId: string, catData: any): Promise<ICat> => {
   try {
     validate.text(catId, 'catId')
     validate.text(userId, 'userId')

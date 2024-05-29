@@ -1,13 +1,13 @@
 import { Schema, model, Document, Types } from 'mongoose'
 
  interface ICat extends Document {
-    name: string;
-    color: string;
-    breed: string;
-    birthdate: Date;
-    avatar: string;
-    description: string;
-    user: Types.ObjectId;
+    name: string
+    color: string
+    breed: string
+    birthdate: Date
+    avatar: string
+    description: string
+    user: Types.ObjectId
 }
 const catSchema = new Schema<ICat>({
     user: {

@@ -1,7 +1,7 @@
 import { validate, errors } from 'com'
 
 async function updateCat(catUpdateData) {
-    const catId = catUpdateData._id
+    const catId = catUpdateData.id
     validate.token(sessionStorage.token)
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,

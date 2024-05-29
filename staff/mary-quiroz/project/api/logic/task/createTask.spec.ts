@@ -39,6 +39,7 @@ describe('createTask', () => {
         expect(task.description).to.equal('Description 1')
         expect(task.priority).to.equal('High')
         expect(task.dueDate).to.be.instanceOf(Date)
+        expect(task.concurrency).to.equal('High')
         expect(task.cat.toString()).to.equal(cat.id)
     })
 

@@ -4,8 +4,8 @@ import mongoose, { Types } from 'mongoose'
 import { expect } from 'chai'
 import { errors } from 'com'
 import { User } from '../../models/User.ts'
-import retrieveCat from './retrieveCat.ts'
 import { Cat, ICat } from '../../models/Cat.ts'
+import { retrieveCatService, retrieveCatsService } from '../../services/catService.ts'
 
 dotenv.config()
 
@@ -21,7 +21,7 @@ describe('retrieveCat', () => {
             .then(() => User.create({ name: 'Lisa', email: 'lisa@gmail.com', password: '123qwe123' }))
             .then(user =>
                 Cat.create({ user: new Types.ObjectId(user.id), name: 'chimu', color: 'black', breed: 'criole', birthdate: Date(), avatar: 'https://media.giphy.com/media/L1yciy6Uh88whfUCyT/giphy.gif?cid=790b7611pgnfio09uzbasd799e2zbxfsj4gqeav39iumxhc3&ep=v1_gifs_search&rid=giphy.gif&ct=g', description: 'this is my first cat' })
-                    .then(cat => retrieveCat(user.id,cat.id))
+                    .then(cat => retrieveCatService(user.id,cat.id))
                     .then((cat: ICat) => {
                         expect(cat.name).to.equal('chimu')
                         expect(cat.color).to.equal('black')
@@ -39,7 +39,7 @@ describe('retrieveCat', () => {
                             .then(user =>
                                 Cat.create({ user: new Types.ObjectId(user.id), name: 'chimu', color: 'black', breed: 'criole', birthdate: Date(), avatar: 'https://media.giphy.com/media/L1yciy6Uh88whfUCyT/giphy.gif?cid=790b7611pgnfio09uzbasd799e2zbxfsj4gqeav39iumxhc3&ep=v1_gifs_search&rid=giphy.gif&ct=g', description: 'this is my first cat' })
                             )
-                            .then(cat=>retrieveCat(new ObjectId().toString(), new ObjectId().toString()))
+                            .then(cat=>retrieveCatService(new ObjectId().toString(), cat.id))
                             .catch(error => {
                                 expect(error).to.be.instanceOf(NotFoundError)
                                 expect(error.message).to.equal('cat not found')

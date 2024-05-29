@@ -98,7 +98,6 @@ export const updateTaskService = async (userId: string, taskId: string, taskData
 
             if (concurrency) {
                 const newDueDate = addConcurrency(taskFinded.dueDate, concurrency)
-                logger.info({ newDueDate, dueDate: taskFinded.dueDate })
 
                 const taskCompleted = taskData.completed
                 if (taskCompleted) {
@@ -130,7 +129,6 @@ export const deleteTaskService = async (userId: string, taskId: string): Promise
 
     validate.text(taskId, 'taskId')
     validate.text(userId, 'userId')
-    logger.info(userId, taskId)
     try {
         const taskDeleted = await Task.findByIdAndDelete(taskId)
         if (!taskDeleted) throw new NotFoundError('task not found')
