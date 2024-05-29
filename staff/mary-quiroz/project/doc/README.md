@@ -4,28 +4,24 @@
 
 This project is an application designed to help cat owners manage and care for their friends. The application includes essential features such as cat profiles and task lists.
 
-![](https://media.giphy.com/media/x90dwDUuUx9Ys/giphy.gif?cid=ecf05e47lr1rdtzx91y7ufg8cxoybmcniasi9tza63cpweyj&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+![](https://media.giphy.com/media/7NoNw4pMNTvgc/giphy.gif?cid=790b761169xwn81yebqu4fsovj3jfdedw2yzcoqblt7yl4r5&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
 ## Functional Description
 
 ### Use Cases
 
 - add cat (provide the option to add at least one cat, with basic details such as name, color, breed  and birthdate )
+- search cat
 - edit cat (change information)
 - remove cat 
 - list cats
 - list tasks (function where users can add, mark as completed, and delete tasks related to cat care, such as "buy foot", "buy flea collar", "veterinarian visit," etc.)
 - add task
+- change task status (overdue, current and finished)
+- select concurrency (daily, weekly, monthly, yearly)
 - mark task (done)
 - delete task
-- edit task
-
 - Task List: Implement task list 
-
-
-### UI Design
-
-[Figma]()
 
 ## Technical Description
 
@@ -37,11 +33,12 @@ This project is an application designed to help cat owners manage and care for t
 ### Technologies
 
 - TypeScript
+- Vite
 - React
-- Express
+- Express.js
 - Node
 - Tailwind
-- Mongo
+- Mongoose
 - flowBite
 
 ### Data Model
@@ -50,7 +47,6 @@ User
 - name (string, required)
 - email (string, required)
 - password (string, required)
-- avatar (string, optional)
 
 Cat
 - id (objectId, requiered)
@@ -68,5 +64,6 @@ Task
 - description (string, required)
 - priority (string, required)
 - completed (boolean, required, default false)
+- concurency
 - cat (objectId, required, Cat.id)
 
