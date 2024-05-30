@@ -18,7 +18,8 @@ async function createTask(catId, task) {
 
     const taskCreated = await response.json()
     if(response.status===201) return taskCreated
-    const { error, message } = body
+    
+    const { error, message } = taskCreated
     const constructor = errors[error]
     throw new constructor(message)
 }

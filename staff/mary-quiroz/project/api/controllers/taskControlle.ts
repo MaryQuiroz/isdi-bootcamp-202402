@@ -12,6 +12,7 @@ export const createTaskController = async (req: Request, res: Response, next:Nex
     const token = authorization.slice(7)
     const { sub : userId} = jwt.verify(token, JWT_SECRET)
     const catId = req.params.id
+    
     const taskData =req.body
     const cat = await createTaskService(userId.toString(), catId, taskData )
     res.status(201).json(cat)

@@ -28,14 +28,21 @@ describe('deleteTask', () => {
             color: 'black',
             breed: 'criole',
             birthdate: new Date('2021-02-06'),
+            avatar:' https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnJicjQwMGp0bG9nYWRkMHRjZDdhMWdqOHk5aWl0MjM3aDNyeHBhaiZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/duNowzaVje6Di3hnOu/giphy.gif',
+            description: 'this is my first cat',
+
+
         })
 
         const task = await Task.create({
             title: 'Task 1',
             description: 'Description 1',
             priority: 'High',
+            completed: 'true',
             dueDate: new Date('2023-12-31'),
-            cat: cat._id
+            cat: cat._id,
+            concurrency: 'Daily'
+
         })
 
         taskId = task.id.toString()

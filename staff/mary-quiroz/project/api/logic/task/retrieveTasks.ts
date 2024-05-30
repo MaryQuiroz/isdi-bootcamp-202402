@@ -1,22 +1,22 @@
-import { errors } from "com"
-import { Task } from "../../models/Task.ts"
-const { NotFoundError, SystemError } = errors
+import { errors } from "com";
+import { Task } from "../../models/Task.ts";
+const { NotFoundError, SystemError } = errors;
 
 
 async function retrieveTasks(catId: string) {
     try {
-        const tasks = await Task.find({ cat: catId }).populate('cat')
+        const tasks = await Task.find({ cat: catId }).populate('cat');
         if (tasks.length === 0) {
-            throw new NotFoundError("No tasks found for the given catId")
+            throw new NotFoundError("No tasks found for the given catId");
         }
-        return tasks
+        return tasks;
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error
+            throw error;
         } else {
-            throw new SystemError(error.message)
+            throw new SystemError(error.message);
         }
     }
 }
 
-export default retrieveTasks
+export default retrieveTasks;

@@ -1,11 +1,10 @@
 import { errors, validate } from 'com'
 import dotenv from 'dotenv'
-import { Cat } from '../models/Cat'
-import { ITask, Task } from '../models/Task'
-import { User } from '../models/User'
+import { Cat } from '../models/Cat.ts'
+import { ITask, Task } from '../models/Task.ts'
+import { User } from '../models/User.ts'
 import { Error, ObjectId, Types } from 'mongoose'
-import { logger } from '../utils'
-import addConcurrency from '../utils/addConcurrency'
+import addConcurrency from '../utils/addConcurrency.ts'
 
 dotenv.config()
 
@@ -30,12 +29,13 @@ interface TaskParams {
 export const createTaskService = async (userId: string, catId: string, taskData: TaskParams) => {
 
     try {
-        const { title, description, priority, dueDate } = taskData
+        const { title, description, priority, dueDate, concurrency } = taskData
 
         validate.text(title, 'title')
         validate.text(description, 'description')
         validate.text(priority, 'high')
         validate.text(dueDate, '25-05-2024')
+        validate.text(concurrency, 'Daily')
         validate.text(catId, 'cat')
 
         const userFinded = await User.findById(userId)
@@ -54,10 +54,10 @@ export const createTaskService = async (userId: string, catId: string, taskData:
 
 
     } catch (error) {
-        if (error instanceof Error.ValidationError) throw new ValidatorError(error.message)
-        if (error instanceof Error.CastError) throw new ValidatorError(error.message)
+        console.log(error.message)
+        if (error instanceof Error.ValidatorError) throw new ValidatorError(error.message)
         else {
-            throw new ValidatorError(`Error creating task: ${error.message}`)
+            throw new SystemError(`Error creating task: ${error.message}`)
         }
 
     }
@@ -125,7 +125,7 @@ export const updateTaskService = async (userId: string, taskId: string, taskData
 }
 
 export const deleteTaskService = async (userId: string, taskId: string): Promise<Types.ObjectId> => {
-    logger.info("updateTaskService")
+   
 
     validate.text(taskId, 'taskId')
     validate.text(userId, 'userId')

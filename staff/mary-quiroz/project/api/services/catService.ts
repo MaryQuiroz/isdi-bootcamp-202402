@@ -5,12 +5,10 @@ import { Types } from "mongoose"
 import { User } from "../models/User.ts"
 import dotenv from 'dotenv'
 import { Cat, ICat } from '../models/Cat.ts'
-import { logger } from '../utils/index.ts'
-import { InvalidObjectIdError, SystemError } from 'com/errors.ts'
 
 dotenv.config();
 
-const { NotFoundError } = errors
+const { NotFoundError, InvalidObjectIdError, SystemError } = errors
 
 const { MONGODB_URL, PORT, JWT_SECRET, JWT_EXP } = process.env
 

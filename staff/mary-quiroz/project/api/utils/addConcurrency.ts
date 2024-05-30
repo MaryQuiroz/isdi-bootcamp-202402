@@ -1,4 +1,4 @@
-import getFormattedDate from "./getFomattedDate";
+import getFormattedDate from "./getFomattedDate.ts";
 
 const addConcurrency = (dueDate: Date, concurrency: string): string => {
     let finalDate = new Date(dueDate)

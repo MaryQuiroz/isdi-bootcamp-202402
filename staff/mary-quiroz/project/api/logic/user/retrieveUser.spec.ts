@@ -55,7 +55,7 @@ describe('retrieveUser', () => {
             )
     )
     after(async function() {
-        await User.deleteMany({})
-        await mongoose.disconnect()
+        await User.deleteMany({});
+        await mongoose.disconnect();
     });
 })

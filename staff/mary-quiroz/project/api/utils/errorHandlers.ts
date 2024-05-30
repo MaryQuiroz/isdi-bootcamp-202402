@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { logger } from '.'
-// const { ContentError, CredentialsError, DuplicityError, NotFoundError, SystemError, UnauthorizedError, JsonWebTokenError } = errors;
 
 
-// Objeto de mapeo para manejo de errores
 const errorMapping = {
     SystemError: { statusCode: 500, handler: logger.error },
     DuplicityError: { statusCode: 409, handler: logger.warn },
@@ -13,6 +11,9 @@ const errorMapping = {
     UnauthorizedError: { statusCode: 403, handler: logger.warn },
     JsonWebTokenError: { statusCode: 401, handler: logger.warn },
     TokenExpiredError: { statusCode: 401, handler: logger.warn },
+    InvalidObjectIdError: { statusCode: 400, handler: logger.warn },
+    ValidatorError: { statusCode: 500, handler: logger.warn },
+
 };
 
 const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {

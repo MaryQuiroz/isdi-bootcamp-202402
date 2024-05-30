@@ -1,8 +1,9 @@
 import { validate, errors } from 'com'
 import { User } from '../../models/User.ts'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const { SystemError, CredentialsError, NotFoundError } = errors
+
 
 async function authenticateUser(email: string, password: string): Promise<string> {
     validate.text(email, 'email', true)
@@ -19,7 +20,7 @@ async function authenticateUser(email: string, password: string): Promise<string
 
         const isPasswordValid = await bcrypt.compare(password, userFinded.password);
         if (!isPasswordValid) {
-            throw new CredentialsError("Invalid password")
+            throw new CredentialsError("Invalid password");
         }
         return userFinded._id.toString()
 

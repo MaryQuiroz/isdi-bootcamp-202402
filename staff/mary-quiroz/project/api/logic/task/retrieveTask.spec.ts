@@ -37,7 +37,8 @@ describe('retrieveTask', () => {
             description: 'Description 1',
             priority: 'High',
             dueDate: new Date('2023-12-31'),
-            cat: cat._id
+            cat: cat._id,
+            concurrency: 'Daily'
         })
 
         taskId = task.id.toString()

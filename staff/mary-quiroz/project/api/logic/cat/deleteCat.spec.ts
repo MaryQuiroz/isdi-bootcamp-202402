@@ -4,7 +4,6 @@ import { errors, validate } from 'com'
 import { User } from '../../models/User.ts'
 import { Cat } from '../../models/Cat.ts'
 import { createCatService, deleteCatService } from '../../services/catService.ts'
-import { logger } from '../../utils/index.ts'
 
 const { NotFoundError, SystemError, InvalidObjectIdError } = errors
 
@@ -34,7 +33,7 @@ describe('deleteCatService', function() {
             catId = cat.id.toString();
         } catch (error) {
             console.error('Error during setup:', error);
-            process.exit(1); // Exit the process if setup fails
+            process.exit(1); 
         }
     })
 
@@ -67,7 +66,6 @@ describe('deleteCatService', function() {
     })
 
     it('should throw a SystemError for other unexpected errors', async function() {
-        // Simulate an unexpected error by tampering with the validate function
         const originalValidateText = validate.text;
         validate.text = () => { throw new Error('unexpected error'); }
 
@@ -77,8 +75,7 @@ describe('deleteCatService', function() {
             expect(error.message).to.equal('unexpected error');
         }
 
-        // Restore the original validate function
-        validate.text = originalValidateText;
+        validate.text = originalValidateText
     })
 
     after(async function() {

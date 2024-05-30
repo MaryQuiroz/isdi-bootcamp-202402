@@ -1,16 +1,17 @@
-import { Task } from "../../models/Task.ts"
-import { NotFoundError, SystemError } from "com/errors.ts"
+import { errors } from "com";
+import { Task } from "../../models/Task.ts";
+import { NotFoundError, SystemError } from "com/errors.ts";
 
 async function deleteTask(taskId: string) {
     try {
-        const task = await Task.findByIdAndDelete(taskId)
+        const task = await Task.findByIdAndDelete(taskId);
         if (!task) {
-            throw new NotFoundError("task not found")
+            throw new NotFoundError("task not found");
         }
-        return task
+        return task;
     } catch (error) {
-        throw new SystemError(error.message)
+        throw new SystemError(error.message);
     }
 }
 
-export default deleteTask
+export default deleteTask;

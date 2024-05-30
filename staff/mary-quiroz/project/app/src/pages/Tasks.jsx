@@ -18,7 +18,7 @@ const Tasks = () => {
 
   useEffect(() => {
     retrieveTasks(catId).then(setTasks)
-  }, [tasks])
+  }, [])
 
   return (
     <>
