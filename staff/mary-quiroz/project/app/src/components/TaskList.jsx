@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Task } from './Task'
 
 import { AppContext } from '../context/AppContext'
@@ -6,7 +6,11 @@ import { AddButton } from './AddButton'
 
 
 export const TaskList = () => {
-  const { tasks, setTasks } = useContext(AppContext)
+  const { tasks } = useContext(AppContext)
+  useEffect(() => {
+
+  }, [tasks])
+  
 
   return (
     <>

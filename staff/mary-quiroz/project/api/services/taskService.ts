@@ -54,7 +54,6 @@ export const createTaskService = async (userId: string, catId: string, taskData:
 
 
     } catch (error) {
-        console.log(error.message)
         if (error instanceof Error.ValidatorError) throw new ValidatorError(error.message)
         else {
             throw new SystemError(`Error creating task: ${error.message}`)
