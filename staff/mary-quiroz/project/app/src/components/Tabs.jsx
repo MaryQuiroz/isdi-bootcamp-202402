@@ -67,7 +67,7 @@ export const TabsComponent = () => {
     <Task key={index} task={task} />
   )
   return (
-    <div className="w-full">
+    <div className="w-full items-center">
       <Tabs aria-label="Default tabs" style="default" className="flex w-full" onClick={onClickHandler}>
         <Tabs.Item active title="Overdue" className="flex-1 text-center">
           {

@@ -23,7 +23,6 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
     const email = emailRef.current.value
     const password = passwordRef.current.value
 
-    logger.debug('Login -> handleSubmit', email, password)
     try {
       await logic.loginUser(email, password)
 

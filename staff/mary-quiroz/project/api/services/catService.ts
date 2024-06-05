@@ -132,13 +132,13 @@ export const updateCatService = async (userId: string, catId: string, catData: a
   }
 }
 
-export const searchCatsService = async (userId: string, searchObject: any): Promise<ICat[]> => {
+export const searchCatsService = async (userId: string, value: string): Promise<ICat[]> => {
   try {
-    validate.text(userId, 'userId');
+    validate.text(userId, 'userId')
     const user = await User.findById(userId)
     if (!user) throw new NotFoundError('user not found')
 
-    const modifiedSearchObject = { user: new Types.ObjectId(userId), name: { $regex: `^${searchObject.name}`, $options: 'i' } };
+    const modifiedSearchObject = { user: new Types.ObjectId(userId), name: { $regex: `^${value}`, $options: 'i' } }
 
 
     const cats = await Cat.find(modifiedSearchObject)

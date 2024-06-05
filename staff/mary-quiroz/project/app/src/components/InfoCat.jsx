@@ -1,6 +1,6 @@
 import { Card, Dropdown } from "flowbite-react"
 import deleteCat from "../logic/deleteCat"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { AppContext } from "../context/AppContext"
 import { ModalComponent } from "./Modal"
 import UpdateCatForm from "./UpdateCatForm"
@@ -126,6 +126,8 @@ export function InfoCatComponent({ cat }) {
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{cat.name}</h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">{calculateAge(cat.birthdate)}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{cat.color}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{cat.breed}</span>
           <h5 className="mb-1  text-gray-900 dark:text-white">{cat.description}</h5>
 
           <div className="mt-4 flex space-x-3 lg:mt-6">

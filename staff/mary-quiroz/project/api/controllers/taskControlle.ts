@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { createTaskService, deleteTaskService, retrieveTasksService, updateTaskService } from '../services/taskService.ts'
+import { logger } from '../utils/index.ts'
 
 const { JWT_SECRET, JWT_EXP } = process.env
 
 
 
 export const createTaskController = async (req: Request, res: Response, next:NextFunction) => {
+  logger.info("Create Task")
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -22,7 +24,6 @@ export const createTaskController = async (req: Request, res: Response, next:Nex
 }
 
 export const retrieveTasksController = async (req: Request, res: Response, next:NextFunction) => {
-
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -37,7 +38,6 @@ export const retrieveTasksController = async (req: Request, res: Response, next:
 }
 
 export const updateTaskController = async (req: Request, res: Response, next:NextFunction) => {
-
   try{
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -56,7 +56,6 @@ export const updateTaskController = async (req: Request, res: Response, next:Nex
 }
 
 export const deleteTaskController = async (req: Request, res: Response, next: NextFunction) => {
-
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)

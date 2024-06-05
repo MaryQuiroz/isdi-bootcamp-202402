@@ -48,7 +48,7 @@ export const Task = ({task}) => {
         }
       />
        <ModalComponent
-        title="Task Info"
+        title="Task Infomation"
         show={showInfoTaskModal}
         onClose={() => setShowInfoTaskModal(false)}
         form={

@@ -1,26 +1,26 @@
 import getFormattedDate from "./getFomattedDate.ts";
 
 const addConcurrency = (dueDate: Date, concurrency: string): string => {
-    let finalDate = new Date(dueDate)
+   
 
     switch (concurrency.toLowerCase()) {
         case 'daily':
-            finalDate.setDate(finalDate.getDate() + 1);
+            dueDate.setDate(dueDate.getDate() + 1);
             break;
         case 'weekly':
-            finalDate.setDate(finalDate.getDate() + 7);
+            dueDate.setDate(dueDate.getDate() + 7);
             break;
         case 'monthly':
-            finalDate.setMonth(finalDate.getMonth() + 1);
+            dueDate.setMonth(dueDate.getMonth() + 1);
             break;
         case 'yearly':
-            finalDate.setFullYear(finalDate.getFullYear() + 1);
+            dueDate.setFullYear(dueDate.getFullYear() + 1);
             break;
         default:
             break
     }
 
-    return getFormattedDate(finalDate)
+    return getFormattedDate(dueDate)
 }
 
 export default addConcurrency
