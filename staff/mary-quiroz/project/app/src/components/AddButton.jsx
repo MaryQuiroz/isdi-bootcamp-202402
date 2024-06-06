@@ -4,7 +4,7 @@ import React from 'react';
 export const AddButton = ({ text, onClick }) => {
   return (
     <div className="flex flex-col items-center pb-10">
-      <Button onClick={onClick}>{text}</Button>
+      <Button onClick={onClick} color="failure">{text}</Button>
     </div>
   );
 };

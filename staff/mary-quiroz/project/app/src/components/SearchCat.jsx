@@ -6,8 +6,6 @@ const SearchCatComponent = () => {
     const searchRef =  useRef(null)
   const { setCats} = useContext(AppContext)
 
-
-
     const onSearchHandler = async() => {
         const searchValue = searchRef.current.value
         const searchedCats =await  searchCats(searchValue)

@@ -1,8 +1,8 @@
 API_URL="http://localhost:9000/users/auth"
 
 DATA='{
-  "email": "dachirituu@gmail.com",
-  "password": "123qwe123"
+  "email": "dachiri@gmail.com",
+  "password": "123po123"
 }'
 
 curl -X POST "$API_URL" \

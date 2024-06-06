@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { createTaskService, deleteTaskService, retrieveTasksService, updateTaskService } from '../services/taskService.ts'
 import { logger } from '../utils/index.ts'
 
-const { JWT_SECRET, JWT_EXP } = process.env
+const { JWT_SECRET } = process.env
 
 
 

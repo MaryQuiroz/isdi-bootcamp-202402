@@ -5,7 +5,6 @@ import cors from 'cors'
 import userRoutes from './routes/userRoutes'
 import catRoutes from './routes/catRoutes'
 import taskRoutes from './routes/taskRoutes'
-// import 'express-async-errors'
 import errorHandler from './utils/errorHandlers'
 import { logger } from './utils'
 

@@ -64,6 +64,6 @@ Task
 - description (string, required)
 - priority (string, required)
 - completed (boolean, required, default false)
-- concurency
+- concurency (none, daily, weekly, monthly, yearly)
 - cat (objectId, required, Cat.id)
 

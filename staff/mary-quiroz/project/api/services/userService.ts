@@ -10,7 +10,7 @@ dotenv.config();
 
 const { DuplicityError, CredentialsError, NotFoundError } = errors
 
-const { MONGODB_URL, PORT, JWT_SECRET, JWT_EXP } = process.env
+const { JWT_SECRET, JWT_EXP } = process.env
 
 
 export const registerUserService = async (userData) => {

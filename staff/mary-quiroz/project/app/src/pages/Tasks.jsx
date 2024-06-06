@@ -17,7 +17,12 @@ const Tasks = () => {
   const { catId } = useParams()
 
   useEffect(() => {
+    try {
     retrieveTasks(catId).then(setTasks)
+      
+    } catch (error) {
+      alert(error.message)
+    }
   }, [])
 
   
