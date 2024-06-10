@@ -1,9 +1,9 @@
 import { validate, errors } from 'com'
 
-async function deleteTask(taskId) {
+function deleteTask(taskId) {
     validate.token(sessionStorage.token)
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`,
+    return fetch(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`,
 
         {
             method: 'DELETE',
@@ -12,14 +12,19 @@ async function deleteTask(taskId) {
             }
         })
 
-    const taskDeleted = await response.json()
-
-    if (response.status === 200) return taskDeleted
-    const { error, message } = taskDeleted
-
-    const constructor = errors[error]
-
-    throw new constructor(message)
+        .then(res => {
+            if (res.status === 201) 
+                return res.json()
+    
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
+    
+                    const constructor = errors[error]
+    
+                    throw new constructor(message)
+                })
+        })
 
 
 }

@@ -1,6 +1,6 @@
 import { validate, errors } from 'com'
 
-async function createCat(catData) {
+function createCat(catData) {
     const { name, color, breed, birthdate, avatar, description } = catData
     validate.text(name, 'name')
     validate.text(color, 'color') 
@@ -10,7 +10,7 @@ async function createCat(catData) {
     validate.text(description, 'description')
     validate.token(sessionStorage.token)
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/cats`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/cats`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -20,13 +20,19 @@ async function createCat(catData) {
         body: JSON.stringify(catData)
 
     })
-    const cat = await response.json()
-    if(response.status !== 201) {
-        const {error, message } = cat
-        const constructor = errors[error]
-        throw new constructor(message)
-    }
-    return cat
+    .then(res => {
+        if (res.status === 201) 
+            return res.json()
+
+        return res.json()
+            .then(body => {
+                const { error, message } = body
+
+                const constructor = errors[error]
+
+                throw new constructor(message)
+            })
+    })
 }
 
 export default createCat

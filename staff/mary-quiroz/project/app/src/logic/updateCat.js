@@ -1,10 +1,10 @@
 import { validate, errors } from 'com'
 
-async function updateCat(catUpdateData) {
+function updateCat(catUpdateData) {
     const catId = catUpdateData.id
     validate.token(sessionStorage.token)
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,
+    return fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,
 
         {
             method: 'PUT',
@@ -15,15 +15,19 @@ async function updateCat(catUpdateData) {
             body: JSON.stringify(catUpdateData)
 
         })
-    const catUpdated = await response.json()
-    if (response.status === 200) return catUpdated
-
-    const { error, message } = catUpdated
-
-    const constructor = errors[error]
-
-    throw new constructor(message)
-
+        .then(res => {
+            if (res.status === 201) 
+                return res.json()
+    
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
+    
+                    const constructor = errors[error]
+    
+                    throw new constructor(message)
+                })
+        })
 
 
 }

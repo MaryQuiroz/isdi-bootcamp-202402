@@ -1,9 +1,9 @@
 import { validate, errors } from 'com'
 
-async function updateTask(taskId, taskData) {
+function updateTask(taskId, taskData) {
     validate.token(sessionStorage.token)
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`,
+    return fetch(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`,
 
         {
             method: 'PUT',
@@ -14,16 +14,23 @@ async function updateTask(taskId, taskData) {
             body: JSON.stringify(taskData)
 
         })
-
-    const taskUpdated = await response.json()
-    if (response.status === 200) return taskUpdated 
-        const { error, message } = taskUpdated
-
-        const constructor = errors[error]
-
-        throw new constructor(message)
-    }
+        .then(res => {
+            if (res.status === 201) 
+                return res.json()
     
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
+    
+                    const constructor = errors[error]
+    
+                    throw new constructor(message)
+                })
+        })
+
+    
+}
+
 
 
 export default updateTask
