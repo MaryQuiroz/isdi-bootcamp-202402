@@ -26,7 +26,7 @@ interface TaskParams {
     dueDate: string
     concurrency: Concurrency
 }
-export const createTaskService = async (userId: string, catId: string, taskData: TaskParams) => {
+const createTask = async (userId: string, catId: string, taskData: TaskParams) => {
 
     try {
         const { title, description, priority, dueDate, concurrency } = taskData
@@ -63,7 +63,7 @@ export const createTaskService = async (userId: string, catId: string, taskData:
 
 }
 
-export const retrieveTasksService = async (catId) => {
+const retrieveTasks = async (catId) => {
     try {
         validate.text(catId, 'catId')
 
@@ -79,7 +79,7 @@ export const retrieveTasksService = async (catId) => {
     }
 }
 
-export const updateTaskService = async (userId: string, taskId: string, taskData: any): Promise<ITask> => {
+const updateTask = async (userId: string, taskId: string, taskData: any): Promise<ITask> => {
 
     validate.text(taskId, 'taskId')
     validate.text(userId, 'userId')
@@ -110,7 +110,7 @@ export const updateTaskService = async (userId: string, taskId: string, taskData
                     concurrency: taskFinded.concurrency
                 }
                 const catId = taskFinded.cat.toString()
-                await createTaskService(userId, catId, newTaskData)
+                await createTask(userId, catId, newTaskData)
             }
         }
 
@@ -124,7 +124,7 @@ export const updateTaskService = async (userId: string, taskId: string, taskData
 
 }
 
-export const deleteTaskService = async (userId: string, taskId: string): Promise<Types.ObjectId> => {
+const deleteTask = async (userId: string, taskId: string): Promise<Types.ObjectId> => {
 
 
     validate.text(taskId, 'taskId')
@@ -140,4 +140,11 @@ export const deleteTaskService = async (userId: string, taskId: string): Promise
         throw new SystemError(error.message)
     }
 
+}
+
+export default {
+    createTask,
+    retrieveTasks,
+    updateTask,
+    deleteTask
 }

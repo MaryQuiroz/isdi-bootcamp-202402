@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { createTaskService, deleteTaskService, retrieveTasksService, updateTaskService } from '../services/taskService.ts'
+import taskService from '../services/taskService.ts'
 import { logger } from '../utils/index.ts'
 
 const { JWT_SECRET } = process.env
 
 
 
-export const createTaskController = async (req: Request, res: Response, next:NextFunction) => {
+ const createTask = async (req: Request, res: Response, next:NextFunction) => {
   logger.info("Create Task")
   try {
     const { authorization } = req.headers
@@ -16,28 +16,28 @@ export const createTaskController = async (req: Request, res: Response, next:Nex
     const catId = req.params.id
     
     const taskData =req.body
-    const cat = await createTaskService(userId.toString(), catId, taskData )
+    const cat = await taskService.createTask(userId.toString(), catId, taskData )
     res.status(201).json(cat)
   } catch (error) {
     next(error)
   }
 }
 
-export const retrieveTasksController = async (req: Request, res: Response, next:NextFunction) => {
+ const retrieveTasks = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const{ sub } = jwt.verify(token, JWT_SECRET)
 
     const catId = req.params.id
-    const tasks = await retrieveTasksService(catId)
+    const tasks = await taskService.retrieveTasks(catId)
     res.status(200).json(tasks)
   } catch(error) {
     next(error)
   }
 }
 
-export const updateTaskController = async (req: Request, res: Response, next:NextFunction) => {
+ const updateTask = async (req: Request, res: Response, next:NextFunction) => {
   try{
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -45,7 +45,7 @@ export const updateTaskController = async (req: Request, res: Response, next:Nex
 
     const taskId = req.params.id
     const taskData = req.body
-    const taskUpdated = await updateTaskService(userId.toString(), taskId, taskData)
+    const taskUpdated = await taskService.updateTask(userId.toString(), taskId, taskData)
     res.status(200).json(taskUpdated)
 
   } catch(error) {
@@ -55,18 +55,25 @@ export const updateTaskController = async (req: Request, res: Response, next:Nex
 
 }
 
-export const deleteTaskController = async (req: Request, res: Response, next: NextFunction) => {
+ const deleteTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
     const taskId = req.params.id
-    const taskUpdated = await deleteTaskService(userId.toString(), taskId)
+    const taskUpdated = await taskService.deleteTask(userId.toString(), taskId)
     res.status(200).json(taskUpdated);
   } catch (error) {
     next(error)
 
   }
 
+}
+
+export default {
+  createTask,
+  retrieveTasks,
+  updateTask,
+  deleteTask
 }

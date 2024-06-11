@@ -26,7 +26,6 @@ export const TabsComponent = () => {
   
   const onClickHandler = (event) => {
     const tabId = event.target.id
-    console.log(tabId)
     const taskMode = {
       ':r4:-tab-0': 'overdue',
       ':r4:-tab-1': 'current',

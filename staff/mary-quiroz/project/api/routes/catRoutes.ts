@@ -1,15 +1,15 @@
 import { Router } from 'express'
-import { createCatController, deleteCatController, retrieveCatsController, searchCatController, updateCatController } from '../controllers/catController'
-import { createTaskController, retrieveTasksController } from '../controllers/taskControlle'
+import catController from '../controllers/catController'
+import taskController from '../controllers/taskController'
 
 const router = Router()
 
-router.post('/', createCatController)
-router.get('/', retrieveCatsController)
-router.delete('/:id', deleteCatController)
-router.put('/:id', updateCatController)
-router.post('/:id/tasks', createTaskController)
-router.get('/:id/tasks', retrieveTasksController)
-router.get('/search', searchCatController)
+router.post('/',catController.createCat )
+router.get('/', catController.retrieveCats)
+router.delete('/:id',catController.deleteCat)
+router.put('/:id', catController.updateCat)
+router.post('/:id/tasks', taskController.createTask)
+router.get('/:id/tasks', taskController.retrieveTasks)
+router.get('/search', catController.searchCat)
 
 export default router

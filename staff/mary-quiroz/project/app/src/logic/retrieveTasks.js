@@ -9,7 +9,7 @@ function retrieveTasks(catId){
         }
     })
     .then(res => {
-        if (res.status === 201) 
+        if (res.status === 200) 
             return res.json()
 
         return res.json()

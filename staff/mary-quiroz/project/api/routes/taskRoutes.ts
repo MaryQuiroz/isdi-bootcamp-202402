@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { retrieveTasksController, updateTaskController, deleteTaskController } from '../controllers/taskControlle'
+import taskController from '../controllers/taskController'
 
 const router = Router()
 
-router.get('/', retrieveTasksController)
-router.put('/:id', updateTaskController)
-router.delete('/:id', deleteTaskController)
+router.get('/', taskController.retrieveTasks)
+router.put('/:id', taskController.updateTask)
+router.delete('/:id', taskController.deleteTask)
 
 export default router

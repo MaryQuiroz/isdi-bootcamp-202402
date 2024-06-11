@@ -5,6 +5,7 @@ import { User } from "../models/User.ts"
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { SystemError } from 'com/errors.ts';
+import { register } from 'module';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const { DuplicityError, CredentialsError, NotFoundError } = errors
 const { JWT_SECRET, JWT_EXP } = process.env
 
 
-export const registerUserService = async (userData) => {
+ const registerUser = async (userData) => {
 
     try {
         const { name, email, password } = userData
@@ -45,7 +46,7 @@ export const registerUserService = async (userData) => {
 }
 
 
-export const authenticateUserService = async (userData) => {
+ const authenticateUser = async (userData) => {
     try {
 
         const { email, password } = userData
@@ -70,7 +71,7 @@ export const authenticateUserService = async (userData) => {
     }
 }
 
-export const retrieveUserService = async (userId: string) => {
+ const retrieveUser = async (userId: string) => {
 
     try {
         const user = await User.findById(userId);
@@ -82,4 +83,10 @@ export const retrieveUserService = async (userId: string) => {
     } catch (error) {
         throw new SystemError(error.message)
     }
+}
+
+export default {
+    registerUser,
+    authenticateUser,
+    retrieveUser
 }

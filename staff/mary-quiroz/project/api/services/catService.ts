@@ -23,7 +23,7 @@ interface CatParams {
   description: string
 }
 
-export const createCatService = async (catData: CatParams): Promise<ICat> => {
+ const createCat = async (catData: CatParams): Promise<ICat> => {
   try {
     const { userId, name, color, breed, birthdate, avatar, description } = catData
 
@@ -56,14 +56,14 @@ export const createCatService = async (catData: CatParams): Promise<ICat> => {
   }
 }
 
-export const retrieveCatsService = async (userId: string): Promise<ICat[]> => {
+ const retrieveCats = async (userId: string): Promise<ICat[]> => {
 
   try {
     validate.text(userId, 'userId');
 
     const user = await User.findById(new Types.ObjectId(userId))
     if (!user) throw new NotFoundError('user not found')
-    const cats = await Cat.find({ user: userId })
+    const cats = await Cat.find({ user: userId }).sort({ createdAt: -1 });
     if (!cats) throw new NotFoundError('cat not found')
     return cats
   } catch (error) {
@@ -72,7 +72,7 @@ export const retrieveCatsService = async (userId: string): Promise<ICat[]> => {
 
 }
 
-export const retrieveCatService = async (userId: string, catId:string): Promise<ICat> => {
+ const retrieveCat = async (userId: string, catId:string): Promise<ICat> => {
 
   try {
     validate.text(userId, 'userId');
@@ -89,7 +89,7 @@ export const retrieveCatService = async (userId: string, catId:string): Promise<
 }
 
 
-export const deleteCatService = async (userId: string, catId: string): Promise<string> => {
+ const deleteCat = async (userId: string, catId: string): Promise<string> => {
 
   try {
     validate.text(catId, 'catId')
@@ -112,7 +112,7 @@ export const deleteCatService = async (userId: string, catId: string): Promise<s
   }
 }
 
-export const updateCatService = async (userId: string, catId: string, catData: any): Promise<ICat> => {
+ const updateCat = async (userId: string, catId: string, catData: any): Promise<ICat> => {
   try {
     validate.text(catId, 'catId')
     validate.text(userId, 'userId')
@@ -132,7 +132,7 @@ export const updateCatService = async (userId: string, catId: string, catData: a
   }
 }
 
-export const searchCatsService = async (userId: string, value: string): Promise<ICat[]> => {
+ const searchCats = async (userId: string, value: string): Promise<ICat[]> => {
   try {
     validate.text(userId, 'userId')
     const user = await User.findById(userId)
@@ -150,3 +150,12 @@ export const searchCatsService = async (userId: string, value: string): Promise<
 
 }
 
+export default {
+  createCat,
+  retrieveCats,
+  retrieveCat,
+  deleteCat,
+  updateCat,
+  searchCats
+
+}

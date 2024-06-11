@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { logger } from '../utils'
 
-import { createCatService, deleteCatService, retrieveCatsService, searchCatsService, updateCatService } from '../services/catService.ts'
+import catService from '../services/catService.ts'
 
 const {  JWT_SECRET } = process.env
 
 
-export const createCatController = async (req: Request, res: Response, next: NextFunction) => {
+const createCat = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { authorization } = req.headers
       const token = authorization.slice(7)
@@ -17,21 +17,21 @@ export const createCatController = async (req: Request, res: Response, next: Nex
       const catData = req.body
 
 
-      const cat = await createCatService({...catData, userId})
+      const cat = await catService.createCat({...catData, userId})
       res.status(201).json(cat)
     } catch (error) {
         next(error)
     }
 }
 
-export const retrieveCatsController = async (req: Request, res: Response, next:NextFunction) => {
+const retrieveCats = async (req: Request, res: Response, next:NextFunction) => {
     try {
 
         const { authorization } = req.headers
         const token = authorization.slice(7)
         const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        const cats = await retrieveCatsService(userId.toString())
+        const cats = await catService.retrieveCats(userId.toString())
         res.status(200).json(cats)
     } catch (error) {
         logger.error(error)
@@ -39,7 +39,7 @@ export const retrieveCatsController = async (req: Request, res: Response, next:N
     }
 }
 
-export const deleteCatController = async (req:Request, res: Response, next: NextFunction) => {
+const deleteCat = async (req:Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -47,7 +47,7 @@ export const deleteCatController = async (req:Request, res: Response, next: Next
 
     const catId = req.params.id
 
-    const catDeleted = await deleteCatService(userId.toString(), catId)
+    const catDeleted = await catService.deleteCat(userId.toString(), catId)
     res.status(200).json(catDeleted)
 
   } catch(error) {
@@ -55,7 +55,7 @@ export const deleteCatController = async (req:Request, res: Response, next: Next
   }
 }
 
-export const updateCatController = async (req: Request, res: Response, next:NextFunction) => {
+const updateCat = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -64,13 +64,13 @@ export const updateCatController = async (req: Request, res: Response, next:Next
     const catId = req.params.id
     const catData = req.body
 
-    const catUpdated = await updateCatService(userId.toString(), catId, catData)
+    const catUpdated = await catService.updateCat(userId.toString(), catId, catData)
     res.status(200).json(catUpdated)
   } catch(error) {
     next(error)
   }
 }
-export const searchCatController = async (req: Request, res: Response, next:NextFunction) => {
+const searchCat = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { authorization } = req.headers
     const token = authorization.slice(7)
@@ -78,7 +78,7 @@ export const searchCatController = async (req: Request, res: Response, next:Next
 
     const value = req.query.name as string
     
-    const cats = await searchCatsService(userId.toString(), value)
+    const cats = await catService.searchCats(userId.toString(), value)
     res.status(200).json(cats);
   } catch (error) {
     next(error)
@@ -86,3 +86,10 @@ export const searchCatController = async (req: Request, res: Response, next:Next
 
 }
 
+export default {
+  createCat,
+  retrieveCats,
+  deleteCat,
+  updateCat,
+  searchCat
+}

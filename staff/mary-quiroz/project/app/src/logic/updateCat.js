@@ -1,8 +1,8 @@
 import { validate, errors } from 'com'
 
 function updateCat(catUpdateData) {
-    const catId = catUpdateData.id
     validate.token(sessionStorage.token)
+    const catId = catUpdateData.id
 
     return fetch(`${import.meta.env.VITE_API_URL}/cats/${catId}`,
 
@@ -16,7 +16,7 @@ function updateCat(catUpdateData) {
 
         })
         .then(res => {
-            if (res.status === 201) 
+            if (res.status === 200) 
                 return res.json()
     
             return res.json()
