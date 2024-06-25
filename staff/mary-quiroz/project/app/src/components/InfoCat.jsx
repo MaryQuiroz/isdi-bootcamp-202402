@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom"
 
 
 export function InfoCatComponent({ cat }) { 
-
-  console.log(cat)
   const { cats, setCats, setCat } = useContext(AppContext)
   const [showEditModal, setEditShowModal] = useState(false)
   const [showDeleteModal, setDeleteShowModal] = useState(false)
