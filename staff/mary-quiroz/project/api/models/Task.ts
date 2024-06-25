@@ -64,8 +64,10 @@ const taskSchema = new Schema({
 
 taskSchema.set('toJSON', {
     transform: (doc, ret, options) => {
-      ret.id = ret._id
-      delete ret._id
+        ret.id = ret._id;
+        ret.v = ret.__v;
+        delete ret._id;  
+        delete ret.__v;  
       return ret
     }
   });
