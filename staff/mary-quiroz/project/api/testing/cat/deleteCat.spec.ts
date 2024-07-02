@@ -3,7 +3,7 @@ import mongoose, { Types } from 'mongoose'
 import { errors, validate } from 'com'
 import { User } from '../../models/User.ts'
 import { Cat } from '../../models/Cat.ts'
-import { createCatService, deleteCatService } from '../../services/catService.ts'
+import catService from '../../services/catService.ts'
 
 const { NotFoundError, SystemError, InvalidObjectIdError } = errors
 
@@ -21,7 +21,7 @@ describe('deleteCatService', function() {
             await user.save();
             userId = user.id.toString();
 
-            const cat = await createCatService({
+            const cat = await catService.createCat({
                 userId,
                 name:'chimuelo', 
                 color:'black', 
@@ -38,7 +38,7 @@ describe('deleteCatService', function() {
     })
 
     it('should delete the cat of an existing user', async function() {
-        const deletedCatId = await deleteCatService(userId, catId);
+        const deletedCatId = await catService.deleteCat(userId, catId);
         const deletedCat = await Cat.findById(catId);
 
         expect(deletedCat).to.be.null;
@@ -49,7 +49,7 @@ describe('deleteCatService', function() {
 
     it('should throw a NotFoundError if the cat does not exist', async function() {
         try {
-            await deleteCatService(userId, new mongoose.Types.ObjectId().toString())
+            await catService.deleteCat(userId, new mongoose.Types.ObjectId().toString())
         } catch (error) {
 
             expect(error).to.be.an.instanceOf(NotFoundError)
@@ -59,7 +59,7 @@ describe('deleteCatService', function() {
 
     it('should throw an InvalidObjectIdError if the userId is not a valid ObjectId', async function() {
         try {
-            await deleteCatService('invalidObjectId', catId);
+            await catService.deleteCat('invalidObjectId', catId);
         } catch (error) {
             expect(error.message).to.equal('invalid ObjectId');
         }
@@ -70,7 +70,7 @@ describe('deleteCatService', function() {
         validate.text = () => { throw new Error('unexpected error'); }
 
         try {
-            await deleteCatService(userId, catId);
+            await catService.deleteCat(userId, catId);
         } catch (error) {
             expect(error.message).to.equal('unexpected error');
         }

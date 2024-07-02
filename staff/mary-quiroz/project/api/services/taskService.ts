@@ -133,7 +133,7 @@ const deleteTask = async (userId: string, taskId: string): Promise<Types.ObjectI
         const taskDeleted = await Task.findByIdAndDelete(taskId)
         if (!taskDeleted) throw new NotFoundError('task not found')
 
-        return taskDeleted._id
+        return taskDeleted.id
     } catch (error) {
 
         if (error instanceof Error.CastError) throw new ValidatorError(error.message)

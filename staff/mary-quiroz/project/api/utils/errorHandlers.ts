@@ -19,7 +19,7 @@ const errorMapping = {
 const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     const errorType = err.constructor.name;
     const { statusCode = 500, handler } = errorMapping[errorType] || {};
-    handler.call(logger, err.message);
+   handler.call(logger, err.message);
 
     const response = {
         success: false,

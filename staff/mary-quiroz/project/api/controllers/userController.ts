@@ -7,43 +7,48 @@ dotenv.config()
 
 const { JWT_SECRET } = process.env
 
-
- const registerUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await userService.registerUser(req.body)
-    res.status(201).json(user)
-  } catch (error) {
+  const registerUser = (req: Request, res: Response, next: NextFunction) => {
+    userService.registerUser(req.body)
+    .then(user => {
+      res.status(201).json(user)
+  })
+  .catch(error => {
     next(error)
+  })
   }
 
-}
+ 
 
- const authenticateUser = async (req: Request, res: Response, next:NextFunction) => {
-  try {
-    const token = await userService.authenticateUser(req.body)
+const authenticateUser = (req: Request, res: Response, next:NextFunction) => {
+  userService.authenticateUser(req.body)
+   .then(token => {
     res.status(200).json(token)
-  } catch (error) {
+   })
+   .catch(error => {
     next(error)
-  }
+   })
+   
 }
 
- const retrieveUser = async (req: Request, res: Response, next:NextFunction) => {
-  try {
-    const { authorization } = req.headers
+const retrieveUser = (req: Request, res: Response, next:NextFunction) => {
+  const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-    const user = await userService.retrieveUser(userId.toString())
-
+  userService.retrieveUser(userId.toString())
+  .then(user => {
     res.status(200).json(user)
-  } catch (error) {
+    
+  })
+
+  .catch(error => {
     next(error)
+   })
   }
-}
+   
 
 export default {
   registerUser,
   authenticateUser,
   retrieveUser
 }
-

@@ -15,16 +15,23 @@ export const Task = ({task}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showInfoTaskModal, setShowInfoTaskModal] = useState(false)
 
-  const onUpdateHandler = async(event, taskId) => {
-    const taskData = {
-      completed: event.target.checked,
+  
+  const onUpdateHandler = async (event, taskId) => {
+    const completed = event.target.checked; // Obtener el estado de la casilla de verificación
+  
+    try {
+      // Actualizar la tarea en el servidor
+      await updateTask(taskId, { completed });
+  
+      // Obtener todas las tareas actualizadas después de la actualización
+      const allTasks = await retrieveTasks(task.cat.id || task.cat);
+  
+      // Actualizar el estado global de tareas con las tareas obtenidas
+      setTasks(allTasks);
+    } catch (error) {
+      console.error('Error updating the task:', error);
     }
-
-    await updateTask(taskId, taskData)
-    const allTasks = await retrieveTasks(task.cat.id || task.cat)
-    setTasks(allTasks)
-
-  }
+  };
 
   const onDeleteHandler = async () => {
     const deletedTaskId = await deleteTask(task.id)

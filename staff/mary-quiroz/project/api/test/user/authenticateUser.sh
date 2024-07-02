@@ -1,13 +1,1 @@
-API_URL="http://localhost:9000/users/auth"
-
-DATA='{
-  "email": "dachiri@gmail.com",
-  "password": "123po123"
-}'
-
-curl -X POST "$API_URL" \
-     -H "Content-Type: application/json" \
-     -d "$DATA" \
-     -v
-
-echo "User Authenticated!."
+curl -X POST -H "Content-Type: application/json" -d '{"email":"lola@gmail.com","password":"123po123"}' http://localhost:9000/users/auth -v

@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { Cat } from '../../models/Cat.ts';
 import { Task } from '../../models/Task.ts';
 import { User } from '../../models/User.ts';
-import { createTaskService } from '../../services/taskService.ts';
+import taskService from '../../services/taskService.ts';
 
 dotenv.config();
 
@@ -52,7 +52,7 @@ describe('createTaskService', () => {
       concurrency: Concurrency.Daily,
     };
 
-    const newTask = await createTaskService(userId.toString(), catId.toString(), taskData);
+    const newTask = await taskService.createTask(userId.toString(), catId.toString(), taskData);
 
     const task = await Task.findById(newTask._id).populate('cat')
     expect(task.title).to.equal('Task 1');

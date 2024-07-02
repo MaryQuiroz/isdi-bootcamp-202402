@@ -103,7 +103,7 @@ interface CatParams {
     const catDeleted = await Cat.findByIdAndDelete(catId)
     if (!catDeleted) throw new NotFoundError('cat not found')
 
-    return catDeleted._id
+    return catDeleted.id
   } catch (error) {
     if(error instanceof  InvalidObjectIdError) throw new InvalidObjectIdError(error.message)
     if(error instanceof  NotFoundError) throw new NotFoundError(error.message)

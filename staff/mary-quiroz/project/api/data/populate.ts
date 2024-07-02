@@ -3,7 +3,8 @@ import { configDotenv } from 'dotenv'
 import { User } from '../models/User'
 import { Cat } from '../models/Cat'
 import { Task } from '../models/Task'
-import { registerUserService } from '../services/userService'
+import userService from '../services/userService'
+
 
 configDotenv()
 
@@ -37,7 +38,7 @@ const users = [
       await Task.deleteMany({})
   
      
-      const savedUsers = await Promise.all(users.map(user => registerUserService(user)))
+      const savedUsers = await Promise.all(users.map(user => userService.registerUser(user)))
   
       
       const cats = [
