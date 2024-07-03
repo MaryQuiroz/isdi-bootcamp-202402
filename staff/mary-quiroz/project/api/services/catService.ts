@@ -8,7 +8,7 @@ import { Cat, ICat } from '../models/Cat.ts'
 
 dotenv.config();
 
-const { NotFoundError, InvalidObjectIdError, SystemError } = errors
+const { NotFoundError, InvalidObjectIdError, SystemError, ValidatorError} = errors
 
 const { MONGODB_URL, PORT, JWT_SECRET, JWT_EXP } = process.env
 
@@ -23,127 +23,166 @@ interface CatParams {
   description: string
 }
 
- const createCat = async (catData: CatParams): Promise<ICat> => {
-  try {
-    const { userId, name, color, breed, birthdate, avatar, description } = catData
+const createCat = (catData: CatParams): Promise<ICat> => {
 
-    validate.text(userId, 'userId')
-    validate.text(name, 'name')
-    validate.text(color, 'color')
-    validate.text(breed, 'breed')
-    validate.text(avatar, 'avatar')
-    validate.text(description, 'description')
+  const { userId, name, color, breed, birthdate, avatar, description } = catData
 
+  validate.text(userId, 'userId')
+  validate.text(name, 'name')
+  validate.text(color, 'color')
+  validate.text(breed, 'breed')
+  validate.text(avatar, 'avatar')
+  validate.text(description, 'description')
 
-    const user = await User.findById(new Types.ObjectId(userId))
-    if (!user) {
+  return User.findById(new Types.ObjectId(userId))
+
+    .then((user) => {
+     if(!user) {
       throw new NotFoundError('user not found')
     }
+      const cat: ICat = new Cat({
+        name: name.trim(),
+        color: color,
+        breed: breed,
+        birthdate: birthdate,
+        avatar: avatar,
+        description: description,
+        user: new Types.ObjectId(userId)
+      })
 
-    const cat: ICat = new Cat({
-      name: name.trim(),
-      color: color,
-      breed: breed,
-      birthdate: birthdate,
-      avatar: avatar,
-      description: description,
-      user: new Types.ObjectId(userId)
+      return cat.save()
     })
-    const newCat = await cat.save()
-    return newCat
-  } catch (error) {
-    throw new SystemError(error.message)
-  }
-}
+    .then(newCat => {
+      return newCat
+    })
 
- const retrieveCats = async (userId: string): Promise<ICat[]> => {
+    .catch(error => {
+      if (error instanceof ValidatorError) {
+          throw new ValidatorError(error.message)
+      } else {
+          throw new SystemError(`Error creating task ${error.message}`)
+      }
+    })
+    }
 
-  try {
+
+const retrieveCats = (userId: string): Promise<ICat[]> => {
+
     validate.text(userId, 'userId');
 
-    const user = await User.findById(new Types.ObjectId(userId))
-    if (!user) throw new NotFoundError('user not found')
-    const cats = await Cat.find({ user: userId }).sort({ createdAt: -1 });
-    if (!cats) throw new NotFoundError('cat not found')
-    return cats
-  } catch (error) {
+    return User.findById(new Types.ObjectId(userId))
+    .then(user => {
+      if (!user) throw new NotFoundError('user not found')
+
+        return Cat.find({ user: userId }).sort({ createdAt: -1 })
+    })
+    .then(cats => {
+      if (!cats) throw new NotFoundError('cat not found')
+        return cats
+
+    })
+  .catch (error => {
     throw new SystemError(error.message)
-  }
+  })
 
 }
 
- const retrieveCat = async (userId: string, catId:string): Promise<ICat> => {
+const retrieveCat =  (userId: string, catId: string): Promise<ICat> => {
 
-  try {
     validate.text(userId, 'userId');
 
-    const user = await User.findById(userId)
-    if (!user) throw new NotFoundError('user not found')
-    const cat = await Cat.findOne({ user: userId, _id:catId })
-    if (!cat) throw new NotFoundError('cat not found')
-    return cat
-  } catch (error) {
+    return User.findById(userId)
+
+    .then(user => {
+      if (!user) throw new NotFoundError('user not found')
+        
+        return Cat.findOne({ user: userId, _id: catId })
+    })
+    .then(cat => {
+      if (!cat) throw new NotFoundError('cat not found')
+
+        return cat
+    })
+  .catch (error => {
     throw new SystemError(error.message)
-  }
+
+  })
 
 }
 
 
- const deleteCat = async (userId: string, catId: string): Promise<string> => {
+const deleteCat = (userId: string, catId: string): Promise<string> => {
 
-  try {
     validate.text(catId, 'catId')
     validate.text(userId, 'userId')
 
-    if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('invalid ObjectId')
+    return User.findById(userId)
+    .then(user => {
 
-    const user = await User.findById(userId)
-    if (!user) throw new NotFoundError('user not found')
+      if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('invalid ObjectId')
 
-    const catDeleted = await Cat.findByIdAndDelete(catId)
-    if (!catDeleted) throw new NotFoundError('cat not found')
+        if (!user) throw new NotFoundError('user not found')
+          return Cat.findByIdAndDelete(catId)
+    })
+    .then(catDeleted => {
+      if (!catDeleted) throw new NotFoundError('cat not found')
 
-    return catDeleted.id
-  } catch (error) {
-    if(error instanceof  InvalidObjectIdError) throw new InvalidObjectIdError(error.message)
-    if(error instanceof  NotFoundError) throw new NotFoundError(error.message)
+        return catDeleted.id
+    })
+
+  .catch (error => {
+    if (error instanceof InvalidObjectIdError) throw new InvalidObjectIdError(error.message)
+    if (error instanceof NotFoundError) throw new NotFoundError(error.message)
     throw new SystemError(error.message)
 
-  }
+  }) 
 }
 
- const updateCat = async (userId: string, catId: string, catData: any): Promise<ICat> => {
-  try {
+const updateCat = (userId: string, catId: string, catData: any): Promise<ICat> => {
+  
     validate.text(catId, 'catId')
     validate.text(userId, 'userId')
+    
+    return User.findById(userId)
+    .then(user => {
 
-    if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId')
+      if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId')
+  
+      if (!user) throw new NotFoundError('user not found')
 
-    const user = await User.findById(userId)
-    if (!user) throw new NotFoundError('user not found')
+        return Cat.findByIdAndUpdate(catId, catData, { new: true })
+    })
+  
+      .then(updatedCat => {
+        if (!updatedCat) throw new NotFoundError('cat not found')
+          return updatedCat
+      })
 
-    const updatedCat = await Cat.findByIdAndUpdate(catId, catData, { new: true })
-    if (!updatedCat) throw new NotFoundError('cat not found')
+  .catch (error => {
 
-    return updatedCat
-  } catch (error) {
     throw new SystemError(error.message)
+  }) 
 
-  }
+  
 }
 
- const searchCats = async (userId: string, value: string): Promise<ICat[]> => {
+const searchCats = (userId: string, value: string): Promise<ICat[]> => {
   try {
     validate.text(userId, 'userId')
-    const user = await User.findById(userId)
-    if (!user) throw new NotFoundError('user not found')
+    return User.findById(userId)
+    .then(user => {
+      if (!user) throw new NotFoundError('user not found')
 
-    const modifiedSearchObject = { user: new Types.ObjectId(userId), name: { $regex: `^${value}`, $options: 'i' } }
+        const modifiedSearchObject = { user: new Types.ObjectId(userId), name: { $regex: `^${value}`, $options: 'i' } }
 
+        return Cat.find(modifiedSearchObject)
+    })
+    .then(cats => {
+      if (!cats) throw new NotFoundError('cat not found')
 
-    const cats = await Cat.find(modifiedSearchObject)
-    if (!cats) throw new NotFoundError('cat not found')
-    return cats
+        return cats
+    })
+
   } catch (error) {
     throw new SystemError(error.message)
   }

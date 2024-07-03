@@ -26,7 +26,54 @@ interface TaskParams {
     dueDate: string
     concurrency: Concurrency
 }
-const createTask = async (userId: string, catId: string, taskData: TaskParams) => {
+const createTask = (userId: string, catId: string, taskData: TaskParams) => {
+    const { title, description, priority, dueDate, concurrency } = taskData
+
+    validate.text(title, 'title')
+    validate.text(description, 'description')
+    validate.text(priority, 'high')
+    validate.text(dueDate, '25-05-2024')
+    validate.text(concurrency, 'Daily')
+    validate.text(catId, 'cat')
+
+    let userFinded
+    let catFinded
+
+    return User.findById(userId)
+
+        .then((user) => {
+            userFinded = user
+
+            if (!userFinded) {
+                throw new NotFoundError('User not found')
+            }
+
+            return Cat.findById(catId)
+        })
+        .then((cat) => {
+            catFinded = cat
+
+            if (!catFinded) {
+                throw new NotFoundError('Cat does not exists')
+            }
+
+            const task = new Task({ ...taskData, cat: catId })
+            return task.save()
+
+        })
+        .then(newTask => {
+            return newTask
+        })
+
+        .catch(error => {
+            if (error instanceof ValidatorError) {
+                throw new ValidatorError(error.message)
+            } else {
+                throw new SystemError(`Error creating task ${error.message}`)
+            }
+        })
+}
+/*const createTask = async (userId: string, catId: string, taskData: TaskParams) => {
 
     try {
         const { title, description, priority, dueDate, concurrency } = taskData
@@ -62,6 +109,7 @@ const createTask = async (userId: string, catId: string, taskData: TaskParams) =
     }
 
 }
+    */
 
 const retrieveTasks = async (catId) => {
     try {

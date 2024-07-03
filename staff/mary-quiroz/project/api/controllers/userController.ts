@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import userService from '../services/userService.ts'
+import { logger } from '../utils/index.ts'
+
 dotenv.config()
 
 

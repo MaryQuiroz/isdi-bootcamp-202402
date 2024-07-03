@@ -25,7 +25,7 @@ const registerUser = (userData) => {
         .then((user) => {
             userFinded = user
             if (userFinded) {
-                throw new DuplicityError("User already exists")
+                throw new DuplicityError('User already exists')
             }
             return bcrypt.genSalt(10)
         })

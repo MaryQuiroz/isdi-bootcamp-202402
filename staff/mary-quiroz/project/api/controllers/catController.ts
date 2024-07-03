@@ -7,8 +7,8 @@ import catService from '../services/catService.ts'
 const {  JWT_SECRET } = process.env
 
 
-const createCat = async (req: Request, res: Response, next: NextFunction) => {
-    try {
+const createCat = (req: Request, res: Response, next: NextFunction) => {
+    
       const { authorization } = req.headers
       const token = authorization.slice(7)
       const { sub } = jwt.verify(token, JWT_SECRET)
@@ -17,46 +17,51 @@ const createCat = async (req: Request, res: Response, next: NextFunction) => {
       const catData = req.body
 
 
-      const cat = await catService.createCat({...catData, userId})
-      res.status(201).json(cat)
-    } catch (error) {
+      return catService.createCat({...catData, userId})
+      .then(cat => {
+        res.status(201).json(cat)
+      })
+      .catch (error => {
         next(error)
+      }) 
     }
-}
 
-const retrieveCats = async (req: Request, res: Response, next:NextFunction) => {
-    try {
-
+const retrieveCats =  (req: Request, res: Response, next:NextFunction) => {
         const { authorization } = req.headers
         const token = authorization.slice(7)
         const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        const cats = await catService.retrieveCats(userId.toString())
-        res.status(200).json(cats)
-    } catch (error) {
-        logger.error(error)
+        catService.retrieveCats(userId.toString())
+        .then(cats => {
+          res.status(200).json(cats)
+
+        })
+      .catch (error => {
         next(error)
-    }
+    })
 }
 
-const deleteCat = async (req:Request, res: Response, next: NextFunction) => {
-  try {
+const deleteCat = (req:Request, res: Response, next: NextFunction) => {
+ 
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId} = jwt.verify(token, JWT_SECRET)
 
     const catId = req.params.id
 
-    const catDeleted = await catService.deleteCat(userId.toString(), catId)
-    res.status(200).json(catDeleted)
+    catService.deleteCat(userId.toString(), catId)
+    .then(catDeleted => {
+      res.status(200).json(catDeleted)
 
-  } catch(error) {
+    })
+
+  .catch(error => {
     next(error)
-  }
+  })
 }
 
-const updateCat = async (req: Request, res: Response, next:NextFunction) => {
-  try {
+const updateCat = (req: Request, res: Response, next:NextFunction) => {
+  
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
@@ -64,25 +69,34 @@ const updateCat = async (req: Request, res: Response, next:NextFunction) => {
     const catId = req.params.id
     const catData = req.body
 
-    const catUpdated = await catService.updateCat(userId.toString(), catId, catData)
-    res.status(200).json(catUpdated)
-  } catch(error) {
+    catService.updateCat(userId.toString(), catId, catData)
+    .then(catUpdated => {
+      res.status(200).json(catUpdated)
+
+    })
+   
+  .catch(error => {
     next(error)
-  }
+  }) 
+  
 }
-const searchCat = async (req: Request, res: Response, next:NextFunction) => {
-  try {
+const searchCat =  (req: Request, res: Response, next:NextFunction) => {
+
     const { authorization } = req.headers
     const token = authorization.slice(7)
     const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
     const value = req.query.name as string
     
-    const cats = await catService.searchCats(userId.toString(), value)
-    res.status(200).json(cats);
-  } catch (error) {
-    next(error)
-  }
+    catService.searchCats(userId.toString(), value)
+
+    .then(cats => {
+      res.status(200).json(cats)
+
+    })
+    .catch(error => {
+      next(error)
+    }) 
 
 }
 

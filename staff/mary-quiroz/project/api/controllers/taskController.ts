@@ -7,7 +7,25 @@ const { JWT_SECRET } = process.env
 
 
 
- const createTask = async (req: Request, res: Response, next:NextFunction) => {
+const createTask = (req: Request, res: Response, next:NextFunction) => {
+    const { authorization } = req.headers
+    const token = authorization.slice(7)
+    const { sub : userId} = jwt.verify(token, JWT_SECRET)
+    const catId = req.params.id
+    const taskData =req.body
+
+    taskService.createTask(userId.toString(), catId, taskData)
+    
+    .then(task => {
+      res.status(201).json(task)
+    })
+
+    .catch(error => {
+      next(error)
+    })
+    
+}
+/*const createTask = async (req: Request, res: Response, next:NextFunction) => {
   logger.info("Create Task")
   try {
     const { authorization } = req.headers
@@ -22,6 +40,7 @@ const { JWT_SECRET } = process.env
     next(error)
   }
 }
+  */
 
  const retrieveTasks = async (req: Request, res: Response, next:NextFunction) => {
   try {
