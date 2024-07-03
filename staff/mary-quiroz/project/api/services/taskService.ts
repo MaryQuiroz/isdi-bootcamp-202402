@@ -73,120 +73,98 @@ const createTask = (userId: string, catId: string, taskData: TaskParams) => {
             }
         })
 }
-/*const createTask = async (userId: string, catId: string, taskData: TaskParams) => {
 
-    try {
-        const { title, description, priority, dueDate, concurrency } = taskData
-
-        validate.text(title, 'title')
-        validate.text(description, 'description')
-        validate.text(priority, 'high')
-        validate.text(dueDate, '25-05-2024')
-        validate.text(concurrency, 'Daily')
-        validate.text(catId, 'cat')
-
-        const userFinded = await User.findById(userId)
-
-        if (!userFinded) {
-            throw new NotFoundError('cat does not exists')
-        }
-
-        const catFinded = await Cat.findById(catId)
-
-        if (!catFinded) throw new NotFoundError('Cat does not exists')
-
-        const task = new Task({ ...taskData, cat: catId })
-        const newTask = await task.save()
-        return newTask
-
-
-    } catch (error) {
-        if (error instanceof Error.ValidatorError) throw new ValidatorError(error.message)
-        else {
-            throw new SystemError(`Error creating task: ${error.message}`)
-        }
-
-    }
-
-}
-    */
-
-const retrieveTasks = async (catId) => {
-    try {
+const retrieveTasks = (catId) => {
+    
         validate.text(catId, 'catId')
 
-        const catFinded = await Cat.findById(catId)
+        return Cat.findById(catId)
 
-        if (!catFinded) {
-            throw new NotFoundError('Cat does not exists')
-        }
-        const tasks = await Task.find({ cat: catId }).populate('cat')
-        return tasks
-    } catch (error) {
-        throw new SystemError(error.message)
-    }
-}
+        .then(catFinded => {
 
-const updateTask = async (userId: string, taskId: string, taskData: any): Promise<ITask> => {
-
-    validate.text(taskId, 'taskId')
-    validate.text(userId, 'userId')
-
-    try {
-        if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId')
-
-        const user = await User.findById(userId)
-        if (!user) throw new NotFoundError('user not found')
-
-        const taskFinded: any = await Task.findById(taskId).lean()
-
-        if (!taskFinded) throw new NotFoundError('task not found')
-
-        const concurrency = taskFinded.concurrency
-
-        if (concurrency) {
-            const newDueDate = addConcurrency(taskFinded.dueDate, concurrency)
-
-            const taskCompleted = taskData.completed
-            if (taskCompleted) {
-                const newTaskData: TaskParams = {
-                    title: taskFinded.title,
-                    description: taskFinded.description,
-                    priority: taskFinded.priority,
-                    completed: taskFinded.completed,
-                    dueDate: newDueDate,
-                    concurrency: taskFinded.concurrency
-                }
-                const catId = taskFinded.cat.toString()
-                await createTask(userId, catId, newTaskData)
+            if (!catFinded) {
+                throw new NotFoundError('Cat does not exists')
             }
-        }
 
-        const taskUpdated = await Task.findByIdAndUpdate(taskId, taskData, { new: true })
-        if (!taskUpdated) throw new NotFoundError('task not found')
-        return taskUpdated
+            return Task.find({ cat: catId }).populate('cat')
+        })
+        .then(tasks => {
 
-    } catch (error) {
+            return tasks
+        })
+
+    .catch (error => {
         throw new SystemError(error.message)
-    }
 
+    })  
 }
 
-const deleteTask = async (userId: string, taskId: string): Promise<Types.ObjectId> => {
+const updateTask = (userId: string, taskId: string, taskData: any): Promise<ITask> => {
+    validate.text(taskId, 'taskId');
+    validate.text(userId, 'userId');
+
+    return User.findById(userId)
+        .then(user => {
+            if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId');
+            if (!user) throw new NotFoundError('user not found');
+
+            return Task.findById(taskId).lean();
+        })
+        .then(taskFinded => {
+            if (!taskFinded) throw new NotFoundError('task not found');
+
+            const concurrency = taskFinded.concurrency;
+            if (concurrency) {
+                const newDueDate = addConcurrency(taskFinded.dueDate, concurrency);
+                const taskCompleted = taskData.completed;
+
+                if (taskCompleted) {
+                    const newTaskData: TaskParams = {
+                        title: taskFinded.title,
+                        description: taskFinded.description,
+                        priority: taskFinded.priority,
+                        completed: taskFinded.completed,
+                        dueDate: newDueDate,
+                        concurrency: taskFinded.concurrency
+                    };
+                    const catId = taskFinded.cat.toString();
+                    return createTask(userId, catId, newTaskData).then(() => {
+                        return Task.findByIdAndUpdate(taskId, taskData, { new: true });
+                    });
+                }
+            }
+
+            return Task.findByIdAndUpdate(taskId, taskData, { new: true });
+        })
+        .then(taskUpdated => {
+            if (!taskUpdated) throw new NotFoundError('task not found');
+            return taskUpdated;
+        })
+        .catch(error => {
+            throw new SystemError(error.message);
+        });
+};
+
+
+const deleteTask = (userId: string, taskId: string): Promise<Types.ObjectId> => {
 
 
     validate.text(taskId, 'taskId')
     validate.text(userId, 'userId')
-    try {
-        const taskDeleted = await Task.findByIdAndDelete(taskId)
-        if (!taskDeleted) throw new NotFoundError('task not found')
+   
 
-        return taskDeleted.id
-    } catch (error) {
+        return Task.findByIdAndDelete(taskId)
+        .then(taskDeleted => {
 
+            if (!taskDeleted) throw new NotFoundError('task not found')
+    
+            return taskDeleted.id
+        })
+    .catch (error => {
         if (error instanceof Error.CastError) throw new ValidatorError(error.message)
         throw new SystemError(error.message)
-    }
+
+    }) 
 
 }
 

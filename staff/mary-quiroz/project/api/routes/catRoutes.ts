@@ -5,7 +5,7 @@ import taskController from '../controllers/taskController'
 const router = Router()
 
 router.post('/',catController.createCat )
-router.get('/:id', catController.retrieveCats)
+router.get('/', catController.retrieveCats)
 router.delete('/:id',catController.deleteCat)
 router.put('/:id', catController.updateCat)
 router.post('/:id/tasks', taskController.createTask)
