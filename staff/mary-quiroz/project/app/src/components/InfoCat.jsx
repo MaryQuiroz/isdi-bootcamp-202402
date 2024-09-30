@@ -19,13 +19,15 @@ export function InfoCatComponent({ cat }) {
   const [showProfileModal, setProfileModal] = useState(false)
   const navigate = useNavigate()
 
-  const onDeleteHandler = async () => {
+  const onDeleteHandler =  () => {
+      deleteCat(cat.id)
+      .then((catId => {
+        const filteredCats = cats.filter(cat => cat.id !== catId)
+        setCats(filteredCats)
+        setDeleteShowModal(false)
 
-    
-      const catId = await deleteCat(cat.id)
-      const filteredCats = cats.filter(cat => cat.id !== catId)
-      setCats(filteredCats)
-      setDeleteShowModal(false)
+      })
+      .catch(error => showFeedback(error, 'error')))
   }
 
   const onEditHandler = () => {

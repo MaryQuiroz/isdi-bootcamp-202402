@@ -1,5 +1,4 @@
 import { logger } from './utils'
-
 import logic from './logic'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -62,7 +61,6 @@ function App() {
 
   return <>
     <Context.Provider value={{ showFeedback: handleFeedback, showConfirm: handleConfirm }}>
-      
       <Routes>
         <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onRegisterClick={handleRegisterClick} onUserLoggedIn={handleUserLoggedIn} />} />
         <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onUserRegistered={handleLoginClick} />} />

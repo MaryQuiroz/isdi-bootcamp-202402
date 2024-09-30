@@ -9,11 +9,14 @@ import  Confirm  from "./Confirm"
 import deleteTask from '../logic/deleteTask'
 import { InfoTask } from './InfoTask'
 import retrieveTasks from '../logic/retrieveTasks'
+import Feedback from './Feedback'
+import RoundButton from './library/RoundButton'
 
 export const Task = ({task}) => {
   const { tasks, setTasks } = useContext(AppContext)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showInfoTaskModal, setShowInfoTaskModal] = useState(false)
+  const [feedbackState, setFeedbackState] = useState({message: '', level: '', visible: false})
 
   
   const onUpdateHandler = async (event, taskId) => {
@@ -21,28 +24,42 @@ export const Task = ({task}) => {
   
     try {
       // Actualizar la tarea en el servidor
-      await updateTask(taskId, { completed });
+      await updateTask(taskId, { completed })
   
       // Obtener todas las tareas actualizadas después de la actualización
-      const allTasks = await retrieveTasks(task.cat.id || task.cat);
+      const allTasks = await retrieveTasks(task.cat.id || task.cat)
   
       // Actualizar el estado global de tareas con las tareas obtenidas
-      setTasks(allTasks);
+      setTasks(allTasks)
+      setFeedbackState({ message: 'Task updated successfully!', level: 'success', visible: true })
     } catch (error) {
-      console.error('Error updating the task:', error);
+      console.error('Error updating the task:', error)
+      setFeedbackState({message:'Error updating the task', level: 'ERROR', visible: 'true'})
     }
-  };
+  }
 
   const onDeleteHandler = async () => {
-    const deletedTaskId = await deleteTask(task.id)
-    setShowDeleteModal(false)
-    setTasks(tasks.filter(task => task.id !== deletedTaskId));
+    try {
+      const deletedTaskId = await deleteTask(task.id)
+      setShowDeleteModal(false)
+      setTasks(tasks.filter(task => task.id !== deletedTaskId))
+
+    } catch (error) {
+      console.error('Error deleting the task:', error)
+      //informar al usuario el error errorhandler
+      setFeedbackState({message:'error deleting the task.', level: 'ERROR', visible: true})
+    }
 
   }
 
   const onInfoTaskHandler = async () => {
     setShowInfoTaskModal(true)
   }
+
+  const handleFeedbackAcceptClick = () => {
+    setFeedbackState({ ...feedbackState, visible: false })
+  }
+
 
   return (
     <>
@@ -84,6 +101,13 @@ export const Task = ({task}) => {
           </button>
       </div>
       </div>
+          {feedbackState.visible && (
+        <Feedback
+          message={feedbackState.message}
+          level={feedbackState.level}
+          onAcceptClick={handleFeedbackAcceptClick}
+          />
+          )}
       </>
   )
 }

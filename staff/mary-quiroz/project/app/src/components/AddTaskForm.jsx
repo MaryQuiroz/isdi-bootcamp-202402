@@ -1,46 +1,42 @@
-import { Button, Label, Select, TextInput } from 'flowbite-react'
-import React, { useContext, useRef } from 'react'
-import createTask from '../logic/createTask'
-import { AppContext } from '../context/AppContext'
+import { Button, Label, Select, TextInput } from 'flowbite-react';
+import React, { useContext } from 'react';
+import createTask from '../logic/createTask';
+import { AppContext } from '../context/AppContext';
 
-export const AddTaskForm = ({setShowModal, catId}) => {
+export const AddTaskForm = ({ setShowModal, catId }) => {
+    const { setTasks, showFeedback } = useContext(AppContext);
 
-    const { cat, setTasks, tasks } = useContext(AppContext)
+    const onAddTaskHandler = event => {
+        event.preventDefault();
+        const form = event.target;
 
-    const titleRef =  useRef(null)
-    const descriptionRef = useRef(null)
-    const prioritiesRef = useRef (null)
-    const concurrencyRef = useRef(null)
-    const dueDateRef = useRef (null)
-   
-        const onAddTaskHandler =  async () => {
-            event.preventDefault()
-            try {
-            const title = titleRef.current.value
-            const description = descriptionRef.current.value
-            const priority = prioritiesRef.current.value
-            const concurrency = concurrencyRef.current.value
-            const dueDate = dueDateRef.current.value
+        const title = form.title.value;
+        const description = form.description.value;
+        const priority = form.priorities.value;
+        const concurrency = form.concurrency.value;
+        const dueDate = form.dueDate.value;
 
-            const task = {
-                title,
-                description,
-                priority,
-                concurrency,
-                dueDate,
+        const task = {
+            title,
+            description,
+            priority,
+            concurrency,
+            dueDate,
+        };
+
+        // Llamada a createTask
+        createTask(catId, task)
+            .then(newTask => {
+                // Resetea el formulario
+                form.reset();
                 
-                
-            }
-                const newTask = await createTask(catId, task)
-                setShowModal(false)
-                setTasks([...tasks, newTask])
-            } catch (error) {
-                console.error(error)
-                
-            }
+                setShowModal(false);
 
-
-        } 
+                // Actualiza el estado de las tareas, añadiendo la nueva tarea
+                setTasks(prevTasks => [...prevTasks, newTask]);
+            })
+            .catch(error => showFeedback(error, 'error'));
+    };
 
     return (
         <form onSubmit={onAddTaskHandler} className="flex max-w flex-col gap-2">
@@ -48,30 +44,30 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                 <div className="mb-2 block">
                     <Label htmlFor="title" value="Title" />
                 </div>
-                <TextInput ref={titleRef} id="title" type="title" placeholder="Buy food" required />
+                <TextInput id="title" type="text" placeholder="Buy food" required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="description" value="Description" />
                 </div>
-                <TextInput ref={descriptionRef} id="description" type="text" placeholder="buy food at Mercadona" required />
+                <TextInput id="description" type="text" placeholder="buy food at Mercadona" required />
             </div>
             <div>
                 <div className="mb-2 block">
-                    <Label htmlFor="priority" value="Select your Priority" />
+                    <Label htmlFor="priorities" value="Select your Priority" />
                 </div>
-                <Select ref={prioritiesRef} id="priorities" required>
+                <Select id="priorities" required>
                     <option>High</option>
                     <option>Medium</option>
                     <option>Low</option>
                 </Select>
-                </div>
-                <div>
+            </div>
+            <div>
                 <div className="mb-2 block">
                     <Label htmlFor="concurrency" value="Select Concurrency" />
                 </div>
-                <Select ref={concurrencyRef} id="concurrency" required>
-                <option value="None">Select concurrency (optional)</option>
+                <Select id="concurrency" required>
+                    <option value="None">Select concurrency (optional)</option>
                     <option>Daily</option>
                     <option>Weekly</option>
                     <option>Monthly</option>
@@ -79,16 +75,12 @@ export const AddTaskForm = ({setShowModal, catId}) => {
                 </Select>
             </div>
             <div>
-                <div className="mb-2 block" >
-                <Label htmlFor="dueDate" value="DueDate" />
+                <div className="mb-2 block">
+                    <Label htmlFor="dueDate" value="DueDate" />
                 </div>
-            <TextInput ref={dueDateRef} id="dueDate" type="date" placeholder="20/05/2022" required />
-               
-            
+                <TextInput id="dueDate" type="date" required />
             </div>
-
-            
             <Button type="submit">Save</Button>
         </form>
-    )
-}
+    );
+};
