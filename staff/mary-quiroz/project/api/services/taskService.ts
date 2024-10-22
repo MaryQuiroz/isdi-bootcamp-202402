@@ -108,33 +108,36 @@ const updateTask = (userId: string, taskId: string, taskData: any): Promise<ITas
             if (!Types.ObjectId.isValid(userId)) throw new InvalidObjectIdError('Invalid ObjectId');
             if (!user) throw new NotFoundError('user not found');
 
-            return Task.findById(taskId).lean();
+            return Task.findById(taskId);
         })
         .then(taskFinded => {
             if (!taskFinded) throw new NotFoundError('task not found');
 
             const concurrency = taskFinded.concurrency;
-            if (concurrency) {
+            const isCompleted = taskData.completed;
+
+            if (concurrency && concurrency !== Concurrency.None && isCompleted) {
+                // Si hay concurrencia y la tarea se está completando, creamos una nueva tarea
                 const newDueDate = addConcurrency(taskFinded.dueDate, concurrency);
-                const taskCompleted = taskData.completed;
-
-                if (taskCompleted) {
-                    const newTaskData: TaskParams = {
-                        title: taskFinded.title,
-                        description: taskFinded.description,
-                        priority: taskFinded.priority,
-                        completed: taskFinded.completed,
-                        dueDate: newDueDate,
-                        concurrency: taskFinded.concurrency
-                    };
-                    const catId = taskFinded.cat.toString();
-                    return createTask(userId, catId, newTaskData).then(() => {
-                        return Task.findByIdAndUpdate(taskId, taskData, { new: true });
+                const newTaskData: TaskParams = {
+                    title: taskFinded.title,
+                    description: taskFinded.description,
+                    priority: taskFinded.priority,
+                    completed: false,
+                    dueDate: newDueDate,
+                    concurrency: taskFinded.concurrency
+                };
+                const catId = taskFinded.cat.toString();
+                
+                return createTask(userId, catId, newTaskData)
+                    .then(() => {
+                        // Actualizamos la tarea original como completada
+                        return Task.findByIdAndUpdate(taskId, { ...taskData, completed: true }, { new: true });
                     });
-                }
+            } else {
+                // Si no hay concurrencia o la tarea no se está completando, simplemente actualizamos
+                return Task.findByIdAndUpdate(taskId, taskData, { new: true });
             }
-
-            return Task.findByIdAndUpdate(taskId, taskData, { new: true });
         })
         .then(taskUpdated => {
             if (!taskUpdated) throw new NotFoundError('task not found');
@@ -144,7 +147,6 @@ const updateTask = (userId: string, taskId: string, taskData: any): Promise<ITas
             throw new SystemError(error.message);
         });
 };
-
 
 const deleteTask = (userId: string, taskId: string): Promise<Types.ObjectId> => {
 

@@ -5,21 +5,25 @@ import  {useNavigate} from "react-router-dom"
 import logic from "../logic"
 
 
-export const NavbarComponent=() =>{
+export const NavbarComponent = () => {
   const [user, setUser] = useState([])
   const navigate = useNavigate()
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = await retrieveUser()
-        setUser(user)
-      } catch (error) {
-        console.error('Error al recuperar al usuario:', error);
-      }
+    const fetchData = () => {
+      retrieveUser()
+        .then(user => {
+          setUser(user)
+        })
+        .catch(error => {
+          showFeedback(error, 'error') 
+        })
     }
 
-    fetchData();
+    fetchData()
   }, [])
+
+
 
   const generateImage = (min, max) => {
     const number =  Math.floor(Math.random() * (max - min) + min)

@@ -11,26 +11,39 @@ export default function UpdateCatForm({ setShowModal }) {
     const avatarRef = useRef(null)
     const descriptionRef = useRef(null)
 
-    const onUpdateHandler = async () => {
+    const onUpdateHandler = () => {
         event.preventDefault()
+        const form = event.target
+
+        const id = cat.id
+        const name = form.name.value
+        const color = form.color.value
+        const breed = form.breed.value
+        const avatar =  form.avatar.value
+        const description = form.description.value
         const catUpdateData = {
-            id: cat.id,
-            name: nameRef.current.value,
-            color: colorRef.current.value,
-            breed: breedRef.current.value,
-            avatar: avatarRef.current.value,
-            description: descriptionRef.current.value,
+            id,
+            name,
+            color,
+            breed,
+            avatar,
+            description
         }
 
         try {
-            const updatedCat =  await updateCat(catUpdateData)
-            setCats(cats.map(cat => cat.id === updatedCat.id ? updatedCat : cat))
-            setShowModal(false)
-        } catch (error) {
-            console.error(error)
-        }
+            updateCat(catUpdateData)
+                .then(updatedCat => {
+                    form.reset()
+                setCats(cats.map(cat => cat.id === updatedCat.id ? updatedCat : cat))
+                setShowModal(false)
 
-    }
+                })
+
+                .catch(error => showFeedback(error, 'error'))
+            } catch (error) {
+                showFeedback(error, 'error')
+            }
+        }
 
     return (
         <form onSubmit={onUpdateHandler} className="flex max-w flex-col gap-2">
@@ -38,31 +51,31 @@ export default function UpdateCatForm({ setShowModal }) {
                 <div className="mb-2 block">
                     <Label htmlFor="name" value="Name" />
                 </div>
-                <TextInput ref={nameRef} id="name" type="text" placeholder="chimuelo" defaultValue={cat.name} required />
+                <TextInput  id="name" type="text" placeholder="chimuelo" defaultValue={cat.name} required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="color" value="Color" />
                 </div>
-                <TextInput ref={colorRef} id="color" type="text" placeholder="black" defaultValue={cat.color} required />
+                <TextInput  id="color" type="text" placeholder="black" defaultValue={cat.color} required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="breed" value="Breed" />
                 </div>
-                <TextInput ref={breedRef} id="breed" type="text" placeholder="criole" defaultValue={cat.breed} required />
+                <TextInput  id="breed" type="text" placeholder="criole" defaultValue={cat.breed} required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="avatar" value="Avatar" />
                 </div>
-                <TextInput ref={avatarRef} id="avatar" type="text" placeholder="choose on file" defaultValue={cat.avatar} required />
+                <TextInput  id="avatar" type="text" placeholder="choose on file" defaultValue={cat.avatar} required />
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="description" value="Description" />
                 </div>
-                <TextInput ref={descriptionRef} id="description" type="text" placeholder="this is old and sick..." defaultValue={cat.description} required />
+                <TextInput  id="description" type="text" placeholder="this is old and sick..." defaultValue={cat.description} required />
             </div>
             <Button type="submit">Update</Button>
         </form>

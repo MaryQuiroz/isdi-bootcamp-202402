@@ -2,12 +2,14 @@ import { logger } from '../utils'
 
 import logic from '../logic'
 
-import { useContext } from '../context'
 
 import { Button, Card,  Label, TextInput } from "flowbite-react";
+import { AppContext } from '../context/AppContext';
+import { useContext } from 'react';
+// import { useContext } from 'react';
 
 function Register({ onUserRegistered, onLoginClick }) {
-    const { showFeedback } = useContext()
+    const { showFeedback } = useContext(AppContext)
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -25,9 +27,9 @@ function Register({ onUserRegistered, onLoginClick }) {
 
                     onUserRegistered()
                 })
-                .catch(error => showFeedback(error, 'error'))
+                .catch(error => showFeedback(error.message, 'error'))
         } catch (error) {
-            showFeedback(error)
+            showFeedback(error.message, 'error')
         }
     }
 

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom"
 
 
 export function InfoCatComponent({ cat }) { 
-  const { cats, setCats, setCat } = useContext(AppContext)
+  const { cats, setCats, setCat, showFeedback } = useContext(AppContext)
   const [showEditModal, setEditShowModal] = useState(false)
   const [showDeleteModal, setDeleteShowModal] = useState(false)
   const [showAddTaskModal, setAddTaskModal] = useState(false)
@@ -21,13 +21,13 @@ export function InfoCatComponent({ cat }) {
 
   const onDeleteHandler =  () => {
       deleteCat(cat.id)
-      .then((catId => {
+      .then(catId => {
         const filteredCats = cats.filter(cat => cat.id !== catId)
         setCats(filteredCats)
         setDeleteShowModal(false)
 
       })
-      .catch(error => showFeedback(error, 'error')))
+      .catch(error => showFeedback(error.message, 'error'))
   }
 
   const onEditHandler = () => {

@@ -7,10 +7,12 @@ import { calculateAge } from '../utils'
 
 
 export const CatProfile = () => {
-    const {  cat, setTasks } = useContext(AppContext)
+    const {  cat, setTasks, showFeedback } = useContext(AppContext)
 
     useEffect(() => {
-        retrieveTasks(cat.id).then(tasks=>setTasks(tasks))
+        retrieveTasks(cat.id)
+        .then(tasks=>setTasks(tasks))
+        .catch(error => showFeedback(error.message, 'error'))
     }, [])
     
 

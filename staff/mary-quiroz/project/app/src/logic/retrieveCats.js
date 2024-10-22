@@ -1,6 +1,7 @@
 import { validate, errors } from 'com'
 
 function retrieveCats() {
+    
     validate.token(sessionStorage.token)
 
     return fetch(`${import.meta.env.VITE_API_URL}/cats`,{

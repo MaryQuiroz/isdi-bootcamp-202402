@@ -1,22 +1,21 @@
 import { logger } from '../utils'
-
-
-import { useContext } from '../context'
+import { useContext } from 'react'
+import { AppContext } from '../context/AppContext'
 import logic from "../logic"
 
-import {  Button, Card, Label, TextInput } from "flowbite-react"
+import { Button, Card, Label, TextInput } from "flowbite-react"
 import { useState, useRef } from 'react'
 import { AlertComponent } from '../components/Alert'
 import { ToastComponent } from '../components/Toast'
 
 export default function Login({ onUserLoggedIn, onRegisterClick }) {
-  const { showFeedback } = useContext()
+  const { showFeedback } = useContext(AppContext)
   const [error, setError] = useState()
   const [showPassword, setShowPassword] = useState(false)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const form = event.target
 
@@ -32,11 +31,11 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
 
     } catch (error) {
       setError(error.message)
-      showFeedback(error)
+      showFeedback(error.message, 'error')
     }
   }
 
-  const handleRegisterClick = () => {
+  const handleRegisterClick = (event) => {
     event.preventDefault()
 
     onRegisterClick()
@@ -90,4 +89,3 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
     </div>
   );
 }
-

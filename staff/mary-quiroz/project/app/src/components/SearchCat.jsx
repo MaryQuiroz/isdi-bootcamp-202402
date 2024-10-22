@@ -3,13 +3,19 @@ import { AppContext } from '../context/AppContext'
 import searchCats from '../logic/searchCat'
 
 const SearchCatComponent = () => {
-    const searchRef =  useRef(null)
-  const { setCats} = useContext(AppContext)
+    const searchRef = useRef(null)
+    const { setCats } = useContext(AppContext)
 
-    const onSearchHandler = async() => {
-        const searchValue = searchRef.current.value
-        const searchedCats =await  searchCats(searchValue)
-        setCats(searchedCats)
+    const onSearchHandler = () => {
+        const searchValue = searchRef.current.value;
+
+        searchCats(searchValue)
+            .then(searchedCats => {
+                setCats(searchedCats)
+            })
+            .catch(error => {
+                showFeedbackError(error)
+            })
 
     }
     return (
