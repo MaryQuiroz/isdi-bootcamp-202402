@@ -17,7 +17,7 @@ const Home = () => {
     retrieveCats()
       .then(cats => setCats(cats))
       .catch(error => showFeedback(error.message, 'error'))
-  }, [setCats, showFeedback])
+  }, []) 
 
   const renderCatCard = (cat, index) => (
     <InfoCatComponent key={index} cat={cat} />

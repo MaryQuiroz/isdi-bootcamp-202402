@@ -7,6 +7,7 @@ import logic from "../logic"
 
 export const NavbarComponent = () => {
   const [user, setUser] = useState([])
+  const [avatarImage, setAvatarImage] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -14,6 +15,8 @@ export const NavbarComponent = () => {
       retrieveUser()
         .then(user => {
           setUser(user)
+          // Generar la imagen del avatar una sola vez
+          setAvatarImage(generateImage(1, 5))
         })
         .catch(error => {
           showFeedback(error, 'error') 
@@ -23,16 +26,11 @@ export const NavbarComponent = () => {
     fetchData()
   }, [])
 
-
-
   const generateImage = (min, max) => {
     const number =  Math.floor(Math.random() * (max - min) + min)
-    const image = `https://flowbite.com/docs/images/people/profile-picture-${number}.jpg`
-
-    return image
+    return `https://flowbite.com/docs/images/people/profile-picture-${number}.jpg`
   }
  
-
   const handleUserLoggedOut=()=>{
     logic.logoutUser()
     navigate("/")
@@ -49,7 +47,7 @@ export const NavbarComponent = () => {
           arrowIcon={true}
           inline
           label={
-            <Avatar alt="User settings" img= {generateImage(1,5)} rounded />
+            <Avatar alt="User settings" img={avatarImage} rounded />
           }
         >
           <Dropdown.Header>
