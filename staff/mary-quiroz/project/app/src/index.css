@@ -1,7 +1,21 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-body{
+
+body {
     user-select: none;
 }
 
+/* Estilos base para modo oscuro */
+.dark {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark body {
+    @apply bg-gray-900 text-gray-100;
+}
+
+/* Transiciones suaves para el cambio de tema */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

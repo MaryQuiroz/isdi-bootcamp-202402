@@ -3,7 +3,7 @@ import React from 'react';
 
 export const AddButton = ({ text, onClick }) => {
   return (
-    <div className="flex flex-col items-center pb-10">
+    <div className="flex flex-col items-center pb-10 p-10">
       <Button onClick={onClick}>{text}</Button>
     </div>
   );
