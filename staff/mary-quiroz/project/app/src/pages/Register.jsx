@@ -51,22 +51,22 @@ function Register({ onUserRegistered, onLoginClick }) {
                             alt="MyCat Logo" 
                         />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Crear cuenta</h1>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Regístrate para comenzar</p>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create account</h1>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Register to get started</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div>
                         <Label 
                             htmlFor="name" 
-                            value="Nombre completo" 
+                            value="Full Name" 
                             className="text-gray-700 dark:text-gray-300"
                         />
                         <TextInput
                             id="name"
                             type="text"
                             required
-                            placeholder="Tu nombre"
+                            placeholder="Your Name"
                             className="dark:bg-gray-700"
                         />
                     </div>
@@ -74,14 +74,14 @@ function Register({ onUserRegistered, onLoginClick }) {
                     <div>
                         <Label 
                             htmlFor="email" 
-                            value="Correo electrónico" 
+                            value="Email" 
                             className="text-gray-700 dark:text-gray-300"
                         />
                         <TextInput
                             id="email"
                             type="email"
                             required
-                            placeholder="tu@email.com"
+                            placeholder="your@email.com"
                             className="dark:bg-gray-700"
                         />
                     </div>
@@ -89,7 +89,7 @@ function Register({ onUserRegistered, onLoginClick }) {
                     <div>
                         <Label 
                             htmlFor="password" 
-                            value="Contraseña" 
+                            value="Password" 
                             className="text-gray-700 dark:text-gray-300"
                         />
                         <TextInput
@@ -105,7 +105,7 @@ function Register({ onUserRegistered, onLoginClick }) {
                         type="submit"
                         className="mt-4"
                     >
-                        Crear cuenta
+                        Create count
                     </Button>
 
                     <div className="text-center mt-4">
@@ -115,7 +115,7 @@ function Register({ onUserRegistered, onLoginClick }) {
                             onClick={handleLoginClick}
                             className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
                         >
-                            Inicia sesión aquí
+                            Log in here
                         </a>
                     </div>
                 </form>

@@ -50,20 +50,20 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
               alt="MyCat Logo" 
             />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Bienvenido a MyCat</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Inicia sesión para continuar</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome To MyCat</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Log in to continue</p>
         </div>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="email" value="Correo electrónico" className="text-gray-700 dark:text-gray-300" />
+              <Label htmlFor="email" value="Email" className="text-gray-700 dark:text-gray-300" />
             </div>
             <TextInput
               ref={emailRef}
               id="email"
               type="email"
-              placeholder="tu@email.com"
+              placeholder="your@email.com"
               required
               className="dark:bg-gray-700"
             />
@@ -71,7 +71,7 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
           
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="password" value="Contraseña" className="text-gray-700 dark:text-gray-300" />
+              <Label htmlFor="password" value="Password" className="text-gray-700 dark:text-gray-300" />
             </div>
             <div className="flex items-center">
               <TextInput
@@ -96,17 +96,17 @@ export default function Login({ onUserLoggedIn, onRegisterClick }) {
             type="submit"
             className="mt-4"
           >
-            Iniciar sesión
+            Log in
           </Button>
 
           <div className="text-center mt-4">
-            <span className="text-sm text-gray-600 dark:text-gray-400">¿No tienes cuenta? </span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Don’t you have an account? </span>
             <a 
               href="#" 
               onClick={handleRegisterClick}
               className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
             >
-              Regístrate aquí
+              Register here
             </a>
           </div>
         </form>

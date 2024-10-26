@@ -86,7 +86,7 @@ export const NavbarComponent = () => {
             </span>
           </Dropdown.Header>
           <Dropdown.Item onClick={handleUserLoggedOut} className="text-sm text-gray-700 dark:text-gray-200">
-            Cerrar sesión
+          Log out
           </Dropdown.Item>
         </Dropdown>
       </div>
