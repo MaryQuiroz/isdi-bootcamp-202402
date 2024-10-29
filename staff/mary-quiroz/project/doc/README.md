@@ -1,4 +1,4 @@
-#Pety App
+# Cat App
 
 ## Intro
 

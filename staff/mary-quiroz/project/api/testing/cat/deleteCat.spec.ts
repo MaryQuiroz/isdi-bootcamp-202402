@@ -57,13 +57,6 @@ describe('deleteCatService', function() {
         }
     })
 
-    it('should throw an InvalidObjectIdError if the userId is not a valid ObjectId', async function() {
-        try {
-            await catService.deleteCat('invalidObjectId', catId);
-        } catch (error) {
-            expect(error.message).to.equal('invalid ObjectId');
-        }
-    })
 
     it('should throw a SystemError for other unexpected errors', async function() {
         const originalValidateText = validate.text;

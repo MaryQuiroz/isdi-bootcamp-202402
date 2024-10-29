@@ -17,7 +17,7 @@ export const Task = ({task}) => {
   const [showInfoTaskModal, setShowInfoTaskModal] = useState(false)
 
   const onUpdateHandler = (event, taskId) => {
-    const completed = event.target.checked;
+    const completed = event.target.checked
     
     updateTask(taskId, { completed })
         .then(() => {
@@ -27,7 +27,7 @@ export const Task = ({task}) => {
             setTasks(allTasks);
         })
         .catch(error => showFeedback(error.message, 'error'))
-  };
+  }
 
   const onDeleteHandler = () => {
       deleteTask(task.id)
