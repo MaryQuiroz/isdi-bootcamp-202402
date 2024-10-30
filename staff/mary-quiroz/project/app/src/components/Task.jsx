@@ -15,9 +15,11 @@ export const Task = ({task}) => {
   const { tasks, setTasks, showFeedback } = useContext(AppContext)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showInfoTaskModal, setShowInfoTaskModal] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   const onUpdateHandler = (event, taskId) => {
     const completed = event.target.checked
+    setIsUpdating(true)
     
     updateTask(taskId, { completed })
         .then(() => {
@@ -25,8 +27,12 @@ export const Task = ({task}) => {
         })
         .then((allTasks) => {
             setTasks(allTasks);
+            setIsUpdating(false);
         })
-        .catch(error => showFeedback(error.message, 'error'))
+        .catch(error => {
+            showFeedback(error.message, 'error')
+            setIsUpdating(false)
+        })
   }
 
   const onDeleteHandler = () => {
@@ -75,6 +81,7 @@ export const Task = ({task}) => {
             id={`completed-${task.id}`}
             checked={task.completed}
             onChange={(event) => onUpdateHandler(event, task.id)}
+            disabled={isUpdating}
           />
           <button
             onClick={() => setShowDeleteModal(true)}
